@@ -19,16 +19,15 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        MBProgressHUD.showHUDAddedTo(view, animated: true)
-    }
-    
     //MARK: Actions
     
     @IBAction func enterButtonPressed() {
         //Check if the user has filled all the fields
         if formIsCorrect() {
             //Login user
+            //loginUserInServer()
+            goToRequestServiceVC()
+            
         } else {
             UIAlertView(title: "Oops!", message: "Debes completar todos los datos", delegate: nil, cancelButtonTitle:"Ok").show()
         }
@@ -46,6 +45,29 @@ class LoginViewController: UIViewController {
     
     func formIsCorrect() -> Bool {
         return countElements(userTextfield.text) > 0 && countElements(passwordTextfield.text) > 0 ? true : false
+    }
+    
+    //MARK: Server stuff
+    
+    func loginUserInServer() {
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        
+        //Make the login request to the server
+        Alamofire.manager.request(.GET, "").responseJSON { (request, response, json, error) -> Void in
+            if error != nil {
+                //something wrong happened
+            } else {
+                //Success
+                
+            }
+        }
+    }
+    
+    //MARK: Navigation 
+    
+    func goToRequestServiceVC() {
+        let mainNavController = storyboard?.instantiateViewControllerWithIdentifier("MainNavController") as UINavigationController
+        presentViewController(mainNavController, animated: true, completion: nil)
     }
 }
 

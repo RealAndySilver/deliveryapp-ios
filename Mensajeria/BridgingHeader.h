@@ -13,3 +13,4 @@
 #endif*/
 
 #import "MBProgressHUD.h"
+#import <GoogleMaps/GoogleMaps.h>
