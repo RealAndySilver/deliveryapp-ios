@@ -13,15 +13,20 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addressTextfield: UITextField!
     let locationManager = CLLocationManager()
+    var onAddressAvailable: ((theAddress: String) -> ())?
     
     //MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Mapa"
         mapView.delegate = self
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        sendAddressToPreviousVC(addressTextfield.text)
     }
     
     //MARK: Map Stuff
@@ -36,6 +41,13 @@ class MapViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    //MARK: Custom Stuff
+    
+    func sendAddressToPreviousVC(address: String) {
+        //Implement the closure to send the address back to the previous VC
+        self.onAddressAvailable?(theAddress: address)
     }
 }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */; };
+		8B2F05C51A856B26007C462B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C41A856B26007C462B /* User.swift */; };
 		8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */; };
 		8BEA65AB1A82B1E100C20D5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65A91A82B1E100C20D5B /* Main.storyboard */; };
 		8BEA65AD1A82B1E100C20D5B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65AC1A82B1E100C20D5B /* Images.xcassets */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressHistoryViewController.swift; path = Controllers/AddressHistoryViewController.swift; sourceTree = "<group>"; };
+		8B2F05C41A856B26007C462B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		8BEA65A01A82B1E000C20D5B /* Mensajeria.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mensajeria.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BEA65A41A82B1E000C20D5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +117,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B2F05C31A856B13007C462B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8B2F05C41A856B26007C462B /* User.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		8BEA65971A82B1E000C20D5B = {
 			isa = PBXGroup;
 			children = (
@@ -135,10 +147,11 @@
 		8BEA65A21A82B1E000C20D5B /* Mensajeria */ = {
 			isa = PBXGroup;
 			children = (
+				8B2F05C31A856B13007C462B /* Model */,
 				8BEA65C81A82C29900C20D5B /* Librerias */,
-				8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */,
 				8BEA65C51A82B95800C20D5B /* Controllers */,
 				8BEA65A91A82B1E100C20D5B /* Main.storyboard */,
+				8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */,
 				8BEA65AC1A82B1E100C20D5B /* Images.xcassets */,
 				8BEA65AE1A82B1E100C20D5B /* LaunchScreen.xib */,
 				8BEA65A31A82B1E000C20D5B /* Supporting Files */,
@@ -180,6 +193,7 @@
 				A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */,
 				A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */,
 				A0AFE1681A84008A0025CACF /* MapViewController.swift */,
+				8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -325,6 +339,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */,
 				A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */,
 				8BEA65CB1A82C29900C20D5B /* Alamofire.swift in Sources */,
 				8BEA65C71A82B98500C20D5B /* LoginViewController.swift in Sources */,
@@ -334,6 +349,7 @@
 				8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */,
 				A0AFE14A1A83D6410025CACF /* RequestServiceViewController.swift in Sources */,
 				8BEA65CC1A82C29900C20D5B /* SwiftyJSON.swift in Sources */,
+				8B2F05C51A856B26007C462B /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

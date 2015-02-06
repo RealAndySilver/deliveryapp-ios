@@ -24,9 +24,8 @@ class LoginViewController: UIViewController {
     @IBAction func enterButtonPressed() {
         //Check if the user has filled all the fields
         if formIsCorrect() {
-            //Login user
-            //loginUserInServer()
-            goToRequestServiceVC()
+            loginUserInServer()
+            //goToRequestServiceVC()
             
         } else {
             UIAlertView(title: "Oops!", message: "Debes completar todos los datos", delegate: nil, cancelButtonTitle:"Ok").show()
@@ -52,13 +51,35 @@ class LoginViewController: UIViewController {
     func loginUserInServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         
+        //Encode password
+        let encodedPassword = passwordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)
+        
         //Make the login request to the server
-        Alamofire.manager.request(.GET, "").responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(.POST, Alamofire.loginWebServiceURL, parameters: ["email" : userTextfield.text, "password" : encodedPassword!], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) -> Void in
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if error != nil {
                 //something wrong happened
+                println("Error en el login: \(error?.localizedDescription)")
+                UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar iniciar sesión. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+                
             } else {
                 //Success
-                
+                let jsonResponse = JSON(json!)
+                if jsonResponse["status"].boolValue == true {
+                    println("success en el login: \(jsonResponse)")
+                    User.sharedInstance.updateUserWithJSON(jsonResponse["response"])
+                    //saveUserWithDictionary
+                    
+                } else {
+                    println("respuesta false en el login: \(jsonResponse)")
+                    if jsonResponse["error_id"].intValue == 0 {
+                        //Usuario no encontrado
+                        UIAlertView(title: "Oops!", message: "Usuario no encontrado", delegate: nil, cancelButtonTitle: "Ok").show()
+                    } else if jsonResponse["error_id"].intValue == 1 {
+                        //Usuario no confirmado 
+                        UIAlertView(title: "Oops!", message: "Tu cuenta no ha sido confirmada. Por favor revisa el correo que te fue enviado al momento de crear tu cuenta", delegate: nil, cancelButtonTitle: "Ok").show()
+                    }
+                }
             }
         }
     }
