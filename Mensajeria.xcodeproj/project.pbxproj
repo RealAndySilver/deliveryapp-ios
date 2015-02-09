@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */; };
 		8B2F05C51A856B26007C462B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C41A856B26007C462B /* User.swift */; };
+		8B31584E1A8910BF005F43E4 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31584D1A8910BF005F43E4 /* RatingView.m */; };
+		8B3158531A8915F0005F43E4 /* blueStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3158511A8915F0005F43E4 /* blueStar.png */; };
+		8B3158541A8915F0005F43E4 /* grayStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3158521A8915F0005F43E4 /* grayStar.png */; };
+		8B3158561A89201B005F43E4 /* RateDriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3158551A89201B005F43E4 /* RateDriverViewController.swift */; };
+		8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */; };
+		8B7C0C911A89090500470D15 /* ServiceAcceptedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */; };
+		8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */; };
 		8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */; };
 		8BEA65AB1A82B1E100C20D5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65A91A82B1E100C20D5B /* Main.storyboard */; };
 		8BEA65AD1A82B1E100C20D5B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65AC1A82B1E100C20D5B /* Images.xcassets */; };
@@ -51,6 +58,14 @@
 /* Begin PBXFileReference section */
 		8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressHistoryViewController.swift; path = Controllers/AddressHistoryViewController.swift; sourceTree = "<group>"; };
 		8B2F05C41A856B26007C462B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
+		8B31584C1A8910BF005F43E4 /* RatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingView.h; sourceTree = "<group>"; };
+		8B31584D1A8910BF005F43E4 /* RatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingView.m; sourceTree = "<group>"; };
+		8B3158511A8915F0005F43E4 /* blueStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueStar.png; sourceTree = "<group>"; };
+		8B3158521A8915F0005F43E4 /* grayStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayStar.png; sourceTree = "<group>"; };
+		8B3158551A89201B005F43E4 /* RateDriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RateDriverViewController.swift; path = Controllers/RateDriverViewController.swift; sourceTree = "<group>"; };
+		8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FindingServiceViewController.swift; path = Controllers/FindingServiceViewController.swift; sourceTree = "<group>"; };
+		8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceAcceptedViewController.swift; path = Controllers/ServiceAcceptedViewController.swift; sourceTree = "<group>"; };
+		8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForgotPasswordViewController.swift; path = Controllers/ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		8BEA65A01A82B1E000C20D5B /* Mensajeria.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mensajeria.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BEA65A41A82B1E000C20D5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +140,32 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		8B31584B1A8910BF005F43E4 /* RatingView */ = {
+			isa = PBXGroup;
+			children = (
+				8B31584C1A8910BF005F43E4 /* RatingView.h */,
+				8B31584D1A8910BF005F43E4 /* RatingView.m */,
+			);
+			path = RatingView;
+			sourceTree = "<group>";
+		};
+		8B31584F1A8915F0005F43E4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8B3158501A8915F0005F43E4 /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		8B3158501A8915F0005F43E4 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				8B3158511A8915F0005F43E4 /* blueStar.png */,
+				8B3158521A8915F0005F43E4 /* grayStar.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		8BEA65971A82B1E000C20D5B = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +204,7 @@
 		8BEA65A31A82B1E000C20D5B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8B31584F1A8915F0005F43E4 /* Resources */,
 				8BEA65A41A82B1E000C20D5B /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -194,6 +236,10 @@
 				A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */,
 				A0AFE1681A84008A0025CACF /* MapViewController.swift */,
 				8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */,
+				8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */,
+				8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */,
+				8B3158551A89201B005F43E4 /* RateDriverViewController.swift */,
+				8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -201,6 +247,7 @@
 		8BEA65C81A82C29900C20D5B /* Librerias */ = {
 			isa = PBXGroup;
 			children = (
+				8B31584B1A8910BF005F43E4 /* RatingView */,
 				8BEA65CD1A82C6EB00C20D5B /* MBProgressHUD */,
 				8BEA65C91A82C29900C20D5B /* Alamofire.swift */,
 				8BEA65CA1A82C29900C20D5B /* SwiftyJSON.swift */,
@@ -318,9 +365,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B3158531A8915F0005F43E4 /* blueStar.png in Resources */,
 				8BEA65AB1A82B1E100C20D5B /* Main.storyboard in Resources */,
 				8BEA65B01A82B1E100C20D5B /* LaunchScreen.xib in Resources */,
 				8BEA65AD1A82B1E100C20D5B /* Images.xcassets in Resources */,
+				8B3158541A8915F0005F43E4 /* grayStar.png in Resources */,
 				A0AFE14E1A83EA350025CACF /* GoogleMaps.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,14 +388,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */,
 				8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */,
 				A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */,
 				8BEA65CB1A82C29900C20D5B /* Alamofire.swift in Sources */,
+				8B31584E1A8910BF005F43E4 /* RatingView.m in Sources */,
 				8BEA65C71A82B98500C20D5B /* LoginViewController.swift in Sources */,
 				A0AFE1481A83D31F0025CACF /* TermsConditionsViewController.swift in Sources */,
+				8B3158561A89201B005F43E4 /* RateDriverViewController.swift in Sources */,
 				A0AFE1691A84008A0025CACF /* MapViewController.swift in Sources */,
+				8B7C0C911A89090500470D15 /* ServiceAcceptedViewController.swift in Sources */,
 				8BEA65D01A82C6EB00C20D5B /* MBProgressHUD.m in Sources */,
 				8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */,
+				8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */,
 				A0AFE14A1A83D6410025CACF /* RequestServiceViewController.swift in Sources */,
 				8BEA65CC1A82C29900C20D5B /* SwiftyJSON.swift in Sources */,
 				8B2F05C51A856B26007C462B /* User.swift in Sources */,

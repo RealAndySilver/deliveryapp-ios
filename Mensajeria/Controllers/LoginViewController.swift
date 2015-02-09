@@ -25,7 +25,6 @@ class LoginViewController: UIViewController {
         //Check if the user has filled all the fields
         if formIsCorrect() {
             loginUserInServer()
-            //goToRequestServiceVC()
             
         } else {
             UIAlertView(title: "Oops!", message: "Debes completar todos los datos", delegate: nil, cancelButtonTitle:"Ok").show()
@@ -55,7 +54,7 @@ class LoginViewController: UIViewController {
         let encodedPassword = passwordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)
         
         //Make the login request to the server
-        Alamofire.manager.request(.POST, Alamofire.loginWebServiceURL, parameters: ["email" : userTextfield.text, "password" : encodedPassword!], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(.PUT, Alamofire.loginWebServiceURL, parameters: ["email" : userTextfield.text, "password" : encodedPassword!], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) -> Void in
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if error != nil {
                 //something wrong happened
@@ -68,6 +67,7 @@ class LoginViewController: UIViewController {
                 if jsonResponse["status"].boolValue == true {
                     println("success en el login: \(jsonResponse)")
                     User.sharedInstance.updateUserWithJSON(jsonResponse["response"])
+                    self.goToRequestServiceVC()
                     //saveUserWithDictionary
                     
                 } else {

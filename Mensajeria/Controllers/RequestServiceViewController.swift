@@ -14,12 +14,15 @@ class RequestServiceViewController: UIViewController {
         case pickupTextfield = 1, finalTextfield, dayHourTextfield, shipmentValueTextfield
     }
     
+    var datePicker: UIDatePicker!
     @IBOutlet weak var pickupAddressTextfield: UITextField!
     @IBOutlet weak var finalAddressTextfield: UITextField!
     @IBOutlet weak var idaYVueltaSwitch: UISwitch!
     @IBOutlet weak var dayHourTextfield: UITextField!
     @IBOutlet weak var shipmentValueTextfield: UITextField!
     @IBOutlet weak var instructionsTextView: UITextView!
+    var pickupLocationDic = [:]
+    var destinationLocationDic = [:]
     lazy var dateFormatter: NSDateFormatter = {
         println("entre a nicializarrr")
         let formatter = NSDateFormatter()
@@ -43,12 +46,6 @@ class RequestServiceViewController: UIViewController {
         navigationController?.navigationBar.translucent = false
         navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         setupUI()
-        
-        /*if let array = NSUserDefaults.standardUserDefaults().objectForKey(savedPickupAdressesKey) as? [[String : String]] {
-            let firstDate = array[0]
-            let savedDate = firstDate["dateSaved"] as NSDate
-            println("Fecha guardada: \(savedDate)")
-        }*/
     }
     
     //MARK: UI Setup
@@ -58,7 +55,7 @@ class RequestServiceViewController: UIViewController {
         instructionsTextView.layer.borderColor = UIColor(white: 0.9, alpha: 1.0).CGColor
         instructionsTextView.layer.cornerRadius = 10.0
         
-        let datePicker = UIDatePicker()
+        datePicker = UIDatePicker()
         datePicker.addTarget(self, action: "dateChanged:", forControlEvents: .ValueChanged)
         dayHourTextfield.inputView = datePicker
         
@@ -87,6 +84,8 @@ class RequestServiceViewController: UIViewController {
     @IBAction func acceptButtonPressed() {
         if formIsCorrect() {
             saveAddressInUserDefaults()
+            sendServiceRequestToServer()
+            //goToFindingService()
             
         } else {
             UIAlertView(title: "Oops!", message: "No has completado todos los campos", delegate: nil, cancelButtonTitle: "Ok").show()
@@ -95,11 +94,32 @@ class RequestServiceViewController: UIViewController {
     
     func dateChanged(datePicker: UIDatePicker) {
         dayHourTextfield.text = dateFormatter.stringFromDate(datePicker.date)
+        println(datePicker.date)
     }
     
     func dismissPickers() {
         dayHourTextfield.resignFirstResponder()
         shipmentValueTextfield.resignFirstResponder()
+    }
+    
+    //MARK: Server Stuff
+    
+    func sendServiceRequestToServer() {
+        let serviceParameters = "user_id=\(User.sharedInstance.identifier)&user_info=\(User.sharedInstance.userDictionary)&pickup_object=\(pickupLocationDic)&delivery_object=\(destinationLocationDic)&roundtrip=\(idaYVueltaSwitch.on)&instructions=\(instructionsTextView.text)&priority=\(5)&deadline=\(datePicker.date)&declared_value=\(120000)&price_to_pay=\(25000)&pickup_time=\(datePicker.date)"
+        
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        println("")
+        Alamofire.manager.request(.POST, Alamofire.requestMensajeroServiceURL, parameters: ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "deadline" : datePicker.date, "declared_value" : 12000, "price_to_pay" : 25000, "pickup_time" : datePicker.date], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) in
+            if error != nil {
+                //There was an error
+                println("Hubo error en el request: \(error?.localizedDescription)")
+                UIAlertView(title: "Oops", message: "Hubo un error en el servidor. Por favor intenta de nuevo en un momento", delegate: nil, cancelButtonTitle: "Ok").show()
+            } else {
+                //Successful response 
+                let jsonResponse = JSON(json!)
+                println("Respuesta correcta del request: \(jsonResponse)")
+            }
+        }
     }
     
     //MARK: Form Validation
@@ -146,12 +166,18 @@ class RequestServiceViewController: UIViewController {
     
     //MARK: Navigation
     
-    func goToMapVC() {
+    func goToFindingService() {
+        let findingServiceVC = storyboard?.instantiateViewControllerWithIdentifier("FindingService") as FindingServiceViewController
+        navigationController?.pushViewController(findingServiceVC, animated: true)
+    }
+    
+    func goToMapVCFromPickupTextfield(pickupSelected: Bool) {
         if let mapVC = storyboard?.instantiateViewControllerWithIdentifier("Map") as? MapViewController {
+            mapVC.wasSelectingPickupLocation = pickupSelected
             mapVC.onAddressAvailable = {[weak self]
-                (theAddress) in
+                (theAddress, theCoordinates, selectedPickupLocation) in
                 if let weakSelf = self {
-                    weakSelf.updatePickupAddress(theAddress)
+                    weakSelf.updatePickupAddress(theAddress, location: theCoordinates, selectedPickupLocation: selectedPickupLocation)
                 }
             }
             navigationController?.pushViewController(mapVC, animated: true)
@@ -160,8 +186,20 @@ class RequestServiceViewController: UIViewController {
     
     //MARK: Custom Stuff
     
-    func updatePickupAddress(address: String) {
-        pickupAddressTextfield.text = address
+    func updatePickupAddress(address: String, location: CLLocationCoordinate2D, selectedPickupLocation: Bool) {
+        println("latitude: \(location.latitude)")
+        println("longitude: \(location.longitude)")
+        println("selected pickup: \(selectedPickupLocation)")
+        if selectedPickupLocation {
+            pickupAddressTextfield.text = address
+            //Update our pickup location dic
+            pickupLocationDic = ["lat" : location.latitude, "lon" : location.longitude, "address" : address]
+            
+        } else {
+            finalAddressTextfield.text = address
+            //Update our destination location dic
+            destinationLocationDic = ["lat" : location.latitude, "lon" : location.longitude, "address" : address]
+        }
     }
     
     //MARK: Data Saving 
@@ -224,7 +262,11 @@ extension RequestServiceViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         println("Empzaré a editar el textfield \(textField.tag)")
         if textField.tag == TextfieldName.pickupTextfield.rawValue {
-            goToMapVC()
+            goToMapVCFromPickupTextfield(true)
+            return false
+        
+        } else if textField.tag == TextfieldName.finalTextfield.rawValue {
+            goToMapVCFromPickupTextfield(false)
             return false
         } else {
             return true

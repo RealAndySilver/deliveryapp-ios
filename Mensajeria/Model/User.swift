@@ -12,9 +12,16 @@ class User: NSObject {
     var name: String!
     var email: String!
     var lastName: String!
+    var favorites = []
+    var device = []
     var userDescription: String {
         get {
             return "Name: \(name), Identifier: \(identifier), last name: \(lastName), email confirmation: \(emailConfirmation), email: \(email)"
+        }
+    }
+    var userDictionary: [String : AnyObject] {
+        get {
+            return ["name" : name, "email_confirmation" : emailConfirmation, "_id" : identifier, "email" : email, "lastname" : lastName]
         }
     }
     
@@ -30,11 +37,12 @@ class User: NSObject {
         precondition(userJSON["_id"].string != nil, "user id is nil!!!")
         precondition(userJSON["email"].string != nil, "user email is nil")
         precondition(userJSON["lastname"].string != nil, "User lastname is nil!!!")
-        identifier = userJSON["identifier"].stringValue
+        identifier = userJSON["_id"].stringValue
         name = userJSON["name"].stringValue
         email = userJSON["email"].stringValue
         lastName = userJSON["lastname"].stringValue
         emailConfirmation = userJSON["email_confirmation"].boolValue
+        //favorites = userJSON["favorites"].rawValue as []
         println(userDescription)
     }
 }

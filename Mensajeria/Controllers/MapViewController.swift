@@ -10,10 +10,16 @@ import UIKit
 
 class MapViewController: UIViewController {
 
+    //Public Interface
+    var wasSelectingPickupLocation: Bool!
+    var onAddressAvailable: ((theAddress: String, locationCoordinates: CLLocationCoordinate2D, selectingPickupLocation: Bool) -> ())?
+    
+    //Private Interface
+    
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addressTextfield: UITextField!
-    let locationManager = CLLocationManager()
-    var onAddressAvailable: ((theAddress: String) -> ())?
+    private let locationManager = CLLocationManager()
+    private var currentLocationCoordinate: CLLocationCoordinate2D!
     
     //MARK: Life Cycle
     
@@ -26,12 +32,13 @@ class MapViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        sendAddressToPreviousVC(addressTextfield.text)
+        sendAddressToPreviousVC(addressTextfield.text, location: currentLocationCoordinate, selectingPickupLocation: wasSelectingPickupLocation)
     }
     
     //MARK: Map Stuff
     
     func reverseGeocodeCoordinate(coordinate: CLLocationCoordinate2D) {
+        currentLocationCoordinate = coordinate
         let geocoder = GMSGeocoder()
         geocoder.reverseGeocodeCoordinate(coordinate) { (response, error) in
             if let address = response?.firstResult() {
@@ -45,9 +52,9 @@ class MapViewController: UIViewController {
     
     //MARK: Custom Stuff
     
-    func sendAddressToPreviousVC(address: String) {
+    func sendAddressToPreviousVC(address: String, location: CLLocationCoordinate2D, selectingPickupLocation: Bool) {
         //Implement the closure to send the address back to the previous VC
-        self.onAddressAvailable?(theAddress: address)
+        self.onAddressAvailable?(theAddress: address, locationCoordinates: location, selectingPickupLocation: selectingPickupLocation)
     }
 }
 
