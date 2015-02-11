@@ -17,6 +17,21 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //createMessenger()
+    }
+    
+    func createMessenger() {
+        let pass = "aaa"
+        let encodedPass = pass.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(.allZeros)
+        
+        Alamofire.manager.request(.POST, "http://192.241.187.135:2000/api_1.0/Messenger/Create", parameters: ["email" : "diefer_91@hotmail.com", "password" : encodedPass!, "name" : "Diego Fernando", "lastname" : "Vidal Illera", "mobilephone" : 3164810058, "plate" : "ABC123", "identification" : "1061733959"], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) in
+            if error != nil {
+                println("Error: \(error?.localizedDescription)")
+            } else {
+                let jsonResponse = JSON(json!)
+                println("Success: \(jsonResponse)")
+            }
+        }
     }
     
     //MARK: Actions

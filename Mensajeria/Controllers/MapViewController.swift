@@ -44,7 +44,12 @@ class MapViewController: UIViewController {
             if let address = response?.firstResult() {
                 if address.lines != nil {
                     let lines = address.lines as [String]
-                    self.addressTextfield.text = join("-", lines)
+                    let fullAddress = join(" - ", lines)
+                    let addressComponents = fullAddress.componentsSeparatedByString("#")
+                    if let streetName = addressComponents.first {
+                        self.addressTextfield.text = "\(streetName) #"
+                    }
+                    //self.addressTextfield.text = join("-", lines)
                 }
             }
         }

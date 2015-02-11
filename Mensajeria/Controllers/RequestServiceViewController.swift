@@ -14,7 +14,9 @@ class RequestServiceViewController: UIViewController {
         case pickupTextfield = 1, finalTextfield, dayHourTextfield, shipmentValueTextfield
     }
     
-    var datePicker: UIDatePicker!
+    var pickupDatePicker: UIDatePicker!
+    var deliveryDatePicker: UIDatePicker!
+    @IBOutlet weak var deliveryDayHourTextfield: UITextField!
     @IBOutlet weak var pickupAddressTextfield: UITextField!
     @IBOutlet weak var finalAddressTextfield: UITextField!
     @IBOutlet weak var idaYVueltaSwitch: UISwitch!
@@ -55,15 +57,20 @@ class RequestServiceViewController: UIViewController {
         instructionsTextView.layer.borderColor = UIColor(white: 0.9, alpha: 1.0).CGColor
         instructionsTextView.layer.cornerRadius = 10.0
         
-        datePicker = UIDatePicker()
-        datePicker.addTarget(self, action: "dateChanged:", forControlEvents: .ValueChanged)
-        dayHourTextfield.inputView = datePicker
+        pickupDatePicker = UIDatePicker()
+        pickupDatePicker.addTarget(self, action: "dateChanged:", forControlEvents: .ValueChanged)
+        dayHourTextfield.inputView = pickupDatePicker
+        
+        deliveryDatePicker = UIDatePicker()
+        deliveryDatePicker.addTarget(self, action: "deliveryDateChanged:", forControlEvents: .ValueChanged)
+        deliveryDayHourTextfield.inputView = deliveryDatePicker
         
         let toolBar = UIToolbar(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.size.width, height: 44.0))
         let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissPickers")
         toolBar.setItems([doneButton], animated: false)
         
         dayHourTextfield.inputAccessoryView = toolBar
+        deliveryDayHourTextfield.inputAccessoryView = toolBar
         shipmentValueTextfield.inputAccessoryView = toolBar
     }
     
@@ -85,7 +92,6 @@ class RequestServiceViewController: UIViewController {
         if formIsCorrect() {
             saveAddressInUserDefaults()
             sendServiceRequestToServer()
-            //goToFindingService()
             
         } else {
             UIAlertView(title: "Oops!", message: "No has completado todos los campos", delegate: nil, cancelButtonTitle: "Ok").show()
@@ -97,19 +103,23 @@ class RequestServiceViewController: UIViewController {
         println(datePicker.date)
     }
     
+    func deliveryDateChanged(datePicker: UIDatePicker) {
+        deliveryDayHourTextfield.text = dateFormatter.stringFromDate(datePicker.date)
+    }
+    
     func dismissPickers() {
         dayHourTextfield.resignFirstResponder()
+        deliveryDayHourTextfield.resignFirstResponder()
         shipmentValueTextfield.resignFirstResponder()
     }
     
     //MARK: Server Stuff
     
     func sendServiceRequestToServer() {
-        let serviceParameters = "user_id=\(User.sharedInstance.identifier)&user_info=\(User.sharedInstance.userDictionary)&pickup_object=\(pickupLocationDic)&delivery_object=\(destinationLocationDic)&roundtrip=\(idaYVueltaSwitch.on)&instructions=\(instructionsTextView.text)&priority=\(5)&deadline=\(datePicker.date)&declared_value=\(120000)&price_to_pay=\(25000)&pickup_time=\(datePicker.date)"
-        
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         println("")
-        Alamofire.manager.request(.POST, Alamofire.requestMensajeroServiceURL, parameters: ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "deadline" : datePicker.date, "declared_value" : 12000, "price_to_pay" : 25000, "pickup_time" : datePicker.date], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) in
+        Alamofire.manager.request(.POST, Alamofire.requestMensajeroServiceURL, parameters: ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "deadline" : deliveryDatePicker.date, "declared_value" : shipmentValueTextfield.text, "price_to_pay" : 25000, "pickup_time" : pickupDatePicker.date], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) in
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if error != nil {
                 //There was an error
                 println("Hubo error en el request: \(error?.localizedDescription)")
@@ -118,6 +128,18 @@ class RequestServiceViewController: UIViewController {
                 //Successful response 
                 let jsonResponse = JSON(json!)
                 println("Respuesta correcta del request: \(jsonResponse)")
+                if jsonResponse["status"].boolValue {
+                    let deliveryItem = DeliveryItem(deliveryItemJSON: JSON(jsonResponse["response"].object))
+                    self.goToFindingServiceWithServiceID(deliveryItem.identifier)
+                    println("id del servicio: \(deliveryItem.identifier)")
+                    println("Descripcion completa del delivery item parseado: \(deliveryItem.deliveryItemDescription)")
+                    /*if let requestID = jsonResponse["response"]["_id"].string {
+                        self.goToFindingServiceWithServiceID(requestID)
+                    }*/
+                } else {
+                    println("Llego en false el request: \(jsonResponse)")
+                    UIAlertView(title: "Oops!", message: "Ocurrió un error al pedir el servicio. Por favor intenta de nuevo en un momento", delegate: nil, cancelButtonTitle: "Ok").show()
+                }
             }
         }
     }
@@ -129,6 +151,7 @@ class RequestServiceViewController: UIViewController {
         var finalAddressIsCorrect = false
         var dayAndHourIsCorrect = false
         var instructionsAreCorrect = false
+        var deliveryDayHourIsCorrect = false
     
         if countElements(pickupAddressTextfield.text) > 0 {
             pickupAddressIsCorrect = true
@@ -154,6 +177,14 @@ class RequestServiceViewController: UIViewController {
             dayHourTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
+        if countElements(deliveryDayHourTextfield.text) > 0 {
+            deliveryDayHourIsCorrect = true
+            deliveryDayHourTextfield.layer.borderWidth = 0.0
+        } else {
+            deliveryDayHourTextfield.layer.borderWidth = 1.0
+            deliveryDayHourTextfield.layer.borderColor = UIColor.redColor().CGColor
+        }
+        
         if countElements(instructionsTextView.text) > 0 {
             instructionsAreCorrect = true
             instructionsTextView.layer.borderColor = UIColor(white: 0.9, alpha: 1.0).CGColor
@@ -161,13 +192,14 @@ class RequestServiceViewController: UIViewController {
             instructionsTextView.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        return pickupAddressIsCorrect && finalAddressIsCorrect && dayAndHourIsCorrect && instructionsAreCorrect ? true : false
+        return pickupAddressIsCorrect && finalAddressIsCorrect && dayAndHourIsCorrect && instructionsAreCorrect && deliveryDayHourIsCorrect ? true : false
     }
     
     //MARK: Navigation
     
-    func goToFindingService() {
+    func goToFindingServiceWithServiceID(serviceID: String) {
         let findingServiceVC = storyboard?.instantiateViewControllerWithIdentifier("FindingService") as FindingServiceViewController
+        findingServiceVC.serviceID = serviceID
         navigationController?.pushViewController(findingServiceVC, animated: true)
     }
     

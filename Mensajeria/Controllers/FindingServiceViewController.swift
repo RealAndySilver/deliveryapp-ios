@@ -10,11 +10,21 @@ import UIKit
 
 class FindingServiceViewController: UIViewController {
 
+    var serviceID: String!
+    var serviceRequestTimer: NSTimer!
+    
     //MARK: Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        println("id del servicio: \(serviceID)")
         navigationItem.hidesBackButton = true
+        serviceRequestTimer = NSTimer.scheduledTimerWithTimeInterval(10.0, target: self, selector: "checkServiceStatus", userInfo: nil, repeats: true)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        serviceRequestTimer.invalidate()
     }
     
     //MARK: Actions
@@ -22,13 +32,76 @@ class FindingServiceViewController: UIViewController {
     @IBAction func cancelServicePressed() {
         UIActionSheet(title: "¿Estás seguro de cancelar el servicio?", delegate: self, cancelButtonTitle: "Volver", destructiveButtonTitle: "Cancelar el servicio").showInView(view)
     }
+    
+    //MARK: Server Stuff
+    
+    func cancelServiceInServer() {
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        Alamofire.manager.request(.DELETE, "\(Alamofire.cancelRequestServiceURL)/\(serviceID)", parameters: ["user_id" : User.sharedInstance.identifier], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+            
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            if error != nil {
+                //There was an error
+                println("Error en el cancel service: \(error?.localizedDescription)")
+                UIAlertView(title: "Oops!", message: "Ocurrió un problema en el servidor. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+            } else {
+                let jsonResponse = JSON(json!)
+                if jsonResponse["status"].boolValue {
+                    println("Respuesta correcta del cancel service: \(jsonResponse)")
+                    UIAlertView(title: "", message: "Servicio cancelado de manera exitosa!", delegate: nil, cancelButtonTitle: "Ok").show()
+                    
+                    //Cancel request check timer 
+                    self.serviceRequestTimer.invalidate()
+                    self.navigationController?.popViewControllerAnimated(true)
+                    
+                } else {
+                    println("Respuesta false del cancel service: \(jsonResponse)")
+                    UIAlertView(title: "Oops!", message: "Ocurrió un error al cancelar el servicio. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+                }
+            }
+            
+        }
+    }
+    
+    func checkServiceStatus() {
+        println("Checkearé el statusssss")
+        Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/\(serviceID)").responseJSON { (request, response, json, error) in
+            if error != nil {
+                //There was an error 
+                println("Error : \(error?.localizedDescription)")
+            } else {
+                //Success
+                let jsonResponse = JSON(json!)
+                if jsonResponse["status"].boolValue {
+                    println("Succes json response: \(jsonResponse)")
+                    //Check if the service was accepted by a messenger 
+                    /*if jsonResponse["response"]["overall_status"].stringValue == "started" {
+                        self.serviceRequestTimer.invalidate()
+                        self.goToServiceAccepted()
+                    }*/
+                    self.serviceRequestTimer.invalidate()
+                    self.goToServiceAccepted()
+                    
+                } else {
+                    println("llego en status false el json response: \(jsonResponse)")
+                }
+            }
+        }
+    }
+    
+    //MARK: Navigation 
+    
+    func goToServiceAccepted() {
+        let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
+        navigationController?.pushViewController(serviceAcceptedVC, animated: true)
+    }
 }
 
 extension FindingServiceViewController: UIActionSheetDelegate {
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 0 {
-            //Cancel Service
-            navigationController?.popViewControllerAnimated(true)
+            //Cancel Service in server
+            cancelServiceInServer()
         }
     }
 }

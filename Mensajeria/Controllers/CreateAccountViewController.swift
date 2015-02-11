@@ -82,6 +82,7 @@ class CreateAccountViewController: UIViewController {
         let encodedPassword = passwordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(.allZeros)
         
         Alamofire.manager.request(.POST, Alamofire.createUserServiceURL, parameters: ["email" : emailTextfield.text, "password" : encodedPassword!, "name" : nameTextfield.text, "lastname" : lastNameTextfield.text, "mobilephone" : cellphoneTextfield.text], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if error != nil {
                 //Error
                 println("Error en el Create User: \(error?.localizedDescription)")
@@ -91,7 +92,7 @@ class CreateAccountViewController: UIViewController {
                 if jsonResponse["status"].boolValue == true {
                     println("Respuesta true del create: \(jsonResponse)")
                     //Show confirmation email alert
-                    UIAlertView(title: "", message: "Tu usuario se ha creado exitosamente. Por favor confirma tu cuenta desde el correo que se te ha enviado.", delegate: nil, cancelButtonTitle: "Ok")
+                    UIAlertView(title: "", message: "Tu usuario se ha creado exitosamente. Por favor confirma tu cuenta desde el correo que se te ha enviado.", delegate: nil, cancelButtonTitle: "Ok").show()
                 } else {
                     println("Respuesta false del create: \(jsonResponse)")
                 }

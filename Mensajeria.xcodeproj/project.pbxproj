@@ -15,6 +15,8 @@
 		8B3158561A89201B005F43E4 /* RateDriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3158551A89201B005F43E4 /* RateDriverViewController.swift */; };
 		8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */; };
 		8B7C0C911A89090500470D15 /* ServiceAcceptedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */; };
+		8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */; };
+		8B8C364E1A8BF89100373EA2 /* DeliveryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */; };
 		8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */; };
 		8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */; };
 		8BEA65AB1A82B1E100C20D5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65A91A82B1E100C20D5B /* Main.storyboard */; };
@@ -65,6 +67,8 @@
 		8B3158551A89201B005F43E4 /* RateDriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RateDriverViewController.swift; path = Controllers/RateDriverViewController.swift; sourceTree = "<group>"; };
 		8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FindingServiceViewController.swift; path = Controllers/FindingServiceViewController.swift; sourceTree = "<group>"; };
 		8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceAcceptedViewController.swift; path = Controllers/ServiceAcceptedViewController.swift; sourceTree = "<group>"; };
+		8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfileViewController.swift; path = Controllers/MyProfileViewController.swift; sourceTree = "<group>"; };
+		8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeliveryItem.swift; path = Model/DeliveryItem.swift; sourceTree = "<group>"; };
 		8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForgotPasswordViewController.swift; path = Controllers/ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		8BEA65A01A82B1E000C20D5B /* Mensajeria.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mensajeria.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BEA65A41A82B1E000C20D5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				8B2F05C41A856B26007C462B /* User.swift */,
+				8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 				8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */,
 				8B3158551A89201B005F43E4 /* RateDriverViewController.swift */,
 				8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */,
+				8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -402,6 +408,8 @@
 				8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */,
 				8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */,
 				A0AFE14A1A83D6410025CACF /* RequestServiceViewController.swift in Sources */,
+				8B8C364E1A8BF89100373EA2 /* DeliveryItem.swift in Sources */,
+				8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */,
 				8BEA65CC1A82C29900C20D5B /* SwiftyJSON.swift in Sources */,
 				8B2F05C51A856B26007C462B /* User.swift in Sources */,
 			);

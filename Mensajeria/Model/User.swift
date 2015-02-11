@@ -12,6 +12,7 @@ class User: NSObject {
     var name: String!
     var email: String!
     var lastName: String!
+    var mobilePhone: String!
     var favorites = []
     var device = []
     var userDescription: String {
@@ -37,11 +38,13 @@ class User: NSObject {
         precondition(userJSON["_id"].string != nil, "user id is nil!!!")
         precondition(userJSON["email"].string != nil, "user email is nil")
         precondition(userJSON["lastname"].string != nil, "User lastname is nil!!!")
+        precondition(userJSON["mobilephone"].int != nil, "El mobile phone está en nill!!!")
         identifier = userJSON["_id"].stringValue
         name = userJSON["name"].stringValue
         email = userJSON["email"].stringValue
         lastName = userJSON["lastname"].stringValue
         emailConfirmation = userJSON["email_confirmation"].boolValue
+        mobilePhone = userJSON["mobilephone"].stringValue
         //favorites = userJSON["favorites"].rawValue as []
         println(userDescription)
     }
