@@ -65,7 +65,7 @@ class FindingServiceViewController: UIViewController {
     
     func checkServiceStatus() {
         println("Checkearé el statusssss")
-        Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/\(serviceID)").responseJSON { (request, response, json, error) in
+        Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/54dbbe3ade9a5c2220000002").responseJSON { (request, response, json, error) in
             if error != nil {
                 //There was an error 
                 println("Error : \(error?.localizedDescription)")
@@ -75,12 +75,16 @@ class FindingServiceViewController: UIViewController {
                 if jsonResponse["status"].boolValue {
                     println("Succes json response: \(jsonResponse)")
                     //Check if the service was accepted by a messenger 
-                    /*if jsonResponse["response"]["overall_status"].stringValue == "started" {
+                    if jsonResponse["response"]["overall_status"].stringValue == "started" {
                         self.serviceRequestTimer.invalidate()
-                        self.goToServiceAccepted()
-                    }*/
-                    self.serviceRequestTimer.invalidate()
-                    self.goToServiceAccepted()
+                        let deliveryItem = DeliveryItem(deliveryItemJSON: JSON(jsonResponse["response"].object))
+                        if let messengerInfo = deliveryItem.messengerInfo {
+                            self.goToServiceAcceptedWithDeliveryItem(deliveryItem)
+
+                        } else {
+                            println("Hubo algun error grave porque no me llego el objeto messenger info")
+                        }
+                    }
                     
                 } else {
                     println("llego en status false el json response: \(jsonResponse)")
@@ -91,8 +95,9 @@ class FindingServiceViewController: UIViewController {
     
     //MARK: Navigation 
     
-    func goToServiceAccepted() {
+    func goToServiceAcceptedWithDeliveryItem(deliveryItem: DeliveryItem) {
         let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
+        serviceAcceptedVC.deliveryItem = deliveryItem
         navigationController?.pushViewController(serviceAcceptedVC, animated: true)
     }
 }

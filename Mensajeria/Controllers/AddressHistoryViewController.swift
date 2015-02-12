@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddressHistoryDelegate {
-    func addressSelected(adress: String, forPickupLocation: Bool)
+    func addressSelected(adressDic: [String : AnyObject], forPickupLocation: Bool)
 }
 
 class AddressHistoryViewController: UIViewController {
@@ -18,13 +18,14 @@ class AddressHistoryViewController: UIViewController {
     let savedPickupAdressesKey = "pickupAddresses"
     let savedDestinationAdressesKey = "destinationAddresses"
     var delegate: AddressHistoryDelegate?
-    var selectedAddress = ""
-    var savedAddressesArray: [[String : String]] = [] {
+    var selectedAddressDic: [String : AnyObject]!
+    //var selectedAddress = ""
+    var savedAddressesArray: [[String : AnyObject]] = [] {
         didSet {
             tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .None)
         }
     }
-    var savedDestinationAddressesArray: [[String : String]] = [] {
+    var savedDestinationAddressesArray: [[String : AnyObject]] = [] {
         didSet {
             tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .None)
         }
@@ -40,11 +41,11 @@ class AddressHistoryViewController: UIViewController {
     //MARK: Custom Initialization Stuff
     
     func getSavedAddresses() {
-        if let pickupAddresses = NSUserDefaults.standardUserDefaults().objectForKey(savedPickupAdressesKey) as? [[String: String]] {
+        if let pickupAddresses = NSUserDefaults.standardUserDefaults().objectForKey(savedPickupAdressesKey) as? [[String: AnyObject]] {
             savedAddressesArray = pickupAddresses
         }
         
-        if let destinationAddresses = NSUserDefaults.standardUserDefaults().objectForKey(savedDestinationAdressesKey) as? [[String : String]] {
+        if let destinationAddresses = NSUserDefaults.standardUserDefaults().objectForKey(savedDestinationAdressesKey) as? [[String : AnyObject]] {
             savedDestinationAddressesArray = destinationAddresses
         }
     }
@@ -83,11 +84,11 @@ extension AddressHistoryViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("AddressCell") as? UITableViewCell
         
         if indexPath.section == 0 {
-            cell!.textLabel?.text = savedAddressesArray[indexPath.row]["address"]
-            cell!.detailTextLabel?.text = savedAddressesArray[indexPath.row]["dateSaved"]
+            cell!.textLabel?.text = savedAddressesArray[indexPath.row]["address"] as String!
+            cell!.detailTextLabel?.text = savedAddressesArray[indexPath.row]["dateSaved"] as String!
         } else {
-            cell!.textLabel?.text = savedDestinationAddressesArray[indexPath.row]["address"]
-            cell!.detailTextLabel?.text = savedDestinationAddressesArray[indexPath.row]["dateSaved"]
+            cell!.textLabel?.text = savedDestinationAddressesArray[indexPath.row]["address"] as String!
+            cell!.detailTextLabel?.text = savedDestinationAddressesArray[indexPath.row]["dateSaved"] as String!
         }
         return cell!
     }
@@ -101,12 +102,15 @@ extension AddressHistoryViewController: UITableViewDelegate {
         let selectedAddressIndex = indexPath.row
         
         if indexPath.section == 0 {
-            selectedAddress = savedAddressesArray[indexPath.row]["address"]!
+            selectedAddressDic = savedAddressesArray[indexPath.row]
+            //selectedAddress = savedAddressesArray[indexPath.row]["address"]!
         } else {
-            selectedAddress = savedDestinationAddressesArray[indexPath.row]["address"]!
+            selectedAddressDic = savedDestinationAddressesArray[indexPath.row]
+            //selectedAddress = savedDestinationAddressesArray[indexPath.row]["address"]!
         }
         
-        UIAlertView(title: "", message: "Usar la dirección '\(selectedAddress)' en: ", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Dirección de Recogida", "Dirección de Entrega").show()
+        let addressName = selectedAddressDic["address"] as String!
+        UIAlertView(title: "", message: "Usar la dirección '\(addressName))' en: ", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Dirección de Recogida", "Dirección de Entrega").show()
     }
 }
 
@@ -116,12 +120,14 @@ extension AddressHistoryViewController: UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if buttonIndex == 2 {
             //Direccion de entrega button pressed
-            delegate?.addressSelected(selectedAddress, forPickupLocation: false)
+            delegate?.addressSelected(selectedAddressDic, forPickupLocation: false)
+            //delegate?.addressSelected(selectedAddress, forPickupLocation: false)
             navigationController?.popViewControllerAnimated(true)
             
         } else if buttonIndex == 1 {
             //Direccion de recogida button pressed
-            delegate?.addressSelected(selectedAddress, forPickupLocation: true)
+            delegate?.addressSelected(selectedAddressDic, forPickupLocation: true)
+            //delegate?.addressSelected(selectedAddress, forPickupLocation: true)
             navigationController?.popViewControllerAnimated(true)
         }
     }

@@ -69,6 +69,7 @@
 		8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceAcceptedViewController.swift; path = Controllers/ServiceAcceptedViewController.swift; sourceTree = "<group>"; };
 		8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfileViewController.swift; path = Controllers/MyProfileViewController.swift; sourceTree = "<group>"; };
 		8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeliveryItem.swift; path = Model/DeliveryItem.swift; sourceTree = "<group>"; };
+		8BAF8A961A8D411B006F01EC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForgotPasswordViewController.swift; path = Controllers/ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		8BEA65A01A82B1E000C20D5B /* Mensajeria.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mensajeria.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BEA65A41A82B1E000C20D5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -273,6 +274,7 @@
 		A0AFE1671A83EBAA0025CACF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8BAF8A961A8D411B006F01EC /* MessageUI.framework */,
 				A0AFE1651A83EB640025CACF /* SystemConfiguration.framework */,
 				A0AFE1631A83EB5B0025CACF /* QuartzCore.framework */,
 				A0AFE1611A83EB550025CACF /* OpenGLES.framework */,

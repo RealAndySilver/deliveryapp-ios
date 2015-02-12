@@ -9,12 +9,15 @@
 import UIKit
 
 class DeliveryItem: NSObject {
+    
+    
     var status: String
     var pickupTimeString: String
     var priority: Int
     var declaredValue: Int
     var identifier: String
     var deliveryObject: RequestObject
+    var messengerInfo: MessengerInfo?
     var userInfo: UserInfo
     var deadline: String
     var priceToPay: Int
@@ -25,19 +28,40 @@ class DeliveryItem: NSObject {
     var overallStatus: String
     var deliveryItemDescription: String {
         get {
-            return "********** Info del delivery item *************\nstatus: \(status)\npickup time: \(pickupTimeString)\npriority: \(priority)\ndelivery object: \(deliveryObject.requestObjectDescription)\nuser info: \(userInfo.userInfoDescription)\npickup object: \(pickupObject.requestObjectDescription)\ndeclared value: \(declaredValue)"
+            return "********** Info del delivery item *************\nstatus: \(status)\npickup time: \(pickupTimeString)\npriority: \(priority)\ndelivery object: \(deliveryObject.requestObjectDescription)\nuser info: \(userInfo.userInfoDescription)\npickup object: \(pickupObject.requestObjectDescription)\ndeclared value: \(declaredValue)\nmessenger info: \(messengerInfo?.messengerInfoDescription)"
         }
     }
     
     init(deliveryItemJSON: JSON) {
+        let stringToDateFormatter = NSDateFormatter()
+        stringToDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
+        stringToDateFormatter.locale = NSLocale.currentLocale()
+        
+        let dateToStringFormatter = NSDateFormatter()
+        dateToStringFormatter.dateStyle = .LongStyle
+        dateToStringFormatter.timeStyle = .ShortStyle
+        dateToStringFormatter.locale = NSLocale.currentLocale()
+        
+        if let pickupDate = stringToDateFormatter.dateFromString(deliveryItemJSON["pickup_time"].stringValue) {
+            pickupTimeString = dateToStringFormatter.stringFromDate(pickupDate)
+        } else {
+            pickupTimeString = ""
+        }
+        
+        if let deliveryDate = stringToDateFormatter.dateFromString(deliveryItemJSON["deadline"].stringValue) {
+            deadline = dateToStringFormatter.stringFromDate(deliveryDate)
+        } else {
+            deadline = ""
+        }
+        
         status = deliveryItemJSON["status"].stringValue
-        pickupTimeString = deliveryItemJSON["pickup_time"].stringValue
+        //pickupTimeString = deliveryItemJSON["pickup_time"].stringValue
         priority = deliveryItemJSON["priority"].intValue
         declaredValue = deliveryItemJSON["declared_value"].intValue
         
         deliveryObject = RequestObject(requestObjectJSON: JSON(deliveryItemJSON["delivery_object"].object))
         identifier = deliveryItemJSON["_id"].stringValue
-        deadline = deliveryItemJSON["deadline"].stringValue
+        //deadline = deliveryItemJSON["deadline"].stringValue
         userInfo = UserInfo(userInfoJSON: JSON(deliveryItemJSON["user_info"].object))
         priceToPay = deliveryItemJSON["price_to_pay"].intValue
         userID = deliveryItemJSON["user_id"].stringValue
@@ -45,6 +69,7 @@ class DeliveryItem: NSObject {
         pickupObject = RequestObject(requestObjectJSON: JSON(deliveryItemJSON["pickup_object"].object))
         instructions = deliveryItemJSON["instructions"].stringValue
         overallStatus = deliveryItemJSON["overall_status"].stringValue
+        messengerInfo = MessengerInfo(messengerInfoJSON: JSON(deliveryItemJSON["messenger_info"].object))
     }
 }
 
@@ -61,6 +86,30 @@ class RequestObject: NSObject {
         latitude = requestObjectJSON["lat"].stringValue
         longitude = requestObjectJSON["lon"].stringValue
         address = requestObjectJSON["address"].stringValue
+    }
+}
+
+class MessengerInfo: NSObject {
+    var lastName: String
+    var plate: String
+    var mobilePhone: String
+    var identifier: String
+    var email: String
+    var identification: String
+    var name: String
+    var messengerInfoDescription: String {
+        get {
+            return "name: \(name) --- lastname: \(lastName) --- plate: \(plate)\nmobilephone: \(mobilePhone) --- identifier: \(identifier) --- email: \(email)\nidentification: \(identification)"
+        }
+    }
+    init (messengerInfoJSON: JSON) {
+        lastName = messengerInfoJSON["lastname"].stringValue
+        plate = messengerInfoJSON["plate"].stringValue
+        mobilePhone = messengerInfoJSON["mobilephone"].stringValue
+        identifier = messengerInfoJSON["_id"].stringValue
+        email = messengerInfoJSON["email"].stringValue
+        identification = messengerInfoJSON["identification"].stringValue
+        name = messengerInfoJSON["name"].stringValue
     }
 }
 

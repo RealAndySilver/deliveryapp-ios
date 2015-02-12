@@ -89,13 +89,15 @@ class RequestServiceViewController: UIViewController {
     }
     
     @IBAction func acceptButtonPressed() {
-        if formIsCorrect() {
+        goToFindingServiceWithServiceID("")
+        /*if formIsCorrect() {
             saveAddressInUserDefaults()
-            sendServiceRequestToServer()
+            //sendServiceRequestToServer()
+            goToFindingServiceWithServiceID("")
             
         } else {
             UIAlertView(title: "Oops!", message: "No has completado todos los campos", delegate: nil, cancelButtonTitle: "Ok").show()
-        }
+        }*/
     }
     
     func dateChanged(datePicker: UIDatePicker) {
@@ -238,11 +240,13 @@ class RequestServiceViewController: UIViewController {
     
     func saveAddressInUserDefaults() {
         //Save pickup address 
-        var pickupAddressDic = [String : String]()
+        var pickupAddressDic = [String : AnyObject]()
         pickupAddressDic["dateSaved"] = dateFormatter.stringFromDate(NSDate())
         pickupAddressDic["address"] = pickupAddressTextfield.text
+        pickupAddressDic["lat"] = pickupLocationDic["lat"]
+        pickupAddressDic["lon"] = pickupLocationDic["lon"]
         
-        if var pickupAddresses = NSUserDefaults.standardUserDefaults().objectForKey(savedPickupAdressesKey) as? [[String: String]] {
+        if var pickupAddresses = NSUserDefaults.standardUserDefaults().objectForKey(savedPickupAdressesKey) as? [[String: AnyObject]] {
             println("Ya existia el arreglo de direcciones")
             pickupAddresses.insert(pickupAddressDic, atIndex: 0)
             if pickupAddresses.count > maxAllowedSavedAddresses {
@@ -257,11 +261,13 @@ class RequestServiceViewController: UIViewController {
         }
         
         //Save destination address
-        var destinationAddressesDic = [String : String]()
+        var destinationAddressesDic = [String : AnyObject]()
         destinationAddressesDic["dateSaved"] = dateFormatter.stringFromDate(NSDate())
         destinationAddressesDic["address"] = finalAddressTextfield.text
+        destinationAddressesDic["lat"] = destinationLocationDic["lat"]
+        destinationAddressesDic["lon"] = destinationLocationDic["lon"]
         
-        if var destinationAddresses = NSUserDefaults.standardUserDefaults().objectForKey(savedDestinationAdressesKey) as? [[String : String]] {
+        if var destinationAddresses = NSUserDefaults.standardUserDefaults().objectForKey(savedDestinationAdressesKey) as? [[String : AnyObject]] {
             destinationAddresses.insert(destinationAddressesDic, atIndex: 0)
             if destinationAddresses.count > maxAllowedSavedAddresses {
                 destinationAddresses.removeLast()
@@ -321,14 +327,24 @@ extension RequestServiceViewController: UITextViewDelegate {
 //MARK: AddressHistoryDelegate
 
 extension RequestServiceViewController: AddressHistoryDelegate {
-    func addressSelected(adress: String, forPickupLocation: Bool) {
+    func addressSelected(adressDic: [String : AnyObject], forPickupLocation: Bool) {
+        if forPickupLocation {
+            pickupLocationDic = adressDic
+            pickupAddressTextfield.text = pickupLocationDic["address"] as String!
+        } else {
+            destinationLocationDic = adressDic
+            finalAddressTextfield.text = destinationLocationDic["address"] as String!
+        }
+    }
+    
+    /*func addressSelected(adress: String, forPickupLocation: Bool) {
         println("me llego la direccion: \(adress) y la pondre en el pickup: \(forPickupLocation)")
         if forPickupLocation {
             pickupAddressTextfield.text = adress
         } else {
             finalAddressTextfield.text = adress
         }
-    }
+    }*/
 }
 
 
