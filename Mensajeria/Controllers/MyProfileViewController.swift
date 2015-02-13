@@ -10,6 +10,7 @@ import UIKit
 
 class MyProfileViewController: UIViewController {
 
+    @IBOutlet weak var revealButtonItem: UIBarButtonItem!
     @IBOutlet weak var phoneTextfield: UITextField!
     @IBOutlet weak var lastNameTextfield: UITextField!
     @IBOutlet weak var nameTextfield: UITextField!
@@ -25,6 +26,12 @@ class MyProfileViewController: UIViewController {
         nameTextfield.text = User.sharedInstance.name
         lastNameTextfield.text = User.sharedInstance.lastName
         phoneTextfield.text = User.sharedInstance.mobilePhone
+        
+        //Reveal button
+        if revealViewController() != nil {
+            revealButtonItem.target = revealViewController()
+            revealButtonItem.action = "revealToggle:"
+        }
     }
     
     //MARK: Actions

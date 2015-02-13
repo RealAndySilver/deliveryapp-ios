@@ -17,6 +17,10 @@
 		8B7C0C911A89090500470D15 /* ServiceAcceptedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */; };
 		8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */; };
 		8B8C364E1A8BF89100373EA2 /* DeliveryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */; };
+		8BA5A8071A8E441200379651 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5A8061A8E441200379651 /* SWRevealViewController.m */; };
+		8BA5A8091A8E51DE00379651 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5A8081A8E51DE00379651 /* MenuViewController.swift */; };
+		8BA5A80B1A8E71CB00379651 /* ActiveServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5A80A1A8E71CB00379651 /* ActiveServicesViewController.swift */; };
+		8BA5A80E1A8E979A00379651 /* ActiveServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5A80D1A8E979A00379651 /* ActiveServiceCell.swift */; };
 		8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */; };
 		8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */; };
 		8BEA65AB1A82B1E100C20D5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65A91A82B1E100C20D5B /* Main.storyboard */; };
@@ -69,6 +73,11 @@
 		8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceAcceptedViewController.swift; path = Controllers/ServiceAcceptedViewController.swift; sourceTree = "<group>"; };
 		8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfileViewController.swift; path = Controllers/MyProfileViewController.swift; sourceTree = "<group>"; };
 		8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeliveryItem.swift; path = Model/DeliveryItem.swift; sourceTree = "<group>"; };
+		8BA5A8051A8E441200379651 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		8BA5A8061A8E441200379651 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		8BA5A8081A8E51DE00379651 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuViewController.swift; path = Controllers/MenuViewController.swift; sourceTree = "<group>"; };
+		8BA5A80A1A8E71CB00379651 /* ActiveServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveServicesViewController.swift; path = Controllers/ActiveServicesViewController.swift; sourceTree = "<group>"; };
+		8BA5A80D1A8E979A00379651 /* ActiveServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveServiceCell.swift; path = "Custom Cells/ActiveServiceCell.swift"; sourceTree = "<group>"; };
 		8BAF8A961A8D411B006F01EC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForgotPasswordViewController.swift; path = Controllers/ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		8BEA65A01A82B1E000C20D5B /* Mensajeria.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mensajeria.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,6 +181,23 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		8BA5A8041A8E441200379651 /* SWRevealViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8BA5A8051A8E441200379651 /* SWRevealViewController.h */,
+				8BA5A8061A8E441200379651 /* SWRevealViewController.m */,
+			);
+			path = SWRevealViewController;
+			sourceTree = "<group>";
+		};
+		8BA5A80C1A8E977900379651 /* Custom Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8BA5A80D1A8E979A00379651 /* ActiveServiceCell.swift */,
+			);
+			name = "Custom Cells";
+			sourceTree = "<group>";
+		};
 		8BEA65971A82B1E000C20D5B = {
 			isa = PBXGroup;
 			children = (
@@ -194,6 +220,7 @@
 		8BEA65A21A82B1E000C20D5B /* Mensajeria */ = {
 			isa = PBXGroup;
 			children = (
+				8BA5A80C1A8E977900379651 /* Custom Cells */,
 				8B2F05C31A856B13007C462B /* Model */,
 				8BEA65C81A82C29900C20D5B /* Librerias */,
 				8BEA65C51A82B95800C20D5B /* Controllers */,
@@ -247,6 +274,8 @@
 				8B3158551A89201B005F43E4 /* RateDriverViewController.swift */,
 				8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */,
 				8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */,
+				8BA5A8081A8E51DE00379651 /* MenuViewController.swift */,
+				8BA5A80A1A8E71CB00379651 /* ActiveServicesViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -254,6 +283,7 @@
 		8BEA65C81A82C29900C20D5B /* Librerias */ = {
 			isa = PBXGroup;
 			children = (
+				8BA5A8041A8E441200379651 /* SWRevealViewController */,
 				8B31584B1A8910BF005F43E4 /* RatingView */,
 				8BEA65CD1A82C6EB00C20D5B /* MBProgressHUD */,
 				8BEA65C91A82C29900C20D5B /* Alamofire.swift */,
@@ -397,7 +427,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */,
+				8BA5A8071A8E441200379651 /* SWRevealViewController.m in Sources */,
 				8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */,
+				8BA5A80E1A8E979A00379651 /* ActiveServiceCell.swift in Sources */,
 				A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */,
 				8BEA65CB1A82C29900C20D5B /* Alamofire.swift in Sources */,
 				8B31584E1A8910BF005F43E4 /* RatingView.m in Sources */,
@@ -406,6 +438,8 @@
 				8B3158561A89201B005F43E4 /* RateDriverViewController.swift in Sources */,
 				A0AFE1691A84008A0025CACF /* MapViewController.swift in Sources */,
 				8B7C0C911A89090500470D15 /* ServiceAcceptedViewController.swift in Sources */,
+				8BA5A80B1A8E71CB00379651 /* ActiveServicesViewController.swift in Sources */,
+				8BA5A8091A8E51DE00379651 /* MenuViewController.swift in Sources */,
 				8BEA65D01A82C6EB00C20D5B /* MBProgressHUD.m in Sources */,
 				8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */,
 				8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */,

@@ -37,7 +37,8 @@ class FindingServiceViewController: UIViewController {
     
     func cancelServiceInServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
-        Alamofire.manager.request(.DELETE, "\(Alamofire.cancelRequestServiceURL)/\(serviceID)", parameters: ["user_id" : User.sharedInstance.identifier], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+        println("url del cancel: \(Alamofire.cancelRequestServiceURL)/\(serviceID)")
+        Alamofire.manager.request(.DELETE, "\(Alamofire.cancelRequestServiceURL)/\(serviceID)/\(User.sharedInstance.identifier)").responseJSON { (request, response, json, error) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if error != nil {
@@ -65,7 +66,7 @@ class FindingServiceViewController: UIViewController {
     
     func checkServiceStatus() {
         println("Checkearé el statusssss")
-        Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/54dbbe3ade9a5c2220000002").responseJSON { (request, response, json, error) in
+        Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/\(serviceID)").responseJSON { (request, response, json, error) in
             if error != nil {
                 //There was an error 
                 println("Error : \(error?.localizedDescription)")
@@ -98,6 +99,7 @@ class FindingServiceViewController: UIViewController {
     func goToServiceAcceptedWithDeliveryItem(deliveryItem: DeliveryItem) {
         let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
         serviceAcceptedVC.deliveryItem = deliveryItem
+        serviceAcceptedVC.presentedFromFindingServiceVC = true
         navigationController?.pushViewController(serviceAcceptedVC, animated: true)
     }
 }

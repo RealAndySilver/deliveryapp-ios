@@ -13,6 +13,7 @@ class ServiceAcceptedViewController: UIViewController {
 
     //Public Interface
     var deliveryItem: DeliveryItem!
+    var presentedFromFindingServiceVC: Bool!
     
     @IBOutlet weak var cellphoneButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
@@ -30,7 +31,11 @@ class ServiceAcceptedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.hidesBackButton = true
+        if presentedFromFindingServiceVC == true {
+            navigationItem.hidesBackButton = true
+        } else {
+            navigationItem.hidesBackButton = false
+        }
         println("El delivery item: \(deliveryItem.deliveryItemDescription)")
         setupUI()
     }
@@ -56,9 +61,9 @@ class ServiceAcceptedViewController: UIViewController {
     }
     
     //MARK: Actions
-    
-    @IBAction func mapButtonPressed() {
-        
+    @IBAction func backToHomePressed() {
+        UIAlertView(title: "", message: "Puedes acceder a la información del servicio que acabas de pedir desde el menu 'Mis Servicios'", delegate: nil, cancelButtonTitle: "Ok").show()
+        navigationController?.popToRootViewControllerAnimated(true)
     }
     
     @IBAction func cellphoneButtonPressed() {

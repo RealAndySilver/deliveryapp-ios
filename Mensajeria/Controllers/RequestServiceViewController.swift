@@ -10,6 +10,8 @@ import UIKit
 
 class RequestServiceViewController: UIViewController {
     
+    @IBOutlet weak var revealButtonItem: UIBarButtonItem!
+    
     enum TextfieldName: Int {
         case pickupTextfield = 1, finalTextfield, dayHourTextfield, shipmentValueTextfield
     }
@@ -72,14 +74,15 @@ class RequestServiceViewController: UIViewController {
         dayHourTextfield.inputAccessoryView = toolBar
         deliveryDayHourTextfield.inputAccessoryView = toolBar
         shipmentValueTextfield.inputAccessoryView = toolBar
+        
+        //Reveal button
+        if revealViewController() != nil {
+            revealButtonItem.target = revealViewController()
+            revealButtonItem.action = "revealToggle:"
+        }
     }
     
-    //MARK: Actions 
-    
-    @IBAction func exitButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
+    //MARK: Actions
     @IBAction func addAdditionalAddressPressed() {
     
     }
@@ -89,15 +92,15 @@ class RequestServiceViewController: UIViewController {
     }
     
     @IBAction func acceptButtonPressed() {
-        goToFindingServiceWithServiceID("")
-        /*if formIsCorrect() {
+        //goToFindingServiceWithServiceID("")
+        if formIsCorrect() {
             saveAddressInUserDefaults()
-            //sendServiceRequestToServer()
-            goToFindingServiceWithServiceID("")
+            sendServiceRequestToServer()
+            //goToFindingServiceWithServiceID("")
             
         } else {
             UIAlertView(title: "Oops!", message: "No has completado todos los campos", delegate: nil, cancelButtonTitle: "Ok").show()
-        }*/
+        }
     }
     
     func dateChanged(datePicker: UIDatePicker) {

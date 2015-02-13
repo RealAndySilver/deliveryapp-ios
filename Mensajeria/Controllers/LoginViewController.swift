@@ -102,8 +102,11 @@ class LoginViewController: UIViewController {
     //MARK: Navigation 
     
     func goToRequestServiceVC() {
-        let mainNavController = storyboard?.instantiateViewControllerWithIdentifier("MainNavController") as UINavigationController
-        presentViewController(mainNavController, animated: true, completion: nil)
+        //let mainNavController = storyboard?.instantiateViewControllerWithIdentifier("MainNavController") as UINavigationController
+        //presentViewController(mainNavController, animated: true, completion: nil)
+        let revealViewController = storyboard?.instantiateViewControllerWithIdentifier("revealViewController") as SWRevealViewController
+        presentViewController(revealViewController, animated: true, completion: nil)
+        
     }
 }
 
