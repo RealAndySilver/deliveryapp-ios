@@ -22,6 +22,8 @@
 		8BA5A80B1A8E71CB00379651 /* ActiveServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5A80A1A8E71CB00379651 /* ActiveServicesViewController.swift */; };
 		8BA5A80E1A8E979A00379651 /* ActiveServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5A80D1A8E979A00379651 /* ActiveServiceCell.swift */; };
 		8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */; };
+		8BCE59361A922C89000C0C1A /* FinishedServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCE59351A922C89000C0C1A /* FinishedServicesViewController.swift */; };
+		8BCE59391A924EF6000C0C1A /* IntriqueScript_PersonalUse.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BCE59381A924EF6000C0C1A /* IntriqueScript_PersonalUse.ttf */; };
 		8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */; };
 		8BEA65AB1A82B1E100C20D5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65A91A82B1E100C20D5B /* Main.storyboard */; };
 		8BEA65AD1A82B1E100C20D5B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65AC1A82B1E100C20D5B /* Images.xcassets */; };
@@ -80,6 +82,8 @@
 		8BA5A80D1A8E979A00379651 /* ActiveServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActiveServiceCell.swift; path = "Custom Cells/ActiveServiceCell.swift"; sourceTree = "<group>"; };
 		8BAF8A961A8D411B006F01EC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForgotPasswordViewController.swift; path = Controllers/ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		8BCE59351A922C89000C0C1A /* FinishedServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FinishedServicesViewController.swift; path = Controllers/FinishedServicesViewController.swift; sourceTree = "<group>"; };
+		8BCE59381A924EF6000C0C1A /* IntriqueScript_PersonalUse.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = IntriqueScript_PersonalUse.ttf; sourceTree = "<group>"; };
 		8BEA65A01A82B1E000C20D5B /* Mensajeria.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mensajeria.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BEA65A41A82B1E000C20D5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 		8B31584F1A8915F0005F43E4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8BCE59371A924EF6000C0C1A /* Fonts */,
 				8B3158501A8915F0005F43E4 /* Images */,
 			);
 			path = Resources;
@@ -196,6 +201,14 @@
 				8BA5A80D1A8E979A00379651 /* ActiveServiceCell.swift */,
 			);
 			name = "Custom Cells";
+			sourceTree = "<group>";
+		};
+		8BCE59371A924EF6000C0C1A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				8BCE59381A924EF6000C0C1A /* IntriqueScript_PersonalUse.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		8BEA65971A82B1E000C20D5B = {
@@ -276,6 +289,7 @@
 				8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */,
 				8BA5A8081A8E51DE00379651 /* MenuViewController.swift */,
 				8BA5A80A1A8E71CB00379651 /* ActiveServicesViewController.swift */,
+				8BCE59351A922C89000C0C1A /* FinishedServicesViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -405,6 +419,7 @@
 			files = (
 				8B3158531A8915F0005F43E4 /* blueStar.png in Resources */,
 				8BEA65AB1A82B1E100C20D5B /* Main.storyboard in Resources */,
+				8BCE59391A924EF6000C0C1A /* IntriqueScript_PersonalUse.ttf in Resources */,
 				8BEA65B01A82B1E100C20D5B /* LaunchScreen.xib in Resources */,
 				8BEA65AD1A82B1E100C20D5B /* Images.xcassets in Resources */,
 				8B3158541A8915F0005F43E4 /* grayStar.png in Resources */,
@@ -445,6 +460,7 @@
 				8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */,
 				A0AFE14A1A83D6410025CACF /* RequestServiceViewController.swift in Sources */,
 				8B8C364E1A8BF89100373EA2 /* DeliveryItem.swift in Sources */,
+				8BCE59361A922C89000C0C1A /* FinishedServicesViewController.swift in Sources */,
 				8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */,
 				8BEA65CC1A82C29900C20D5B /* SwiftyJSON.swift in Sources */,
 				8B2F05C51A856B26007C462B /* User.swift in Sources */,

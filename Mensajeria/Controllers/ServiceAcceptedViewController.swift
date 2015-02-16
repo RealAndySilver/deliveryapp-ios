@@ -15,6 +15,7 @@ class ServiceAcceptedViewController: UIViewController {
     var deliveryItem: DeliveryItem!
     var presentedFromFindingServiceVC: Bool!
     
+    @IBOutlet weak var backToHomeButton: UIButton!
     @IBOutlet weak var cellphoneButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var costLabel: UILabel!
@@ -33,7 +34,9 @@ class ServiceAcceptedViewController: UIViewController {
         super.viewDidLoad()
         if presentedFromFindingServiceVC == true {
             navigationItem.hidesBackButton = true
+            backToHomeButton.hidden = false
         } else {
+            backToHomeButton.hidden = true
             navigationItem.hidesBackButton = false
         }
         println("El delivery item: \(deliveryItem.deliveryItemDescription)")

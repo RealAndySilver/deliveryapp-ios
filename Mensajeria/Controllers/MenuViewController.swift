@@ -79,6 +79,10 @@ extension MenuViewController: UITableViewDelegate {
                 //Go to "Mis Servicios"
                 let activeServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("ActiveServicesNavController") as UINavigationController
                 revealViewController().pushFrontViewController(activeServicesNavController, animated: true)
+            
+            } else if indexPath.row == SelectedMenuOption.HistorialDeServiciosOptions.rawValue {
+                let finishedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("FinishedServicesNavController") as UINavigationController
+                revealViewController().pushFrontViewController(finishedServicesNavController, animated: true)
             }
         }
     }

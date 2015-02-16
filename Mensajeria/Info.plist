@@ -43,5 +43,9 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Al acceder a tu locación, la app puede ubicar el mapa directamente en donde te encuentras de manera automática.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>IntriqueScript_PersonalUse.ttf</string>
+	</array>
 </dict>
 </plist>
