@@ -13,6 +13,8 @@ import UIKit
 class CreateAccountViewController: UIViewController {
 
     
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var nameTextfield: UITextField!
     @IBOutlet weak var lastNameTextfield: UITextField!
     @IBOutlet weak var emailTextfield: UITextField!
@@ -25,9 +27,22 @@ class CreateAccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fillFormInfo()
+        setupUI()
     }
     
     //MARK: Custom Initialization stuff 
+    
+    func setupUI() {
+        registerButton.layer.shadowColor = UIColor.blackColor().CGColor
+        registerButton.layer.shadowOffset = CGSizeMake(1.0, 1.0)
+        registerButton.layer.shadowRadius = 1.0
+        registerButton.layer.shadowOpacity = 0.4
+        
+        cancelButton.layer.shadowColor = UIColor.blackColor().CGColor
+        cancelButton.layer.shadowOffset = CGSizeMake(1.0, 1.0)
+        cancelButton.layer.shadowRadius = 1.0
+        cancelButton.layer.shadowOpacity = 0.4
+    }
     
     func fillFormInfo() {
         if let formDic = NSUserDefaults.standardUserDefaults().objectForKey("formDic") as? [String: String!]{

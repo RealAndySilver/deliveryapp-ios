@@ -10,6 +10,9 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var enterButton: UIButton!
+    @IBOutlet weak var mensajeriaLabel: UILabel!
     @IBOutlet weak var userTextfield: UITextField!
     @IBOutlet weak var passwordTextfield: UITextField!
     
@@ -17,21 +20,38 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //createMessenger()
+        setupUI()
     }
     
-    func createMessenger() {
-        let pass = "aaa"
-        let encodedPass = pass.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(.allZeros)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNotifications()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func setupNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func setupUI() {
+        /*mensajeriaLabel.layer.shadowColor = UIColor.blackColor().CGColor
+        mensajeriaLabel.layer.shadowOpacity = 0.4
+        mensajeriaLabel.layer.shadowOffset = CGSizeMake(1.0, 1.0)
+        mensajeriaLabel.layer.shouldRasterize = true
+        mensajeriaLabel.layer.rasterizationScale = UIScreen.mainScreen().scale
         
-        Alamofire.manager.request(.POST, "http://192.241.187.135:2000/api_1.0/Messenger/Create", parameters: ["email" : "diefer_91@hotmail.com", "password" : encodedPass!, "name" : "Diego Fernando", "lastname" : "Vidal Illera", "mobilephone" : 3164810058, "plate" : "ABC123", "identification" : "1061733959"], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) in
-            if error != nil {
-                println("Error: \(error?.localizedDescription)")
-            } else {
-                let jsonResponse = JSON(json!)
-                println("Success: \(jsonResponse)")
-            }
-        }
+        enterButton.layer.shadowColor = UIColor.blackColor().CGColor
+        enterButton.layer.shadowOffset = CGSizeMake(0.0, 1.0)
+        enterButton.layer.shadowOpacity = 0.5
+        enterButton.layer.shadowRadius = 1.0
+        enterButton.layer.shouldRasterize = true
+        enterButton.layer.rasterizationScale = UIScreen.mainScreen().scale*/
+        
     }
     
     //MARK: Actions
@@ -102,11 +122,31 @@ class LoginViewController: UIViewController {
     //MARK: Navigation 
     
     func goToRequestServiceVC() {
-        //let mainNavController = storyboard?.instantiateViewControllerWithIdentifier("MainNavController") as UINavigationController
-        //presentViewController(mainNavController, animated: true, completion: nil)
+        println("entre al gotorequestttt")
         let revealViewController = storyboard?.instantiateViewControllerWithIdentifier("revealViewController") as SWRevealViewController
         presentViewController(revealViewController, animated: true, completion: nil)
-        
+    }
+    
+    //MARK: Notification Handlers 
+    
+    func keyboardWillShow() {
+        //Move textfields up
+        UIView.animateWithDuration(0.3,
+            delay: 0.0,
+            options: .CurveLinear,
+            animations: { () -> Void in
+                self.containerView.transform = CGAffineTransformMakeTranslation(0.0, -78.0)
+        }, completion: nil)
+    }
+    
+    func keyboardWillHide() {
+        //Move textfield down
+        UIView.animateWithDuration(0.3,
+            delay: 0.0,
+            options: .CurveLinear,
+            animations: { () -> Void in
+                self.containerView.transform = CGAffineTransformIdentity
+        }, completion: nil)
     }
 }
 

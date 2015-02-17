@@ -10,6 +10,10 @@ import UIKit
 
 class RequestServiceViewController: UIViewController {
     
+    @IBOutlet weak var bottomContainer: UIView!
+    @IBOutlet weak var messageInstructionsContainer: UIView!
+    @IBOutlet weak var datesContainer: UIView!
+    @IBOutlet weak var addressesContainer: UIView!
     @IBOutlet weak var revealButtonItem: UIBarButtonItem!
     
     enum TextfieldName: Int {
@@ -43,18 +47,49 @@ class RequestServiceViewController: UIViewController {
     
     //MARK: Life cycle
     
-    override func viewDidLoad() {
+    /*override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.barTintColor = UIColor(red: 0.0, green: 102.0/255.0, blue: 134.0/255.0, alpha: 1.0)
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        navigationController?.navigationBar.translucent = false
-        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        println("entre acaaaa")
         setupUI()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        println("aparecereeee")
+    }*/
     
     //MARK: UI Setup
     
     func setupUI() {
+        //Container shadows
+        /*addressesContainer.layer.shadowColor = UIColor.blackColor().CGColor
+        addressesContainer.layer.shadowOffset = CGSizeMake(0.0, 2.0)
+        addressesContainer.layer.shadowRadius = 0.7
+        addressesContainer.layer.shadowOpacity = 0.5
+        addressesContainer.layer.shouldRasterize = true
+        addressesContainer.layer.rasterizationScale = UIScreen.mainScreen().scale
+        
+        datesContainer.layer.shadowColor = UIColor.blackColor().CGColor
+        datesContainer.layer.shadowOffset = CGSizeMake(0.0, 2.0)
+        datesContainer.layer.shadowRadius = 0.7
+        datesContainer.layer.shadowOpacity = 0.5
+        addressesContainer.layer.shouldRasterize = true
+        addressesContainer.layer.rasterizationScale = UIScreen.mainScreen().scale
+        
+        messageInstructionsContainer.layer.shadowColor = UIColor.blackColor().CGColor
+        messageInstructionsContainer.layer.shadowOffset = CGSizeMake(0.0, 2.0)
+        messageInstructionsContainer.layer.shadowRadius = 0.7
+        messageInstructionsContainer.layer.shadowOpacity = 0.5
+        messageInstructionsContainer.layer.shouldRasterize = true
+        messageInstructionsContainer.layer.rasterizationScale = UIScreen.mainScreen().scale
+        
+        bottomContainer.layer.shadowColor = UIColor.blackColor().CGColor
+        bottomContainer.layer.shadowOffset = CGSizeMake(0.0, 2.0)
+        bottomContainer.layer.shadowRadius = 0.7
+        bottomContainer.layer.shadowOpacity = 0.5
+        bottomContainer.layer.shouldRasterize = true
+        bottomContainer.layer.rasterizationScale = UIScreen.mainScreen().scale*/
+        
         instructionsTextView.layer.borderWidth = 1.0
         instructionsTextView.layer.borderColor = UIColor(white: 0.9, alpha: 1.0).CGColor
         instructionsTextView.layer.cornerRadius = 10.0
@@ -339,15 +374,6 @@ extension RequestServiceViewController: AddressHistoryDelegate {
             finalAddressTextfield.text = destinationLocationDic["address"] as String!
         }
     }
-    
-    /*func addressSelected(adress: String, forPickupLocation: Bool) {
-        println("me llego la direccion: \(adress) y la pondre en el pickup: \(forPickupLocation)")
-        if forPickupLocation {
-            pickupAddressTextfield.text = adress
-        } else {
-            finalAddressTextfield.text = adress
-        }
-    }*/
 }
 
 
