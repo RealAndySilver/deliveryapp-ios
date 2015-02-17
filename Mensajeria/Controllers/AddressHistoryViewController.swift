@@ -35,6 +35,7 @@ class AddressHistoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableFooterView = UIView(frame: CGRectZero)
         getSavedAddresses()
     }
     
@@ -81,14 +82,14 @@ extension AddressHistoryViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("AddressCell") as? UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("SavedAddressCell") as? AddressCell
         
         if indexPath.section == 0 {
-            cell!.textLabel?.text = savedAddressesArray[indexPath.row]["address"] as String!
-            cell!.detailTextLabel?.text = savedAddressesArray[indexPath.row]["dateSaved"] as String!
+            cell!.addressNameLabel.text = savedAddressesArray[indexPath.row]["address"] as String!
+            cell!.dateSavedLabel.text = savedAddressesArray[indexPath.row]["dateSaved"] as String!
         } else {
-            cell!.textLabel?.text = savedDestinationAddressesArray[indexPath.row]["address"] as String!
-            cell!.detailTextLabel?.text = savedDestinationAddressesArray[indexPath.row]["dateSaved"] as String!
+            cell!.addressNameLabel.text = savedDestinationAddressesArray[indexPath.row]["address"] as String!
+            cell!.dateSavedLabel.text = savedDestinationAddressesArray[indexPath.row]["dateSaved"] as String!
         }
         return cell!
     }
@@ -110,7 +111,7 @@ extension AddressHistoryViewController: UITableViewDelegate {
         }
         
         let addressName = selectedAddressDic["address"] as String!
-        UIAlertView(title: "", message: "Usar la dirección '\(addressName))' en: ", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Dirección de Recogida", "Dirección de Entrega").show()
+        UIAlertView(title: "", message: "Usar la dirección '\(addressName)' en: ", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Dirección de Recogida", "Dirección de Entrega").show()
     }
 }
 

@@ -10,6 +10,8 @@ import UIKit
 
 class MenuViewController: UIViewController {
     
+    @IBOutlet weak var mensajeriaLabel: UILabel!
+    
     enum SelectedMenuOption: Int {
         case SolicitarOption = 0,
         MisServiciosOption,
@@ -34,6 +36,14 @@ class MenuViewController: UIViewController {
     
     func setupUI() {
         tableView.tableFooterView = UIView(frame: CGRectZero)
+        tableView.rowHeight = 48.0
+        
+        mensajeriaLabel.layer.shadowColor = UIColor.blackColor().CGColor
+        mensajeriaLabel.layer.shadowOffset = CGSizeMake(0.0, 1.0)
+        mensajeriaLabel.layer.shadowOpacity = 0.2
+        mensajeriaLabel.layer.shadowRadius = 1.0
+        mensajeriaLabel.layer.shouldRasterize = true
+        mensajeriaLabel.layer.rasterizationScale = UIScreen.mainScreen().scale
     }
 }
 
@@ -45,45 +55,56 @@ extension MenuViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell") as UITableViewCell
-        cell.textLabel?.text = menuArray[indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell") as MenuCell
+        cell.menuItemLabel.text = menuArray[indexPath.row]
         return cell
     }
 }
 
 extension MenuViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if indexPath.row == selectedMenu {
             println("aqui estoy")
             //The selected option was the current screen, so don't replace the front view controller
             revealViewController().setFrontViewPosition(FrontViewPosition.Left, animated: true)
         
         } else {
-            selectedMenu = indexPath.row
             if indexPath.row == SelectedMenuOption.SolicitarOption.rawValue {
+                selectedMenu = indexPath.row
                 //Go to "Solicitar Servicio"
                 let requestNavController = storyboard?.instantiateViewControllerWithIdentifier("MainNavController") as UINavigationController
                 revealViewController().pushFrontViewController(requestNavController, animated: true)
             }
             
             else if indexPath.row == SelectedMenuOption.MiPerfilOption.rawValue {
+                selectedMenu = indexPath.row
                 //Go to "Mi Perfil"
                 let myProfileNavController = storyboard?.instantiateViewControllerWithIdentifier("MyProfileNavController") as UINavigationController
                 revealViewController().pushFrontViewController(myProfileNavController, animated: true)
             
             } else if indexPath.row == SelectedMenuOption.CerrarSesionOption.rawValue {
                 //Close session
-                revealViewController().dismissViewControllerAnimated(true, completion: nil)
+                UIActionSheet(title: "¿Estás segur@ de cerrar sesión?", delegate: self, cancelButtonTitle: "Cancelar", destructiveButtonTitle: "Cerrar Sesión").showInView(view)
+                //revealViewController().dismissViewControllerAnimated(true, completion: nil)
             
             } else if indexPath.row == SelectedMenuOption.MisServiciosOption.rawValue {
+                selectedMenu = indexPath.row
                 //Go to "Mis Servicios"
                 let activeServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("ActiveServicesNavController") as UINavigationController
                 revealViewController().pushFrontViewController(activeServicesNavController, animated: true)
             
             } else if indexPath.row == SelectedMenuOption.HistorialDeServiciosOptions.rawValue {
+                selectedMenu = indexPath.row
                 let finishedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("FinishedServicesNavController") as UINavigationController
                 revealViewController().pushFrontViewController(finishedServicesNavController, animated: true)
             }
         }
+    }
+}
+
+extension MenuViewController: UIActionSheetDelegate {
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        println("toque el boton \(buttonIndex)")
     }
 }

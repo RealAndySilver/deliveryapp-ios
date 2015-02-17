@@ -77,7 +77,6 @@ extension FinishedServicesViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("FinishedServiceCell") as ActiveServiceCell
-        cell.serviecNumberLabel.text = "\(indexPath.row + 1)"
         cell.pickupAdressLabel.text = finishedItems[indexPath.row].pickupObject.address
         cell.deliveryAddressLabel.text = finishedItems[indexPath.row].deliveryObject.address
         return cell

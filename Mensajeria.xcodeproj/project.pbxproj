@@ -7,15 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B1204481A93B7C8000B2020 /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1204471A93B7C8000B2020 /* AddressCell.swift */; };
+		8B12044A1A93D39B000B2020 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1204491A93D39B000B2020 /* MenuCell.swift */; };
 		8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */; };
 		8B2F05C51A856B26007C462B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C41A856B26007C462B /* User.swift */; };
 		8B31584E1A8910BF005F43E4 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31584D1A8910BF005F43E4 /* RatingView.m */; };
 		8B3158531A8915F0005F43E4 /* blueStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3158511A8915F0005F43E4 /* blueStar.png */; };
 		8B3158541A8915F0005F43E4 /* grayStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3158521A8915F0005F43E4 /* grayStar.png */; };
 		8B3158561A89201B005F43E4 /* RateDriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3158551A89201B005F43E4 /* RateDriverViewController.swift */; };
-		8B601F0F1A92577F00E7CD20 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B601F0C1A92577F00E7CD20 /* Roboto-Regular.ttf */; };
-		8B601F101A92577F00E7CD20 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B601F0D1A92577F00E7CD20 /* Roboto-Thin.ttf */; };
-		8B601F111A92577F00E7CD20 /* RobotoCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B601F0E1A92577F00E7CD20 /* RobotoCondensed-Light.ttf */; };
 		8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */; };
 		8B7C0C911A89090500470D15 /* ServiceAcceptedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */; };
 		8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */; };
@@ -68,6 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B1204471A93B7C8000B2020 /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressCell.swift; path = "Custom Cells/AddressCell.swift"; sourceTree = "<group>"; };
+		8B1204491A93D39B000B2020 /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuCell.swift; path = "Custom Cells/MenuCell.swift"; sourceTree = "<group>"; };
 		8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressHistoryViewController.swift; path = Controllers/AddressHistoryViewController.swift; sourceTree = "<group>"; };
 		8B2F05C41A856B26007C462B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		8B31584C1A8910BF005F43E4 /* RatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingView.h; sourceTree = "<group>"; };
@@ -75,9 +76,6 @@
 		8B3158511A8915F0005F43E4 /* blueStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueStar.png; sourceTree = "<group>"; };
 		8B3158521A8915F0005F43E4 /* grayStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayStar.png; sourceTree = "<group>"; };
 		8B3158551A89201B005F43E4 /* RateDriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RateDriverViewController.swift; path = Controllers/RateDriverViewController.swift; sourceTree = "<group>"; };
-		8B601F0C1A92577F00E7CD20 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		8B601F0D1A92577F00E7CD20 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
-		8B601F0E1A92577F00E7CD20 /* RobotoCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Light.ttf"; sourceTree = "<group>"; };
 		8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FindingServiceViewController.swift; path = Controllers/FindingServiceViewController.swift; sourceTree = "<group>"; };
 		8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceAcceptedViewController.swift; path = Controllers/ServiceAcceptedViewController.swift; sourceTree = "<group>"; };
 		8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfileViewController.swift; path = Controllers/MyProfileViewController.swift; sourceTree = "<group>"; };
@@ -207,6 +205,8 @@
 			isa = PBXGroup;
 			children = (
 				8BA5A80D1A8E979A00379651 /* ActiveServiceCell.swift */,
+				8B1204471A93B7C8000B2020 /* AddressCell.swift */,
+				8B1204491A93D39B000B2020 /* MenuCell.swift */,
 			);
 			name = "Custom Cells";
 			sourceTree = "<group>";
@@ -222,9 +222,6 @@
 		8BCE59371A924EF6000C0C1A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				8B601F0C1A92577F00E7CD20 /* Roboto-Regular.ttf */,
-				8B601F0D1A92577F00E7CD20 /* Roboto-Thin.ttf */,
-				8B601F0E1A92577F00E7CD20 /* RobotoCondensed-Light.ttf */,
 				8BCE59381A924EF6000C0C1A /* IntriqueScript_PersonalUse.ttf */,
 			);
 			path = Fonts;
@@ -439,14 +436,11 @@
 			files = (
 				8B3158531A8915F0005F43E4 /* blueStar.png in Resources */,
 				8BEA65AB1A82B1E100C20D5B /* Main.storyboard in Resources */,
-				8B601F0F1A92577F00E7CD20 /* Roboto-Regular.ttf in Resources */,
 				8BCE59391A924EF6000C0C1A /* IntriqueScript_PersonalUse.ttf in Resources */,
-				8B601F111A92577F00E7CD20 /* RobotoCondensed-Light.ttf in Resources */,
 				8BEA65B01A82B1E100C20D5B /* LaunchScreen.xib in Resources */,
 				8BEA65AD1A82B1E100C20D5B /* Images.xcassets in Resources */,
 				8B3158541A8915F0005F43E4 /* grayStar.png in Resources */,
 				A0AFE14E1A83EA350025CACF /* GoogleMaps.bundle in Resources */,
-				8B601F101A92577F00E7CD20 /* Roboto-Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +464,7 @@
 				8BA5A80E1A8E979A00379651 /* ActiveServiceCell.swift in Sources */,
 				A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */,
 				8BC3ED851A938A3D0009C54A /* UIColor+AppColors.swift in Sources */,
+				8B1204481A93B7C8000B2020 /* AddressCell.swift in Sources */,
 				8BEA65CB1A82C29900C20D5B /* Alamofire.swift in Sources */,
 				8B31584E1A8910BF005F43E4 /* RatingView.m in Sources */,
 				8BEA65C71A82B98500C20D5B /* LoginViewController.swift in Sources */,
@@ -487,6 +482,7 @@
 				8BCE59361A922C89000C0C1A /* FinishedServicesViewController.swift in Sources */,
 				8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */,
 				8BEA65CC1A82C29900C20D5B /* SwiftyJSON.swift in Sources */,
+				8B12044A1A93D39B000B2020 /* MenuCell.swift in Sources */,
 				8B2F05C51A856B26007C462B /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

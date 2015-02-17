@@ -108,7 +108,6 @@ extension ActiveServicesViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ActiveServiceCell") as ActiveServiceCell
-        cell.serviecNumberLabel.text = "Servicio \(indexPath.row + 1)"
         
         if indexPath.section == 0 {
             cell.deliveryAddressLabel.text = requestedItems[indexPath.row].deliveryObject.address
@@ -123,6 +122,7 @@ extension ActiveServicesViewController: UITableViewDataSource {
 
 extension ActiveServicesViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
         if indexPath.section == 0 {
             serviceAcceptedVC.deliveryItem = requestedItems[indexPath.row]

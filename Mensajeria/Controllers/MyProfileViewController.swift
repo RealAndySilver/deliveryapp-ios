@@ -10,6 +10,7 @@ import UIKit
 
 class MyProfileViewController: UIViewController {
 
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var revealButtonItem: UIBarButtonItem!
     @IBOutlet weak var phoneTextfield: UITextField!
     @IBOutlet weak var lastNameTextfield: UITextField!
@@ -23,6 +24,13 @@ class MyProfileViewController: UIViewController {
     }
     
     func setupUI() {
+        containerView.layer.shadowRadius = 1.0
+        containerView.layer.shadowOpacity = 0.3
+        containerView.layer.shadowColor = UIColor.blackColor().CGColor
+        containerView.layer.shadowOffset = CGSizeMake(0.0, 1.0)
+        containerView.layer.shouldRasterize = true
+        containerView.layer.rasterizationScale = UIScreen.mainScreen().scale
+        
         nameTextfield.text = User.sharedInstance.name
         lastNameTextfield.text = User.sharedInstance.lastName
         phoneTextfield.text = User.sharedInstance.mobilePhone

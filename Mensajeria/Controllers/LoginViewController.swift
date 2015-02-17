@@ -39,7 +39,7 @@ class LoginViewController: UIViewController {
     }
     
     func setupUI() {
-        /*mensajeriaLabel.layer.shadowColor = UIColor.blackColor().CGColor
+        mensajeriaLabel.layer.shadowColor = UIColor.blackColor().CGColor
         mensajeriaLabel.layer.shadowOpacity = 0.4
         mensajeriaLabel.layer.shadowOffset = CGSizeMake(1.0, 1.0)
         mensajeriaLabel.layer.shouldRasterize = true
@@ -50,7 +50,7 @@ class LoginViewController: UIViewController {
         enterButton.layer.shadowOpacity = 0.5
         enterButton.layer.shadowRadius = 1.0
         enterButton.layer.shouldRasterize = true
-        enterButton.layer.rasterizationScale = UIScreen.mainScreen().scale*/
+        enterButton.layer.rasterizationScale = UIScreen.mainScreen().scale
         
     }
     

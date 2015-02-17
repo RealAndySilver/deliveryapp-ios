@@ -46,9 +46,6 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>IntriqueScript_PersonalUse.ttf</string>
-		<string>Roboto-Regular.ttf</string>
-		<string>Roboto-Thin.ttf</string>
-		<string>RobotoCondensed-Light.ttf</string>
 	</array>
 </dict>
 </plist>
