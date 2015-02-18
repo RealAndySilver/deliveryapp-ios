@@ -25,8 +25,8 @@ class FinishedServicesViewController: UIViewController {
     //MARK: Custom Initialization Stuff
     
     func setupUI() {
-        tableView.rowHeight = 150.0
-        tableView.tableFooterView = UIView(frame: CGRectZero)
+        tableView.rowHeight = 143.0
+        //tableView.tableFooterView = UIView(frame: CGRectZero)
         
         //Reveal button
         if revealViewController() != nil {
@@ -34,6 +34,13 @@ class FinishedServicesViewController: UIViewController {
             revealButtonItem.action = "revealToggle:"
         }
     }
+    
+    //MARK: Actions 
+    
+    @IBAction func updateFinishedServices(sender: AnyObject) {
+        getFinishedServices()
+    }
+    
     
     //MARK: Server Connection
     
@@ -52,12 +59,14 @@ class FinishedServicesViewController: UIViewController {
                 if jsonResponse["status"].boolValue {
                     println("Respuesta true del get finished items: \(jsonResponse)")
                     let deliveryItems = jsonResponse["response"]
+                    var tempArray = [DeliveryItem]()
                     for i in 0..<deliveryItems.count {
                         let deliveryItem = DeliveryItem(deliveryItemJSON: deliveryItems[i])
                         println("delivery item parseadooo: \(deliveryItem.description)")
-                        self.finishedItems.append(deliveryItem)
-                        self.tableView.reloadData()
+                        tempArray.append(deliveryItem)
                     }
+                    self.finishedItems = tempArray
+                    self.tableView.reloadData()
                     
                 } else {
                     println("Respuesta false del get finished items: \(jsonResponse)")
@@ -80,5 +89,13 @@ extension FinishedServicesViewController: UITableViewDataSource {
         cell.pickupAdressLabel.text = finishedItems[indexPath.row].pickupObject.address
         cell.deliveryAddressLabel.text = finishedItems[indexPath.row].deliveryObject.address
         return cell
+    }
+}
+
+//MARK: UITableViewDelegate
+
+extension FinishedServicesViewController: UITableViewDelegate {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }

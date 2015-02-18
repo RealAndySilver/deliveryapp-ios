@@ -51,7 +51,6 @@ class LoginViewController: UIViewController {
         enterButton.layer.shadowRadius = 1.0
         enterButton.layer.shouldRasterize = true
         enterButton.layer.rasterizationScale = UIScreen.mainScreen().scale
-        
     }
     
     //MARK: Actions

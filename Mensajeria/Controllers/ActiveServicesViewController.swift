@@ -36,6 +36,13 @@ class ActiveServicesViewController: UIViewController {
         }
     }
     
+    //MARK: Actions
+    
+    @IBAction func updateAvailableServices(sender: AnyObject) {
+        getActiveDeliveryItems()
+    }
+    
+    
     //MARK: Server Stuff
     
     func getActiveDeliveryItems() {

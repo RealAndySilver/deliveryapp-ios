@@ -12,13 +12,13 @@ class FindingServiceViewController: UIViewController {
 
     var serviceID: String!
     var serviceRequestTimer: NSTimer!
+    @IBOutlet weak var containerView: UIView!
     
     //MARK: Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         println("id del servicio: \(serviceID)")
-        navigationItem.hidesBackButton = true
         serviceRequestTimer = NSTimer.scheduledTimerWithTimeInterval(10.0, target: self, selector: "checkServiceStatus", userInfo: nil, repeats: true)
     }
     

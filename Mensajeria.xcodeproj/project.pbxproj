@@ -15,6 +15,8 @@
 		8B3158531A8915F0005F43E4 /* blueStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3158511A8915F0005F43E4 /* blueStar.png */; };
 		8B3158541A8915F0005F43E4 /* grayStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3158521A8915F0005F43E4 /* grayStar.png */; };
 		8B3158561A89201B005F43E4 /* RateDriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3158551A89201B005F43E4 /* RateDriverViewController.swift */; };
+		8B713BC01A94E03500800798 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B713BBF1A94E03500800798 /* AppInfo.swift */; };
+		8B713BC31A95068B00800798 /* ShadowedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B713BC21A95068B00800798 /* ShadowedView.swift */; };
 		8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */; };
 		8B7C0C911A89090500470D15 /* ServiceAcceptedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */; };
 		8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */; };
@@ -76,6 +78,8 @@
 		8B3158511A8915F0005F43E4 /* blueStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueStar.png; sourceTree = "<group>"; };
 		8B3158521A8915F0005F43E4 /* grayStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayStar.png; sourceTree = "<group>"; };
 		8B3158551A89201B005F43E4 /* RateDriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RateDriverViewController.swift; path = Controllers/RateDriverViewController.swift; sourceTree = "<group>"; };
+		8B713BBF1A94E03500800798 /* AppInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppInfo.swift; path = Model/AppInfo.swift; sourceTree = "<group>"; };
+		8B713BC21A95068B00800798 /* ShadowedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShadowedView.swift; path = "Custom Views/ShadowedView.swift"; sourceTree = "<group>"; };
 		8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FindingServiceViewController.swift; path = Controllers/FindingServiceViewController.swift; sourceTree = "<group>"; };
 		8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceAcceptedViewController.swift; path = Controllers/ServiceAcceptedViewController.swift; sourceTree = "<group>"; };
 		8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfileViewController.swift; path = Controllers/MyProfileViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 			children = (
 				8B2F05C41A856B26007C462B /* User.swift */,
 				8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */,
+				8B713BBF1A94E03500800798 /* AppInfo.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -190,6 +195,14 @@
 				8B3158521A8915F0005F43E4 /* grayStar.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		8B713BC11A95065C00800798 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				8B713BC21A95068B00800798 /* ShadowedView.swift */,
+			);
+			name = "Custom Views";
 			sourceTree = "<group>";
 		};
 		8BA5A8041A8E441200379651 /* SWRevealViewController */ = {
@@ -249,6 +262,7 @@
 		8BEA65A21A82B1E000C20D5B /* Mensajeria */ = {
 			isa = PBXGroup;
 			children = (
+				8B713BC11A95065C00800798 /* Custom Views */,
 				8BC3ED831A938A170009C54A /* Extensions */,
 				8BA5A80C1A8E977900379651 /* Custom Cells */,
 				8B2F05C31A856B13007C462B /* Model */,
@@ -465,7 +479,9 @@
 				A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */,
 				8BC3ED851A938A3D0009C54A /* UIColor+AppColors.swift in Sources */,
 				8B1204481A93B7C8000B2020 /* AddressCell.swift in Sources */,
+				8B713BC31A95068B00800798 /* ShadowedView.swift in Sources */,
 				8BEA65CB1A82C29900C20D5B /* Alamofire.swift in Sources */,
+				8B713BC01A94E03500800798 /* AppInfo.swift in Sources */,
 				8B31584E1A8910BF005F43E4 /* RatingView.m in Sources */,
 				8BEA65C71A82B98500C20D5B /* LoginViewController.swift in Sources */,
 				A0AFE1481A83D31F0025CACF /* TermsConditionsViewController.swift in Sources */,

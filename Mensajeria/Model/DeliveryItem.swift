@@ -7,9 +7,8 @@
 //
 
 import UIKit
-
+//item_name
 class DeliveryItem: NSObject {
-    
     
     var status: String
     var pickupTimeString: String
@@ -33,23 +32,23 @@ class DeliveryItem: NSObject {
     }
     
     init(deliveryItemJSON: JSON) {
-        let stringToDateFormatter = NSDateFormatter()
+        /*let stringToDateFormatter = NSDateFormatter()
         stringToDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
         stringToDateFormatter.locale = NSLocale.currentLocale()
         
         let dateToStringFormatter = NSDateFormatter()
         dateToStringFormatter.dateStyle = .LongStyle
         dateToStringFormatter.timeStyle = .ShortStyle
-        dateToStringFormatter.locale = NSLocale.currentLocale()
+        dateToStringFormatter.locale = NSLocale.currentLocale()*/
         
-        if let pickupDate = stringToDateFormatter.dateFromString(deliveryItemJSON["pickup_time"].stringValue) {
-            pickupTimeString = dateToStringFormatter.stringFromDate(pickupDate)
+        if let pickupDate = AppInfo.sharedInstance.stringToDateFormatter.dateFromString(deliveryItemJSON["pickup_time"].stringValue) {
+            pickupTimeString = AppInfo.sharedInstance.dateToStringFormatter.stringFromDate(pickupDate)
         } else {
             pickupTimeString = ""
         }
         
-        if let deliveryDate = stringToDateFormatter.dateFromString(deliveryItemJSON["deadline"].stringValue) {
-            deadline = dateToStringFormatter.stringFromDate(deliveryDate)
+        if let deliveryDate = AppInfo.sharedInstance.stringToDateFormatter.dateFromString(deliveryItemJSON["deadline"].stringValue) {
+            deadline = AppInfo.sharedInstance.dateToStringFormatter.stringFromDate(deliveryDate)
         } else {
             deadline = ""
         }

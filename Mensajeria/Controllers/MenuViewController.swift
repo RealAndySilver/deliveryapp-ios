@@ -86,7 +86,6 @@ extension MenuViewController: UITableViewDelegate {
             } else if indexPath.row == SelectedMenuOption.CerrarSesionOption.rawValue {
                 //Close session
                 UIActionSheet(title: "¿Estás segur@ de cerrar sesión?", delegate: self, cancelButtonTitle: "Cancelar", destructiveButtonTitle: "Cerrar Sesión").showInView(view)
-                //revealViewController().dismissViewControllerAnimated(true, completion: nil)
             
             } else if indexPath.row == SelectedMenuOption.MisServiciosOption.rawValue {
                 selectedMenu = indexPath.row
@@ -103,8 +102,12 @@ extension MenuViewController: UITableViewDelegate {
     }
 }
 
+//MARK: UIActionSheetDelegate
+
 extension MenuViewController: UIActionSheetDelegate {
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
-        println("toque el boton \(buttonIndex)")
+        if buttonIndex == 0 {
+            revealViewController().dismissViewControllerAnimated(true, completion: nil)
+        }
     }
 }
