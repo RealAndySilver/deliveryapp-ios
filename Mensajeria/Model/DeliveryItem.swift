@@ -10,6 +10,7 @@ import UIKit
 //item_name
 class DeliveryItem: NSObject {
     
+    var name: String
     var status: String
     var pickupTimeString: String
     var priority: Int
@@ -27,7 +28,7 @@ class DeliveryItem: NSObject {
     var overallStatus: String
     var deliveryItemDescription: String {
         get {
-            return "********** Info del delivery item *************\nstatus: \(status)\npickup time: \(pickupTimeString)\npriority: \(priority)\ndelivery object: \(deliveryObject.requestObjectDescription)\nuser info: \(userInfo.userInfoDescription)\npickup object: \(pickupObject.requestObjectDescription)\ndeclared value: \(declaredValue)\nmessenger info: \(messengerInfo?.messengerInfoDescription)"
+            return "********** Info del delivery item *************\nname: \(name)\nstatus: \(status)\npickup time: \(pickupTimeString)\npriority: \(priority)\ndelivery object: \(deliveryObject.requestObjectDescription)\nuser info: \(userInfo.userInfoDescription)\npickup object: \(pickupObject.requestObjectDescription)\ndeclared value: \(declaredValue)\nmessenger info: \(messengerInfo?.messengerInfoDescription)"
         }
     }
     
@@ -53,6 +54,7 @@ class DeliveryItem: NSObject {
             deadline = ""
         }
         
+        name = deliveryItemJSON["item_name"].stringValue
         status = deliveryItemJSON["status"].stringValue
         //pickupTimeString = deliveryItemJSON["pickup_time"].stringValue
         priority = deliveryItemJSON["priority"].intValue

@@ -18,6 +18,7 @@ class RequestServiceViewController: UIViewController {
     
     var pickupDatePicker: UIDatePicker!
     var deliveryDatePicker: UIDatePicker!
+    @IBOutlet weak var serviceNameTextfield: UITextField!
     @IBOutlet weak var deliveryDayHourTextfield: UITextField!
     @IBOutlet weak var pickupAddressTextfield: UITextField!
     @IBOutlet weak var finalAddressTextfield: UITextField!
@@ -124,8 +125,8 @@ class RequestServiceViewController: UIViewController {
     
     func sendServiceRequestToServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
-        println("")
-        Alamofire.manager.request(.POST, Alamofire.requestMensajeroServiceURL, parameters: ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "deadline" : deliveryDatePicker.date, "declared_value" : shipmentValueTextfield.text, "price_to_pay" : 25000, "pickup_time" : pickupDatePicker.date], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) in
+        println("name: \(serviceNameTextfield.text)")
+        Alamofire.manager.request(.POST, Alamofire.requestMensajeroServiceURL, parameters: ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "deadline" : deliveryDatePicker.date, "declared_value" : shipmentValueTextfield.text, "price_to_pay" : 25000, "pickup_time" : pickupDatePicker.date, "item_name" : serviceNameTextfield.text], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) in
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if error != nil {
                 //There was an error
@@ -154,11 +155,20 @@ class RequestServiceViewController: UIViewController {
     //MARK: Form Validation
     
     func formIsCorrect() -> Bool {
+        var serviceNameIsCorrect = false
         var pickupAddressIsCorrect = false
         var finalAddressIsCorrect = false
         var dayAndHourIsCorrect = false
         var instructionsAreCorrect = false
         var deliveryDayHourIsCorrect = false
+        
+        if countElements(serviceNameTextfield.text) > 0 {
+            serviceNameIsCorrect = true
+            serviceNameTextfield.layer.borderWidth = 0.0
+        } else {
+            serviceNameTextfield.layer.borderColor = UIColor.redColor().CGColor
+            serviceNameTextfield.layer.borderWidth = 1.0
+        }
     
         if countElements(pickupAddressTextfield.text) > 0 {
             pickupAddressIsCorrect = true
@@ -199,7 +209,7 @@ class RequestServiceViewController: UIViewController {
             instructionsTextView.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        return pickupAddressIsCorrect && finalAddressIsCorrect && dayAndHourIsCorrect && instructionsAreCorrect && deliveryDayHourIsCorrect ? true : false
+        return serviceNameIsCorrect && pickupAddressIsCorrect && finalAddressIsCorrect && dayAndHourIsCorrect && instructionsAreCorrect && deliveryDayHourIsCorrect ? true : false
     }
     
     //MARK: Navigation

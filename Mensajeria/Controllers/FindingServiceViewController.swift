@@ -11,8 +11,10 @@ import UIKit
 class FindingServiceViewController: UIViewController {
 
     var serviceID: String!
+    let loadingView = MONActivityIndicatorView()
     var serviceRequestTimer: NSTimer!
     @IBOutlet weak var containerView: UIView!
+    var firstTimeViewAppeared = true
     
     //MARK: Life cycle
     
@@ -22,9 +24,30 @@ class FindingServiceViewController: UIViewController {
         serviceRequestTimer = NSTimer.scheduledTimerWithTimeInterval(10.0, target: self, selector: "checkServiceStatus", userInfo: nil, repeats: true)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if firstTimeViewAppeared {
+            setupUI()
+            firstTimeViewAppeared = false
+        }
+    }
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         serviceRequestTimer.invalidate()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        loadingView.stopAnimating()
+    }
+    
+    func setupUI() {
+        //Setup searching indicator view
+        loadingView.delegate = self
+        containerView.addSubview(loadingView)
+        loadingView.startAnimating()
+        loadingView.center = CGPoint(x: containerView.bounds.size.width/2.0, y: containerView.bounds.size.height - 90.0)
     }
     
     //MARK: Actions
@@ -103,6 +126,16 @@ class FindingServiceViewController: UIViewController {
         navigationController?.pushViewController(serviceAcceptedVC, animated: true)
     }
 }
+
+//MARK: MONActivityViewDelegate
+
+extension FindingServiceViewController: MONActivityIndicatorViewDelegate {
+    func activityIndicatorView(activityIndicatorView: MONActivityIndicatorView!, circleBackgroundColorAtIndex index: UInt) -> UIColor! {
+        return UIColor.getPrimaryAppColor()
+    }
+}
+
+//MARK: UIActionSheetDelegate
 
 extension FindingServiceViewController: UIActionSheetDelegate {
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {

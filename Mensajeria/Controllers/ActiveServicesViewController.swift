@@ -16,17 +16,16 @@ class ActiveServicesViewController: UIViewController {
     var requestedItems = [DeliveryItem]()
     var acceptedItems = [DeliveryItem]()
     
+    //MARK: Life cycle
+    
     override func viewDidLoad() {
-        
-        //MARK: Life cycle
-        
         super.viewDidLoad()
         setupUI()
         getActiveDeliveryItems()
     }
     
     func setupUI() {
-        tableView.rowHeight = 150.0
+        tableView.rowHeight = 185.0
         tableView.tableFooterView = UIView(frame: CGRectZero)
         
         //Reveal button
@@ -117,9 +116,11 @@ extension ActiveServicesViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("ActiveServiceCell") as ActiveServiceCell
         
         if indexPath.section == 0 {
+            cell.serviceNameLabel.text = requestedItems[indexPath.row].name
             cell.deliveryAddressLabel.text = requestedItems[indexPath.row].deliveryObject.address
             cell.pickupAdressLabel.text = requestedItems[indexPath.row].pickupObject.address
         } else {
+            cell.serviceNameLabel.text = acceptedItems[indexPath.row].name
             cell.deliveryAddressLabel.text = acceptedItems[indexPath.row].deliveryObject.address
             cell.pickupAdressLabel.text = acceptedItems[indexPath.row].pickupObject.address
         }

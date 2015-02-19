@@ -24,7 +24,7 @@ class MenuViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var selectedMenu = 0
-    let menuArray = ["Solicitar Servicio", "Mis Servicios Activos", "Mi Perfil", "Mis Favoritos", "Historial de Servicios", "Términos y Condiciones", "Cerrar Sesión"]
+    let menuArray = ["Solicitar Servicio", "Mis Servicios Activos", "Mi Perfil", "Mis Favoritos", "Servicios Terminados", "Términos y Condiciones", "Cerrar Sesión"]
     
     //MARK: View life cycle
     
@@ -107,6 +107,11 @@ extension MenuViewController: UITableViewDelegate {
 extension MenuViewController: UIActionSheetDelegate {
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 0 {
+            //Cerrar sesión alert 
+            //Erase user object from NSUserDefaults
+            NSUserDefaults.standardUserDefaults().removeObjectForKey("UserInfo")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
             revealViewController().dismissViewControllerAnimated(true, completion: nil)
         }
     }

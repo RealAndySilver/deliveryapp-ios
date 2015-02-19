@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B0D80D01A961ACC0058A6F4 /* MONActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0D80CF1A961ACC0058A6F4 /* MONActivityIndicatorView.m */; };
+		8B0D80D21A964E950058A6F4 /* ShadowedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0D80D11A964E950058A6F4 /* ShadowedButton.swift */; };
 		8B1204481A93B7C8000B2020 /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1204471A93B7C8000B2020 /* AddressCell.swift */; };
 		8B12044A1A93D39B000B2020 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1204491A93D39B000B2020 /* MenuCell.swift */; };
 		8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */; };
@@ -69,6 +71,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B0D80CE1A961ACC0058A6F4 /* MONActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MONActivityIndicatorView.h; sourceTree = "<group>"; };
+		8B0D80CF1A961ACC0058A6F4 /* MONActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MONActivityIndicatorView.m; sourceTree = "<group>"; };
+		8B0D80D11A964E950058A6F4 /* ShadowedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShadowedButton.swift; path = "Custom Views/ShadowedButton.swift"; sourceTree = "<group>"; };
 		8B1204471A93B7C8000B2020 /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressCell.swift; path = "Custom Cells/AddressCell.swift"; sourceTree = "<group>"; };
 		8B1204491A93D39B000B2020 /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuCell.swift; path = "Custom Cells/MenuCell.swift"; sourceTree = "<group>"; };
 		8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressHistoryViewController.swift; path = Controllers/AddressHistoryViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +165,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B0D80CD1A961ACC0058A6F4 /* MONActivityIndicatorView */ = {
+			isa = PBXGroup;
+			children = (
+				8B0D80CE1A961ACC0058A6F4 /* MONActivityIndicatorView.h */,
+				8B0D80CF1A961ACC0058A6F4 /* MONActivityIndicatorView.m */,
+			);
+			path = MONActivityIndicatorView;
+			sourceTree = "<group>";
+		};
 		8B2F05C31A856B13007C462B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				8B713BC21A95068B00800798 /* ShadowedView.swift */,
+				8B0D80D11A964E950058A6F4 /* ShadowedButton.swift */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -328,6 +343,7 @@
 		8BEA65C81A82C29900C20D5B /* Librerias */ = {
 			isa = PBXGroup;
 			children = (
+				8B0D80CD1A961ACC0058A6F4 /* MONActivityIndicatorView */,
 				8BA5A8041A8E441200379651 /* SWRevealViewController */,
 				8B31584B1A8910BF005F43E4 /* RatingView */,
 				8BEA65CD1A82C6EB00C20D5B /* MBProgressHUD */,
@@ -472,8 +488,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B0D80D21A964E950058A6F4 /* ShadowedButton.swift in Sources */,
 				8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */,
 				8BA5A8071A8E441200379651 /* SWRevealViewController.m in Sources */,
+				8B0D80D01A961ACC0058A6F4 /* MONActivityIndicatorView.m in Sources */,
 				8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */,
 				8BA5A80E1A8E979A00379651 /* ActiveServiceCell.swift in Sources */,
 				A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */,

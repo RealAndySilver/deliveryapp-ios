@@ -108,6 +108,7 @@ class CreateAccountViewController: UIViewController {
                     println("Respuesta true del create: \(jsonResponse)")
                     //Show confirmation email alert
                     UIAlertView(title: "", message: "Tu usuario se ha creado exitosamente. Por favor confirma tu cuenta desde el correo que se te ha enviado.", delegate: nil, cancelButtonTitle: "Ok").show()
+                    self.dismissViewControllerAnimated(true, completion: nil)
                 } else {
                     println("Respuesta false del create: \(jsonResponse)")
                 }

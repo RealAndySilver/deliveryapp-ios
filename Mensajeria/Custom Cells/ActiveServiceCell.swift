@@ -10,6 +10,7 @@ import UIKit
 
 class ActiveServiceCell: UITableViewCell {
 
+    @IBOutlet weak var serviceNameLabel: UILabel!
     @IBOutlet weak var pickupAdressLabel: UILabel!
     @IBOutlet weak var deliveryAddressLabel: UILabel!
     

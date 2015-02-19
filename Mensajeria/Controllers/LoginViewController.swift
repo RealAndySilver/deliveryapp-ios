@@ -33,6 +33,22 @@ class LoginViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        checkIfUserIsLoggedIn()
+    }
+    
+    func checkIfUserIsLoggedIn() {
+        if let userObject = NSUserDefaults.standardUserDefaults().objectForKey("UserInfo") as? [String : String] {
+            //Save user object in our user singleton
+            User.sharedInstance.updateUserWithJSON(JSON(userObject))
+            
+            //The user object exists, so go to the main screen (but with a delay of 2 seconds)
+            MBProgressHUD.showHUDAddedTo(view, animated: true)
+            let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "goToRequestServiceVC", userInfo: nil, repeats: false)
+        }
+    }
+    
     func setupNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide", name: UIKeyboardWillHideNotification, object: nil)
@@ -121,6 +137,7 @@ class LoginViewController: UIViewController {
     //MARK: Navigation 
     
     func goToRequestServiceVC() {
+        MBProgressHUD.hideAllHUDsForView(view, animated: true)
         println("entre al gotorequestttt")
         let revealViewController = storyboard?.instantiateViewControllerWithIdentifier("revealViewController") as SWRevealViewController
         presentViewController(revealViewController, animated: true, completion: nil)

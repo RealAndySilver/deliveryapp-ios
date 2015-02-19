@@ -17,7 +17,7 @@ class User: NSObject {
     var device = []
     var userDescription: String {
         get {
-            return "Name: \(name), Identifier: \(identifier), last name: \(lastName), email confirmation: \(emailConfirmation), email: \(email)"
+            return "Name: \(name), Identifier: \(identifier), last name: \(lastName), email confirmation: \(emailConfirmation), email: \(email), mobilephone: \(mobilePhone)"
         }
     }
     var userDictionary: [String : AnyObject] {
@@ -38,7 +38,7 @@ class User: NSObject {
         precondition(userJSON["_id"].string != nil, "user id is nil!!!")
         precondition(userJSON["email"].string != nil, "user email is nil")
         precondition(userJSON["lastname"].string != nil, "User lastname is nil!!!")
-        precondition(userJSON["mobilephone"].int != nil, "El mobile phone está en nill!!!")
+        //precondition(userJSON["mobilephone"].int != nil, "El mobile phone está en nill!!!")
         identifier = userJSON["_id"].stringValue
         name = userJSON["name"].stringValue
         email = userJSON["email"].stringValue
@@ -47,5 +47,9 @@ class User: NSObject {
         mobilePhone = userJSON["mobilephone"].stringValue
         //favorites = userJSON["favorites"].rawValue as []
         println(userDescription)
+        
+        //Save user info in NSUserDefaults 
+        NSUserDefaults.standardUserDefaults().setObject(["name" : name, "_id" : identifier, "email" : email, "lastname" : lastName, "mobilephone" : mobilePhone], forKey: "UserInfo")
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
 }

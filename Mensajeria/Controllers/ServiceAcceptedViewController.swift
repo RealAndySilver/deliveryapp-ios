@@ -17,6 +17,7 @@ class ServiceAcceptedViewController: UIViewController {
     var deliveryItem: DeliveryItem!
     var presentedFromFindingServiceVC: Bool!
     
+    @IBOutlet weak var serviceNameLabel: UILabel!
     @IBOutlet weak var serviceStatusLabel: UILabel!
     @IBOutlet weak var driverContainerView: UIView!
     @IBOutlet var buttonsCollection: [UIButton]!
@@ -55,11 +56,14 @@ class ServiceAcceptedViewController: UIViewController {
     func fillUIWithDeliveryItemInfo() {
         ////////////////////////////////////////////////////////////////////////
         //Set service info in the UI
+        serviceNameLabel.text = deliveryItem.name
         pickupLabel.text = deliveryItem.pickupObject.address
         deliveryLabel.text = deliveryItem.deliveryObject.address
         shipmentDayLabel.text = deliveryItem.pickupTimeString
         costLabel.text = "$\(deliveryItem.declaredValue)"
-        nameLabel.text = deliveryItem.messengerInfo?.name
+        if let theMessengerInfo = deliveryItem.messengerInfo {
+            nameLabel.text = "\(theMessengerInfo.name) \(theMessengerInfo.lastName)"
+        }
         if let theCellPhone = deliveryItem.messengerInfo?.mobilePhone {
             cellphoneButton.setTitle("Celular: \(theCellPhone)", forState: .Normal)
         }
@@ -133,6 +137,12 @@ class ServiceAcceptedViewController: UIViewController {
                 if jsonResponse["status"].boolValue {
                     self.deliveryItem = DeliveryItem(deliveryItemJSON: JSON(jsonResponse["response"].object))
                     self.fillUIWithDeliveryItemInfo()
+                    if self.deliveryItem.overallStatus == "finished" {
+                        let serviceFinishedAlert = UIAlertView(title: "Servicio Completado", message: "Tu servicio se ha realizado de forma exitosa. Puedes acceder a todos tus servicios finalizados desde el menú 'Servicios Terminados'", delegate: self, cancelButtonTitle: "Ok!")
+                        serviceFinishedAlert.tag = 2
+                        serviceFinishedAlert.show()
+                    }
+                    
                 } else {
                     
                 }
@@ -147,11 +157,21 @@ class ServiceAcceptedViewController: UIViewController {
     
     @IBAction func cellphoneButtonPressed() {
         //Show an alert to choose between calling the messenger or send a message
-        UIAlertView(title: "", message: "¿Que deseas hacer?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Llamar al mensajero", "Enviar mensaje de texto").show()
+        let callMessengerAlert = UIAlertView(title: "", message: "¿Que deseas hacer?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Llamar al mensajero", "Enviar mensaje de texto")
+        callMessengerAlert.tag = 1
+        callMessengerAlert.show()
     }
     
     @IBAction func cancelServicePressed() {
         cancelServiceInServer()
+    }
+    
+    //MARK: Navigation
+    
+    func goToRateMessengerVC() {
+        let rateMessengerVC = storyboard?.instantiateViewControllerWithIdentifier("RateDriver") as RateDriverViewController
+        rateMessengerVC.messenger = deliveryItem.messengerInfo!
+        navigationController?.pushViewController(rateMessengerVC, animated: true)
     }
     
     //MARK: Server Stuff
@@ -184,24 +204,31 @@ class ServiceAcceptedViewController: UIViewController {
 
 extension ServiceAcceptedViewController: UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        println(buttonIndex)
-        if buttonIndex == 1 {
-            //Call the messenger
-            let cellPhone = deliveryItem.messengerInfo?.mobilePhone
-            let url = NSURL(string: "tel://\(cellPhone!)")
-            if let theURL = url {
-                UIApplication.sharedApplication().openURL(theURL)
-            } else {
-                println("La url está en nillllll")
+        if alertView.tag == 1 {
+            //Call messenger tag
+            println(buttonIndex)
+            if buttonIndex == 1 {
+                //Call the messenger
+                let cellPhone = deliveryItem.messengerInfo?.mobilePhone
+                let url = NSURL(string: "tel://\(cellPhone!)")
+                if let theURL = url {
+                    UIApplication.sharedApplication().openURL(theURL)
+                } else {
+                    println("La url está en nillllll")
+                }
+                
+            } else if buttonIndex == 2 {
+                //Send SMS
+                let messageVC = MFMessageComposeViewController()
+                let cellPhone = deliveryItem.messengerInfo?.mobilePhone
+                messageVC.recipients = [cellPhone!]
+                messageVC.messageComposeDelegate = self
+                presentViewController(messageVC, animated: true, completion: nil)
             }
         
-        } else if buttonIndex == 2 {
-            //Send SMS
-            let messageVC = MFMessageComposeViewController()
-            let cellPhone = deliveryItem.messengerInfo?.mobilePhone
-            messageVC.recipients = [cellPhone!]
-            messageVC.messageComposeDelegate = self
-            presentViewController(messageVC, animated: true, completion: nil)
+        } else if alertView.tag == 2 {
+            //Service finished alert 
+            goToRateMessengerVC()
         }
     }
 }
