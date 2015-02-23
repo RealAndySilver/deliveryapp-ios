@@ -45,7 +45,15 @@ class ForgotPasswordViewController: UIViewController {
             } else {
                 //Successfull service request
                 let jsonResponse = JSON(json!)
-                println(jsonResponse)
+                if jsonResponse["status"].boolValue {
+                    println("respuesta true del recover: \(jsonResponse)")
+                    UIAlertView(title: "", message: "Se te ha enviado un correo electrónico con las instrucciones para reestablecer tu contraseña", delegate: nil, cancelButtonTitle: "Ok").show()
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    
+                } else {
+                    println("respuesta false del recover: \(jsonResponse)")
+                    UIAlertView(title: "Oops!", message: "Ocurrió un error al enviar el correo electrónico. Asegúrate de que el email es correcto", delegate: nil, cancelButtonTitle: "Ok").show()
+                }
             }
         }
     }

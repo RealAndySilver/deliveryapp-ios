@@ -8,6 +8,7 @@
 
 import UIKit
 //item_name
+//GetPrice/lat,lon/lat,lon
 class DeliveryItem: NSObject {
     
     var name: String

@@ -16,6 +16,7 @@ class RequestServiceViewController: UIViewController {
         case pickupTextfield = 1, finalTextfield, dayHourTextfield, shipmentValueTextfield
     }
     
+    @IBOutlet weak var servicePriceLabel: UILabel!
     var pickupDatePicker: UIDatePicker!
     var deliveryDatePicker: UIDatePicker!
     @IBOutlet weak var serviceNameTextfield: UITextField!
@@ -123,11 +124,45 @@ class RequestServiceViewController: UIViewController {
     
     //MARK: Server Stuff
     
+    func getServicePrice() {
+        if pickupLocationDic["lat"] != nil && pickupLocationDic["lon"] != nil && destinationLocationDic["lat"] != nil && destinationLocationDic["lon"] != nil {
+            let pickupLatitude = pickupLocationDic["lat"] as CLLocationDegrees
+            let pickupLongitude = pickupLocationDic["lon"] as CLLocationDegrees
+            let deliveryLatitude = destinationLocationDic["lat"] as CLLocationDegrees
+            let deliveryLongitude = destinationLocationDic["lon"] as CLLocationDegrees
+            println("url del request: \(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)")
+            
+            Alamofire.manager.request(.GET, "\(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)").responseJSON({ (request, response, json, error) in
+                if error != nil {
+                    println("Hubo un erorr en el get price: \(error?.localizedDescription)")
+                    self.servicePriceLabel.text = "COP $0"
+
+                } else {
+                    //Success
+                    let jsonResponse = JSON(json!)
+                    if jsonResponse["status"].boolValue {
+                        println("Llego en true el get prices: \(jsonResponse)")
+                        //Update price label 
+                        let servicePrice = jsonResponse["value"].intValue
+                        self.servicePriceLabel.text = "COP $\(servicePrice)"
+                        
+                    } else {
+                        println("Llego en false el get prices: \(jsonResponse)")
+                        self.servicePriceLabel.text = "COP $0"
+                    }
+                }
+            })
+            
+        } else {
+            println("Algun campo esta en nil, asi que no llamaré al get prices")
+        }
+    }
+    
     func sendServiceRequestToServer() {
-        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         println("name: \(serviceNameTextfield.text)")
         Alamofire.manager.request(.POST, Alamofire.requestMensajeroServiceURL, parameters: ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "deadline" : deliveryDatePicker.date, "declared_value" : shipmentValueTextfield.text, "price_to_pay" : 25000, "pickup_time" : pickupDatePicker.date, "item_name" : serviceNameTextfield.text], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) in
-            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
                 //There was an error
                 println("Hubo error en el request: \(error?.localizedDescription)")
@@ -249,6 +284,8 @@ class RequestServiceViewController: UIViewController {
             //Update our destination location dic
             destinationLocationDic = ["lat" : location.latitude, "lon" : location.longitude, "address" : address]
         }
+        
+        getServicePrice()
     }
     
     //MARK: Data Saving 
@@ -350,6 +387,7 @@ extension RequestServiceViewController: AddressHistoryDelegate {
             destinationLocationDic = adressDic
             finalAddressTextfield.text = destinationLocationDic["address"] as String!
         }
+        getServicePrice()
     }
 }
 

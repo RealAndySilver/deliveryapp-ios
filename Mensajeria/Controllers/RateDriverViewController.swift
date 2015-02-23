@@ -12,6 +12,7 @@ class RateDriverViewController: UIViewController {
     
     //Public Interace
     var messenger: MessengerInfo!
+    var deliveryItemID: String!
     
     @IBOutlet weak var commentsTextView: UITextView!
     @IBOutlet weak var rateNumberLabel: UILabel!
@@ -48,8 +49,33 @@ class RateDriverViewController: UIViewController {
     //MARK: Actions 
     
     @IBAction func rateButtonPressed() {
-        UIAlertView(title: "", message: "Mensajero calificado de forma exitosa!", delegate: nil, cancelButtonTitle: "Ok").show()
-        navigationController?.popToRootViewControllerAnimated(true)
+        //UIAlertView(title: "", message: "Mensajero calificado de forma exitosa!", delegate: nil, cancelButtonTitle: "Ok").show()
+        //navigationController?.popToRootViewControllerAnimated(true)
+        sendMessengerRating()
+    }
+    
+    //MARK: Server stuff
+
+    func sendMessengerRating() {
+        MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
+        Alamofire.manager.request(.PUT, "\(Alamofire.rateMessengerServiceURL)/\(deliveryItemID)", parameters: ["user_id" : User.sharedInstance.identifier, "rating" : rateView.value, "review" : commentsTextView.text]).responseJSON { (request, response, json, error) -> Void in
+            MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
+            if error != nil {
+                println("error en la peticion: \(error?.localizedDescription)")
+                UIAlertView(title: "Oops!", message: "Ocurrió un error el intentar calificar al mensajero. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+            } else {
+                //Success
+                let jsonResponse = JSON(json!)
+                if jsonResponse["status"].boolValue {
+                    println("Respuesta true del rate: \(jsonResponse)")
+                    UIAlertView(title: "", message: "Mensajero calificado de forma exitosa!", delegate: nil, cancelButtonTitle: "Ok").show()
+                    self.navigationController?.popToRootViewControllerAnimated(true)
+                } else {
+                    println("respuesta false del rate: \(jsonResponse)")
+                    UIAlertView(title: "Oops!", message: "Ocurrió un problema al calificar el mensajero. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+                }
+            }
+        }
     }
 }
 

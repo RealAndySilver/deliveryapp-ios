@@ -36,6 +36,9 @@ struct Alamofire {
     static let cancelRequestServiceURL = "\(currentEndPoint)/DeliveryItem/Delete"
     static let activeItemsServiceURL = "\(currentEndPoint)/DeliveryItem/UserActive"
     static let finishedItemsServiceURL = "\(currentEndPoint)/DeliveryItem/UserFinished"
+    static let GetDeliveryPriceServiceURL = "\(currentEndPoint)/GetPrice"
+    static let rateMessengerServiceURL = "\(currentEndPoint)/DeliveryItem/Rate"
+    static let changePasswordServiceURL = "\(currentEndPoint)/User/Password"
 }
 
 /// Alamofire errors

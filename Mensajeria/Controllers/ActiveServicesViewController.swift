@@ -45,9 +45,9 @@ class ActiveServicesViewController: UIViewController {
     //MARK: Server Stuff
     
     func getActiveDeliveryItems() {
-        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         Alamofire.manager.request(.GET, "\(Alamofire.activeItemsServiceURL)/\(User.sharedInstance.identifier)").responseJSON { (request, response, json, error) in
-            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
                 println("Error en el get active services: \(error?.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al acceder a los servicios activos. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
@@ -128,6 +128,8 @@ extension ActiveServicesViewController: UITableViewDataSource {
     }
 }
 
+//MARK: UITableViewDelegate
+
 extension ActiveServicesViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -138,6 +140,16 @@ extension ActiveServicesViewController: UITableViewDelegate {
             serviceAcceptedVC.deliveryItem = acceptedItems[indexPath.row]
         }
         serviceAcceptedVC.presentedFromFindingServiceVC = false
+        serviceAcceptedVC.delegate = self
         navigationController?.pushViewController(serviceAcceptedVC, animated: true)
+    }
+}
+
+//MARK: ServiceAcceptedDelegate
+
+extension ActiveServicesViewController: ServiceAcceptedDelegate {
+    func serviceUpdated() {
+        //Update our services
+        getActiveDeliveryItems()
     }
 }

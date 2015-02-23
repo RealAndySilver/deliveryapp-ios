@@ -47,9 +47,9 @@ class MyProfileViewController: UIViewController {
     //MARK: Server Stuff 
     
     func updateUserInServer() {
-        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         Alamofire.manager.request(.PUT, "\(Alamofire.updateUserServiceURL)/\(User.sharedInstance.identifier)", parameters: ["name" : nameTextfield.text, "lastname" : lastNameTextfield.text, "mobilephone" : phoneTextfield.text], encoding: .URL).responseJSON { (request, response, json, error) in
-            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
                 //Error
                 println("Error en el update user: \(error?.localizedDescription)")
@@ -78,5 +78,14 @@ class MyProfileViewController: UIViewController {
             return true
         }
         return false
+    }
+}
+
+//MARK: UITextfieldDelegate
+
+extension MyProfileViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

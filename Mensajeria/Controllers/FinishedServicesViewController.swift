@@ -45,10 +45,10 @@ class FinishedServicesViewController: UIViewController {
     //MARK: Server Connection
     
     func getFinishedServices() {
-        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         Alamofire.manager.request(.GET, "\(Alamofire.finishedItemsServiceURL)/\(User.sharedInstance.identifier)").responseJSON { (request, response, json, error) in
             
-            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
                 //There was an error 
                 println("Error en el get finished items: \(error?.localizedDescription)")

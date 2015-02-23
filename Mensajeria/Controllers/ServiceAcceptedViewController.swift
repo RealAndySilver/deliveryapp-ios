@@ -9,14 +9,22 @@
 import UIKit
 import MessageUI
 
+protocol ServiceAcceptedDelegate {
+    func serviceUpdated()
+}
+
 class ServiceAcceptedViewController: UIViewController {
     @IBOutlet weak var driverInfoTopContainer: ShadowedView!
-    var noDriverLabel: UILabel!
 
     //Public Interface
     var deliveryItem: DeliveryItem!
     var presentedFromFindingServiceVC: Bool!
     
+    //////////////////////////////////////////////////////
+    var delegate: ServiceAcceptedDelegate?
+    var loadingView = MONActivityIndicatorView()
+    
+    var noDriverLabel: UILabel!
     @IBOutlet weak var serviceNameLabel: UILabel!
     @IBOutlet weak var serviceStatusLabel: UILabel!
     @IBOutlet weak var driverContainerView: UIView!
@@ -89,9 +97,14 @@ class ServiceAcceptedViewController: UIViewController {
         if deliveryItem.overallStatus == "requested" {
             driverContainerView.hidden = true
             noDriverLabel.hidden = false
+            loadingView.hidden = false
+            loadingView.startAnimating()
+            
         } else {
             driverContainerView.hidden = false
             noDriverLabel.hidden = true
+            loadingView.hidden = true
+            loadingView.stopAnimating()
         }
     }
     
@@ -108,33 +121,41 @@ class ServiceAcceptedViewController: UIViewController {
         
         //////////////////////////////////////////////////////////////////////
         //Create RatingView
-        let ratingView = RatingView(frame: CGRect(x: photoImageView.frame.origin.x + photoImageView.frame.size.width + 10.0, y: photoImageView.frame.origin.y + photoImageView.frame.size.height - 20.0, width: photoImageView.frame.size.width, height: 20.0), selectedImageName: "blueStar.png", unSelectedImage: "grayStar.png", minValue: 0, maxValue: 5, intervalValue: 0.5, stepByStep: false)
+        /*let ratingView = RatingView(frame: CGRect(x: photoImageView.frame.origin.x + photoImageView.frame.size.width + 10.0, y: photoImageView.frame.origin.y + photoImageView.frame.size.height - 20.0, width: photoImageView.frame.size.width, height: 20.0), selectedImageName: "blueStar.png", unSelectedImage: "grayStar.png", minValue: 0, maxValue: 5, intervalValue: 0.5, stepByStep: false)
         ratingView.userInteractionEnabled = false
-        driverContainerView.addSubview(ratingView)
+        driverContainerView.addSubview(ratingView)*/
         
         /////////////////////////////////////////////////////////////////////
         //Create "No hay mensajero asignado aún" label
-        noDriverLabel = UILabel(frame: CGRect(x: 35.0, y: 20.0, width: view.bounds.size.width - 100.0, height: driverInfoTopContainer.frame.size.height - 40.0))
-        noDriverLabel.text = "NO HAY MENSAJERO ASIGNADO A TU SERVICIO AÚN"
+        noDriverLabel = UILabel(frame: CGRect(x: 35.0, y: 0.0, width: view.bounds.size.width - 100.0, height: driverInfoTopContainer.frame.size.height - 40.0))
+        noDriverLabel.text = "BUSCANDO MENSAJERO"
         noDriverLabel.font = UIFont.boldSystemFontOfSize(15.0)
         noDriverLabel.numberOfLines = 0
         noDriverLabel.textAlignment = .Center
         noDriverLabel.textColor = UIColor.lightGrayColor()
         driverInfoTopContainer.addSubview(noDriverLabel)
+        
+        //Setup searching indicator view
+        loadingView.delegate = self
+        driverInfoTopContainer.addSubview(loadingView)
+        loadingView.center = CGPoint(x: noDriverLabel.center.x, y: noDriverLabel.center.y + 30.0)
     }
     
     //MARK: Actions
     
     @IBAction func updateDeliveryItem(sender: AnyObject) {
-        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/\(deliveryItem.identifier)").responseJSON { (request, response, json, error) -> Void in
-            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             
             if error != nil {
                 
             } else {
                 let jsonResponse = JSON(json!)
                 if jsonResponse["status"].boolValue {
+                    //Call our delegate
+                    self.delegate?.serviceUpdated()
+                    
                     self.deliveryItem = DeliveryItem(deliveryItemJSON: JSON(jsonResponse["response"].object))
                     self.fillUIWithDeliveryItemInfo()
                     if self.deliveryItem.overallStatus == "finished" {
@@ -171,6 +192,7 @@ class ServiceAcceptedViewController: UIViewController {
     func goToRateMessengerVC() {
         let rateMessengerVC = storyboard?.instantiateViewControllerWithIdentifier("RateDriver") as RateDriverViewController
         rateMessengerVC.messenger = deliveryItem.messengerInfo!
+        rateMessengerVC.deliveryItemID = deliveryItem.identifier
         navigationController?.pushViewController(rateMessengerVC, animated: true)
     }
     
@@ -233,6 +255,8 @@ extension ServiceAcceptedViewController: UIAlertViewDelegate {
     }
 }
 
+//MARK: MFMessageComposeViewController
+
 extension ServiceAcceptedViewController: MFMessageComposeViewControllerDelegate {
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
         switch (result.value) {
@@ -251,5 +275,13 @@ extension ServiceAcceptedViewController: MFMessageComposeViewControllerDelegate 
             default:
                 break;
         }
+    }
+}
+
+//MARK: MONActivityViewDelegate
+
+extension ServiceAcceptedViewController: MONActivityIndicatorViewDelegate {
+    func activityIndicatorView(activityIndicatorView: MONActivityIndicatorView!, circleBackgroundColorAtIndex index: UInt) -> UIColor! {
+        return UIColor.getPrimaryAppColor()
     }
 }

@@ -48,6 +48,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
+        println("Entre al handle url")
+        if url.absoluteString?.lowercaseString.rangeOfString("password_redirect") != nil {
+            let urlString = url.absoluteString
+            let parametersDic = Utils.URLQueryParameters(url)
+            let token = parametersDic["token"] as String
+            let userType = parametersDic["type"] as String
+            let requestType = parametersDic["request"] as String
+            println("token: \(token)")
+            println("user type: \(userType)")
+            println("request type: \(requestType)")
+            
+            if requestType == "new_password" {
+                NSUserDefaults.standardUserDefaults().setObject(token, forKey: "token")
+                NSUserDefaults.standardUserDefaults().setObject(userType, forKey: "userType")
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+                //Show the password view after a little delay of 1 second
+                let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(1.0 * Double(NSEC_PER_SEC)))
+                dispatch_after(dispatchTime, dispatch_get_main_queue(), { () -> Void in
+                    self.showPasswordView()
+                })
+            }
+            
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func showPasswordView() {
+        
+    }
 }
 
