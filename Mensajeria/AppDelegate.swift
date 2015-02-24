@@ -79,7 +79,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func showPasswordView() {
-        
+        let passwordView = PasswordView(frame: CGRectMake(window!.bounds.size.width/2.0 - 140.0, window!.bounds.size.height/2.0 - 147.0, 280.0, 194.0))
+        passwordView.showInWindow(window!)
     }
 }
 

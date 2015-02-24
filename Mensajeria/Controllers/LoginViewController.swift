@@ -36,10 +36,6 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         checkIfUserIsLoggedIn()
-        
-        //Pruebaaaaaaaaaa
-        //let passView = PasswordView(frame: CGRect(x: 0.0, y: 0.0, width: 200.0, height: 400.0))
-        //view.addSubview(passView)
     }
     
     func checkIfUserIsLoggedIn() {

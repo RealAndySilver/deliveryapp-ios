@@ -213,6 +213,7 @@ class ServiceAcceptedViewController: UIViewController {
                     println("Respuesta correcta del cancel service: \(jsonResponse)")
                     UIAlertView(title: "", message: "Servicio cancelado de manera exitosa!", delegate: nil, cancelButtonTitle: "Ok").show()
                     self.navigationController?.popToRootViewControllerAnimated(true)
+                    self.delegate?.serviceUpdated()
                     
                 } else {
                     println("Respuesta false del cancel service: \(jsonResponse)")
