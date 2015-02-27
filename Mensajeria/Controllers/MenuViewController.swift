@@ -97,6 +97,11 @@ extension MenuViewController: UITableViewDelegate {
                 selectedMenu = indexPath.row
                 let finishedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("FinishedServicesNavController") as UINavigationController
                 revealViewController().pushFrontViewController(finishedServicesNavController, animated: true)
+            
+            } else if indexPath.row == SelectedMenuOption.MisFavoritosOption.rawValue {
+                selectedMenu = indexPath.row
+                let favMessengersNavController = storyboard?.instantiateViewControllerWithIdentifier("FavMessengersNavController") as UINavigationController
+                revealViewController().pushFrontViewController(favMessengersNavController, animated: true)
             }
         }
     }

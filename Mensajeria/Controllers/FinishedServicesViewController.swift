@@ -98,5 +98,10 @@ extension FinishedServicesViewController: UITableViewDataSource {
 extension FinishedServicesViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
+        serviceAcceptedVC.deliveryItem = finishedItems[indexPath.row]
+        serviceAcceptedVC.presentedFromFindingServiceVC = false
+        serviceAcceptedVC.presentedFromFinishedServicesVC = true
+        navigationController?.pushViewController(serviceAcceptedVC, animated: true)
     }
 }

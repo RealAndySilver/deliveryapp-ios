@@ -24,6 +24,10 @@ class ActiveServicesViewController: UIViewController {
         getActiveDeliveryItems()
     }
     
+    deinit {
+        println("me cerreeeeee")
+    }
+    
     func setupUI() {
         tableView.rowHeight = 185.0
         tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -140,6 +144,7 @@ extension ActiveServicesViewController: UITableViewDelegate {
             serviceAcceptedVC.deliveryItem = acceptedItems[indexPath.row]
         }
         serviceAcceptedVC.presentedFromFindingServiceVC = false
+        serviceAcceptedVC.presentedFromFinishedServicesVC = false
         serviceAcceptedVC.delegate = self
         navigationController?.pushViewController(serviceAcceptedVC, animated: true)
     }
@@ -149,6 +154,7 @@ extension ActiveServicesViewController: UITableViewDelegate {
 
 extension ActiveServicesViewController: ServiceAcceptedDelegate {
     func serviceUpdated() {
+        println("Me llego el delegate")
         //Update our services
         getActiveDeliveryItems()
     }

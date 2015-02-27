@@ -11,6 +11,7 @@ import UIKit
 //GetPrice/lat,lon/lat,lon
 class DeliveryItem: NSObject {
     
+    var rated: Bool
     var name: String
     var status: String
     var pickupTimeString: String
@@ -72,6 +73,7 @@ class DeliveryItem: NSObject {
         instructions = deliveryItemJSON["instructions"].stringValue
         overallStatus = deliveryItemJSON["overall_status"].stringValue
         messengerInfo = MessengerInfo(messengerInfoJSON: JSON(deliveryItemJSON["messenger_info"].object))
+        rated = deliveryItemJSON["rated"].boolValue
     }
 }
 
@@ -112,6 +114,15 @@ class MessengerInfo: NSObject {
         email = messengerInfoJSON["email"].stringValue
         identification = messengerInfoJSON["identification"].stringValue
         name = messengerInfoJSON["name"].stringValue
+    }
+    
+    class func getMessengersObjectsFromArray(messengersArray: [[String: AnyObject]]) -> [MessengerInfo] {
+        var messengers = [MessengerInfo]()
+        for messengerDic in messengersArray {
+            let messenger = MessengerInfo(messengerInfoJSON: JSON(messengerDic))
+            messengers.append(messenger)
+        }
+        return messengers
     }
 }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol AddressHistoryDelegate {
+protocol AddressHistoryDelegate: class {
     func addressSelected(adressDic: [String : AnyObject], forPickupLocation: Bool)
 }
 
@@ -17,7 +17,7 @@ class AddressHistoryViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     let savedPickupAdressesKey = "pickupAddresses"
     let savedDestinationAdressesKey = "destinationAddresses"
-    var delegate: AddressHistoryDelegate?
+    weak var delegate: AddressHistoryDelegate?
     var selectedAddressDic: [String : AnyObject]!
     //var selectedAddress = ""
     var savedAddressesArray: [[String : AnyObject]] = [] {
@@ -37,6 +37,10 @@ class AddressHistoryViewController: UIViewController {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: CGRectZero)
         getSavedAddresses()
+    }
+    
+    deinit {
+        println("me cerreeeeeee")
     }
     
     //MARK: Custom Initialization Stuff

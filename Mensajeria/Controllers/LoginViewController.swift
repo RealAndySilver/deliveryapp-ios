@@ -9,7 +9,7 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-
+    
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var enterButton: UIButton!
     @IBOutlet weak var mensajeriaLabel: UILabel!
@@ -143,6 +143,13 @@ class LoginViewController: UIViewController {
         presentViewController(revealViewController, animated: true, completion: nil)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "CreateAccountSegue" {
+            let createAccountVC = segue.destinationViewController as CreateAccountViewController
+            createAccountVC.transitioningDelegate = self
+        }
+    }
+    
     //MARK: Notification Handlers 
     
     func keyboardWillShow() {
@@ -172,5 +179,14 @@ extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+//MARK: UIViewControllerTransitionDelegate
+
+extension LoginViewController: UIViewControllerTransitioningDelegate {
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let shrinkAnimationController = ShrinkDismissAnimationController()
+        return shrinkAnimationController
     }
 }

@@ -27,6 +27,9 @@
 		8B8427BD1A9BC429003D1354 /* PasswordView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B8427BC1A9BC429003D1354 /* PasswordView.xib */; };
 		8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */; };
 		8B8C364E1A8BF89100373EA2 /* DeliveryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */; };
+		8B8DD6731A9FA95200355829 /* ShrinkDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8DD6721A9FA95200355829 /* ShrinkDismissAnimationController.swift */; };
+		8B9997E61A9E63C800C8BC75 /* FavouriteMessengersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9997E51A9E63C800C8BC75 /* FavouriteMessengersViewController.swift */; };
+		8B9997E81A9E74E400C8BC75 /* FavouriteMessengerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9997E71A9E74E400C8BC75 /* FavouriteMessengerCell.swift */; };
 		8BA5A8071A8E441200379651 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5A8061A8E441200379651 /* SWRevealViewController.m */; };
 		8BA5A8091A8E51DE00379651 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5A8081A8E51DE00379651 /* MenuViewController.swift */; };
 		8BA5A80B1A8E71CB00379651 /* ActiveServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5A80A1A8E71CB00379651 /* ActiveServicesViewController.swift */; };
@@ -98,6 +101,9 @@
 		8B8427BC1A9BC429003D1354 /* PasswordView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PasswordView.xib; path = "Custom Views/PasswordView.xib"; sourceTree = "<group>"; };
 		8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyProfileViewController.swift; path = Controllers/MyProfileViewController.swift; sourceTree = "<group>"; };
 		8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeliveryItem.swift; path = Model/DeliveryItem.swift; sourceTree = "<group>"; };
+		8B8DD6721A9FA95200355829 /* ShrinkDismissAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShrinkDismissAnimationController.swift; path = "Animation Controllers/ShrinkDismissAnimationController.swift"; sourceTree = "<group>"; };
+		8B9997E51A9E63C800C8BC75 /* FavouriteMessengersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FavouriteMessengersViewController.swift; path = Controllers/FavouriteMessengersViewController.swift; sourceTree = "<group>"; };
+		8B9997E71A9E74E400C8BC75 /* FavouriteMessengerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FavouriteMessengerCell.swift; path = "Custom Cells/FavouriteMessengerCell.swift"; sourceTree = "<group>"; };
 		8BA5A8051A8E441200379651 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		8BA5A8061A8E441200379651 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		8BA5A8081A8E51DE00379651 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuViewController.swift; path = Controllers/MenuViewController.swift; sourceTree = "<group>"; };
@@ -240,6 +246,14 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
+		8B8DD6711A9FA93200355829 /* AnimationControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8B8DD6721A9FA95200355829 /* ShrinkDismissAnimationController.swift */,
+			);
+			name = AnimationControllers;
+			sourceTree = "<group>";
+		};
 		8BA5A8041A8E441200379651 /* SWRevealViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +269,7 @@
 				8BA5A80D1A8E979A00379651 /* ActiveServiceCell.swift */,
 				8B1204471A93B7C8000B2020 /* AddressCell.swift */,
 				8B1204491A93D39B000B2020 /* MenuCell.swift */,
+				8B9997E71A9E74E400C8BC75 /* FavouriteMessengerCell.swift */,
 			);
 			name = "Custom Cells";
 			sourceTree = "<group>";
@@ -297,6 +312,7 @@
 		8BEA65A21A82B1E000C20D5B /* Mensajeria */ = {
 			isa = PBXGroup;
 			children = (
+				8B8DD6711A9FA93200355829 /* AnimationControllers */,
 				8B8427B61A9B9DED003D1354 /* Utils */,
 				8B713BC11A95065C00800798 /* Custom Views */,
 				8BC3ED831A938A170009C54A /* Extensions */,
@@ -358,6 +374,7 @@
 				8BA5A80A1A8E71CB00379651 /* ActiveServicesViewController.swift */,
 				8BCE59351A922C89000C0C1A /* FinishedServicesViewController.swift */,
 				8B8427B41A9B7551003D1354 /* ChangePasswordViewController.swift */,
+				8B9997E51A9E63C800C8BC75 /* FavouriteMessengersViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -516,6 +533,7 @@
 				8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */,
 				8BA5A8071A8E441200379651 /* SWRevealViewController.m in Sources */,
 				8B0D80D01A961ACC0058A6F4 /* MONActivityIndicatorView.m in Sources */,
+				8B9997E81A9E74E400C8BC75 /* FavouriteMessengerCell.swift in Sources */,
 				8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */,
 				8BA5A80E1A8E979A00379651 /* ActiveServiceCell.swift in Sources */,
 				A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */,
@@ -530,6 +548,7 @@
 				A0AFE1481A83D31F0025CACF /* TermsConditionsViewController.swift in Sources */,
 				8B3158561A89201B005F43E4 /* RateDriverViewController.swift in Sources */,
 				A0AFE1691A84008A0025CACF /* MapViewController.swift in Sources */,
+				8B8DD6731A9FA95200355829 /* ShrinkDismissAnimationController.swift in Sources */,
 				8B7C0C911A89090500470D15 /* ServiceAcceptedViewController.swift in Sources */,
 				8B8427B91A9B9E0E003D1354 /* Utils.m in Sources */,
 				8BA5A80B1A8E71CB00379651 /* ActiveServicesViewController.swift in Sources */,
@@ -539,6 +558,7 @@
 				8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */,
 				A0AFE14A1A83D6410025CACF /* RequestServiceViewController.swift in Sources */,
 				8B8C364E1A8BF89100373EA2 /* DeliveryItem.swift in Sources */,
+				8B9997E61A9E63C800C8BC75 /* FavouriteMessengersViewController.swift in Sources */,
 				8BCE59361A922C89000C0C1A /* FinishedServicesViewController.swift in Sources */,
 				8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */,
 				8BEA65CC1A82C29900C20D5B /* SwiftyJSON.swift in Sources */,

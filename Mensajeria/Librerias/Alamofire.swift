@@ -26,7 +26,7 @@ struct Alamofire {
     static let manager = Manager.sharedInstance
     //let serverEndpoint = "http://192.241.187.135:2000/api_1.0"
     //let localEndPoint = "http://192.168.0.43:2000/api_1.0"
-    static let currentEndPoint = "http://192.168.0.40:2000/api_1.0"
+    static let currentEndPoint = "http://192.241.187.135:2000/api_1.0"
     static let loginWebServiceURL = "\(currentEndPoint)/User/Login"
     static let createUserServiceURL = "\(currentEndPoint)/User/Create"
     static let recoverPassServiceURL = "\(currentEndPoint)/User/Recover"
@@ -40,6 +40,9 @@ struct Alamofire {
     static let rateMessengerServiceURL = "\(currentEndPoint)/DeliveryItem/Rate"
     static let changePasswordServiceURL = "\(currentEndPoint)/User/Password"
     static let newPasswordServiceURL = "\(currentEndPoint)/User/NewPassword"
+    static let addToFavouritesServiceURL = "\(currentEndPoint)/User/Fav"
+    static let getFavoritesServiceURL = "\(currentEndPoint)/User/Favorites"
+    static let removeFavoriteServiceURL = "\(currentEndPoint)/User/UnFav"
 }
 
 /// Alamofire errors

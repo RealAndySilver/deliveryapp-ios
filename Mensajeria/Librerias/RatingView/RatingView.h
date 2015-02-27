@@ -13,7 +13,7 @@
 
 @interface RatingView : UIView <UIGestureRecognizerDelegate>
 
-@property (assign) id <RatingViewDelegate>  delegate;
+@property (weak, nonatomic) id <RatingViewDelegate>  delegate;
 
 @property (readwrite, nonatomic) CGFloat value;
 

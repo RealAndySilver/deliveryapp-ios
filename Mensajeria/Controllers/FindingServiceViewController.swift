@@ -123,6 +123,7 @@ class FindingServiceViewController: UIViewController {
         let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
         serviceAcceptedVC.deliveryItem = deliveryItem
         serviceAcceptedVC.presentedFromFindingServiceVC = true
+        serviceAcceptedVC.presentedFromFinishedServicesVC = false
         navigationController?.pushViewController(serviceAcceptedVC, animated: true)
     }
 }

@@ -177,6 +177,15 @@ class CreateAccountViewController: UIViewController {
         NSUserDefaults.standardUserDefaults().setObject(formInfo, forKey: "formDic")
         NSUserDefaults.standardUserDefaults().synchronize()
     }
+    
+    //MARK: Navigation 
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "TermsConditionsSegue" {
+            let termsConditionsVC = segue.destinationViewController as UIViewController
+            termsConditionsVC.transitioningDelegate = self
+        }
+    }
 }
 
 //MARK: UITextfieldDelegate
@@ -185,5 +194,14 @@ extension CreateAccountViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+//MARK: UIViewControllerTransitioningDelegate 
+
+extension CreateAccountViewController: UIViewControllerTransitioningDelegate {
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let shrinkAnimateController = ShrinkDismissAnimationController()
+        return shrinkAnimateController
     }
 }

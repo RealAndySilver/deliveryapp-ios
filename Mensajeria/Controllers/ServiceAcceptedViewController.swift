@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 
-protocol ServiceAcceptedDelegate {
+protocol ServiceAcceptedDelegate: class {
     func serviceUpdated()
 }
 
@@ -19,15 +19,17 @@ class ServiceAcceptedViewController: UIViewController {
     //Public Interface
     var deliveryItem: DeliveryItem!
     var presentedFromFindingServiceVC: Bool!
+    var presentedFromFinishedServicesVC: Bool!
     
     //////////////////////////////////////////////////////
-    var delegate: ServiceAcceptedDelegate?
+    weak var delegate: ServiceAcceptedDelegate?
     var loadingView = MONActivityIndicatorView()
     
     var noDriverLabel: UILabel!
     @IBOutlet weak var serviceNameLabel: UILabel!
     @IBOutlet weak var serviceStatusLabel: UILabel!
     @IBOutlet weak var driverContainerView: UIView!
+    @IBOutlet weak var cancelServiceButton: UIButton!
     @IBOutlet var buttonsCollection: [UIButton]!
     @IBOutlet weak var backToHomeButton: UIButton!
     @IBOutlet weak var cellphoneButton: UIButton!
@@ -54,9 +56,17 @@ class ServiceAcceptedViewController: UIViewController {
             backToHomeButton.hidden = true
             navigationItem.hidesBackButton = false
         }
+        
+        if presentedFromFinishedServicesVC == true {
+            cancelServiceButton.hidden = true
+        }
         println("El delivery item: \(deliveryItem.deliveryItemDescription)")
         setupUI()
         fillUIWithDeliveryItemInfo()
+    }
+    
+    deinit {
+        println("me cerreeeeee")
     }
     
     //MARK: Custom Initialization Stuff
@@ -142,6 +152,9 @@ class ServiceAcceptedViewController: UIViewController {
     }
     
     //MARK: Actions
+    @IBAction func addToFavoritesPressed() {
+        favouriteMessengerInServer()
+    }
     
     @IBAction func updateDeliveryItem(sender: AnyObject) {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
@@ -198,6 +211,29 @@ class ServiceAcceptedViewController: UIViewController {
     
     //MARK: Server Stuff
     
+    func favouriteMessengerInServer() {
+        MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
+        Alamofire.manager.request(.PUT, "\(Alamofire.addToFavouritesServiceURL)/\(User.sharedInstance.identifier)", parameters: ["messenger_id" : deliveryItem.messengerInfo!.identifier], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+            
+            MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
+            if error != nil {
+                println("hubo un error en el agregar a favoritos: \(error?.localizedDescription)")
+                UIAlertView(title: "Oops!", message: "Ocurrió un error. Revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+            } else {
+                let jsonResponse = JSON(json!)
+                if jsonResponse["status"].boolValue {
+                    //Success
+                    println("Resputa true del agregar a favoritos: \(jsonResponse)")
+                    UIAlertView(title: "", message: "Se ha agregado este mensajero a tus favoritos!", delegate: nil, cancelButtonTitle: "Ok").show()
+                    
+                } else {
+                    println("Respuesta false del agregar a favoritos: \(jsonResponse)")
+                    UIAlertView(title: "Oops!", message: "Ocurrió un error al agregar este mensajero a tus favoritos. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+                }
+            }
+        }
+    }
+    
     func cancelServiceInServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         Alamofire.manager.request(.DELETE, "\(Alamofire.cancelRequestServiceURL)/\(deliveryItem.identifier)/\(User.sharedInstance.identifier)").responseJSON { (request, response, json, error) -> Void in
@@ -251,7 +287,10 @@ extension ServiceAcceptedViewController: UIAlertViewDelegate {
         
         } else if alertView.tag == 2 {
             //Service finished alert 
-            goToRateMessengerVC()
+            if deliveryItem.rated == false {
+                //If the service has not been rated, proceed to rate it
+                goToRateMessengerVC()
+            }
         }
     }
 }
