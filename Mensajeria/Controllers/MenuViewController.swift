@@ -16,7 +16,6 @@ class MenuViewController: UIViewController {
         case SolicitarOption = 0,
         MisServiciosOption,
         MiPerfilOption,
-        MisFavoritosOption,
         HistorialDeServiciosOptions,
         TermsAndConditionsOptions,
         CerrarSesionOption
@@ -24,7 +23,7 @@ class MenuViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var selectedMenu = 0
-    let menuArray = ["Solicitar Servicio", "Mis Servicios Activos", "Mi Perfil", "Mis Favoritos", "Servicios Terminados", "Términos y Condiciones", "Cerrar Sesión"]
+    let menuArray = ["Solicitar Servicio", "Mis Servicios Activos", "Mi Perfil", "Servicios Terminados", "Términos y Condiciones", "Cerrar Sesión"]
     
     //MARK: View life cycle
     
@@ -98,11 +97,11 @@ extension MenuViewController: UITableViewDelegate {
                 let finishedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("FinishedServicesNavController") as UINavigationController
                 revealViewController().pushFrontViewController(finishedServicesNavController, animated: true)
             
-            } else if indexPath.row == SelectedMenuOption.MisFavoritosOption.rawValue {
+            } /*else if indexPath.row == SelectedMenuOption.MisFavoritosOption.rawValue {
                 selectedMenu = indexPath.row
                 let favMessengersNavController = storyboard?.instantiateViewControllerWithIdentifier("FavMessengersNavController") as UINavigationController
                 revealViewController().pushFrontViewController(favMessengersNavController, animated: true)
-            }
+            }*/
         }
     }
 }

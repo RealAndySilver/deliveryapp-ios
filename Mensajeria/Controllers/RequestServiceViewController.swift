@@ -160,7 +160,7 @@ class RequestServiceViewController: UIViewController {
     
     func sendServiceRequestToServer() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        println("name: \(serviceNameTextfield.text)")
+        println("date: \(deliveryDatePicker.date)")
         Alamofire.manager.request(.POST, Alamofire.requestMensajeroServiceURL, parameters: ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "deadline" : deliveryDatePicker.date, "declared_value" : shipmentValueTextfield.text, "price_to_pay" : 25000, "pickup_time" : pickupDatePicker.date, "item_name" : serviceNameTextfield.text], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) in
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {

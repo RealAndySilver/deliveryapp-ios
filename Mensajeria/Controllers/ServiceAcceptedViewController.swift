@@ -17,6 +17,7 @@ class ServiceAcceptedViewController: UIViewController {
     @IBOutlet weak var driverInfoTopContainer: ShadowedView!
 
     //Public Interface
+    @IBOutlet weak var collectionView: UICollectionView!
     var deliveryItem: DeliveryItem!
     var presentedFromFindingServiceVC: Bool!
     var presentedFromFinishedServicesVC: Bool!
@@ -24,6 +25,9 @@ class ServiceAcceptedViewController: UIViewController {
     //////////////////////////////////////////////////////
     weak var delegate: ServiceAcceptedDelegate?
     var loadingView = MONActivityIndicatorView()
+    //let zoomTransitioningDelegate = ZoomTransitionDelegate()
+    //let zoomAnimationController = ZoomFromCellAnimator()
+    //var frameToOpenDetailFrom: CGRect!
     
     var noDriverLabel: UILabel!
     @IBOutlet weak var serviceNameLabel: UILabel!
@@ -81,6 +85,7 @@ class ServiceAcceptedViewController: UIViewController {
         costLabel.text = "$\(deliveryItem.declaredValue)"
         if let theMessengerInfo = deliveryItem.messengerInfo {
             nameLabel.text = "\(theMessengerInfo.name) \(theMessengerInfo.lastName)"
+            photoImageView.sd_setImageWithURL(NSURL(string: theMessengerInfo.profilePicString), placeholderImage: UIImage(named: "ProfilePlaceholder"))
         }
         if let theCellPhone = deliveryItem.messengerInfo?.mobilePhone {
             cellphoneButton.setTitle("Celular: \(theCellPhone)", forState: .Normal)
@@ -256,10 +261,48 @@ class ServiceAcceptedViewController: UIViewController {
                     UIAlertView(title: "Oops!", message: "Ocurrió un error al cancelar el servicio. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
-            
         }
     }
 }
+
+//MARK: UICollectionViewDataSource
+
+extension ServiceAcceptedViewController: UICollectionViewDataSource {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return deliveryItem.serviceImages.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ServiceImageCell", forIndexPath: indexPath) as ServiceImageCell
+        println("url de la imagennnn: \(deliveryItem.serviceImages[indexPath.item].urlString)")
+        cell.serviceImageView.sd_setImageWithURL(NSURL(string: deliveryItem.serviceImages[indexPath.item].urlString))
+        return cell
+    }
+}
+
+//MARK: UICollectionViewDelegate
+
+extension ServiceAcceptedViewController: UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let selectedCell = collectionView.cellForItemAtIndexPath(indexPath) as ServiceImageCell
+        if let cellImage = selectedCell.serviceImageView.image {
+            let imageVC = storyboard?.instantiateViewControllerWithIdentifier("Image") as ImageViewController
+            imageVC.galleryImage = cellImage
+            
+            //let attributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
+            //let attributesFrame = attributes?.frame
+            //frameToOpenDetailFrom = collectionView.convertRect(attributesFrame!, toView: view)
+            /*zoomTransitioningDelegate.openingFrame = frameToOpenFrom
+            
+            imageVC.transitioningDelegate = zoomTransitioningDelegate
+            mageVC.modalPresentationStyle = .Custom
+            presentViewController(imageVC, animated: true, completion: nil)*/
+            navigationController?.pushViewController(imageVC, animated: true)
+        }
+    }
+}
+
+//MARK: UIAlertViewDelegate
 
 extension ServiceAcceptedViewController: UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {

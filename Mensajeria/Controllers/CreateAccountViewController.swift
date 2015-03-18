@@ -60,13 +60,18 @@ class CreateAccountViewController: UIViewController {
             passwordTextfield.layer.borderWidth = 0.0
             confirmPasswordTextfield.layer.borderWidth = 0.0
             
-            if formIsCorrect() {
-                //Success...create account in server
-                createAccountInServer()
+            if emailIsCorrect() {
+                if formIsCorrect() {
+                    //Success...create account in server
+                    createAccountInServer()
+                    
+                } else {
+                    //Error
+                    UIAlertView(title: "Oops!", message: "Hay campos incorrectos", delegate: nil, cancelButtonTitle: "Ok").show()
+                }
                 
             } else {
-                //Error
-                UIAlertView(title: "Oops!", message: "Hay campos incorrectos", delegate: nil, cancelButtonTitle: "Ok").show()
+                UIAlertView(title: "Oops!", message: "El email está mal escrito. Por favor revisa", delegate: nil, cancelButtonTitle: "Ok").show()
             }
             
         } else {
@@ -118,6 +123,18 @@ class CreateAccountViewController: UIViewController {
     
     //MARK: Form Validation
     
+    func emailIsCorrect() -> Bool {
+        if RegexValidator.stringIsAValidEmail(emailTextfield.text) {
+            emailTextfield.layer.borderWidth = 0.0
+            return true
+            
+        } else {
+            emailTextfield.layer.borderWidth = 1.0
+            emailTextfield.layer.borderColor = UIColor.redColor().CGColor
+            return false
+        }
+    }
+    
     func passwordsAreCorrect() -> Bool {
         if countElements(passwordTextfield.text) > 0 && countElements(confirmPasswordTextfield.text) > 0 && passwordTextfield.text == confirmPasswordTextfield.text {
             return true
@@ -150,7 +167,7 @@ class CreateAccountViewController: UIViewController {
             lastNameTextfield.layer.borderWidth = 1.0
         }
         
-        if countElements(emailTextfield.text) > 0 {
+        if countElements(emailTextfield.text) > 0{
             emailIsCorrect = true
             emailTextfield.layer.borderWidth = 0.0
 

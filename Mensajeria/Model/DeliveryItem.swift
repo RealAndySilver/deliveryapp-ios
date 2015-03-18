@@ -20,6 +20,7 @@ class DeliveryItem: NSObject {
     var identifier: String
     var deliveryObject: RequestObject
     var messengerInfo: MessengerInfo?
+    var serviceImages = [ServiceImage]()
     var userInfo: UserInfo
     var deadline: String
     var priceToPay: Int
@@ -74,6 +75,12 @@ class DeliveryItem: NSObject {
         overallStatus = deliveryItemJSON["overall_status"].stringValue
         messengerInfo = MessengerInfo(messengerInfoJSON: JSON(deliveryItemJSON["messenger_info"].object))
         rated = deliveryItemJSON["rated"].boolValue
+        
+        let tempServiceImagesArray = deliveryItemJSON["images"].object as [[String : AnyObject]]
+        for serviceImageDic in tempServiceImagesArray {
+            let serviceImage = ServiceImage(serviceImageJSON: JSON(serviceImageDic))
+            serviceImages.append(serviceImage)
+        }
     }
 }
 
@@ -94,6 +101,7 @@ class RequestObject: NSObject {
 }
 
 class MessengerInfo: NSObject {
+    var profilePicString: String
     var lastName: String
     var plate: String
     var mobilePhone: String
@@ -107,6 +115,7 @@ class MessengerInfo: NSObject {
         }
     }
     init (messengerInfoJSON: JSON) {
+        profilePicString = messengerInfoJSON["url"].stringValue
         lastName = messengerInfoJSON["lastname"].stringValue
         plate = messengerInfoJSON["plate"].stringValue
         mobilePhone = messengerInfoJSON["mobilephone"].stringValue
@@ -141,5 +150,25 @@ class UserInfo: NSObject {
         identifier = userInfoJSON["_id"].stringValue
         lastName = userInfoJSON["lastname"].stringValue
         email = userInfoJSON["email"].stringValue
+    }
+}
+
+class ServiceImage: NSObject {
+    var identifier: String
+    var deliveryStatus: String
+    var urlString: String
+    var ownerID: String
+    var name: String
+    var deliveryName: String
+    var dateCreatedString: String
+    
+    init(serviceImageJSON: JSON) {
+        identifier = serviceImageJSON["_id"].stringValue
+        deliveryStatus = serviceImageJSON["delivery_status"].stringValue
+        urlString = serviceImageJSON["url"].stringValue
+        ownerID = serviceImageJSON["owner_id"].stringValue
+        name = serviceImageJSON["name"].stringValue
+        deliveryName = serviceImageJSON["delivery_name"].stringValue
+        dateCreatedString = serviceImageJSON["date_created"].stringValue
     }
 }

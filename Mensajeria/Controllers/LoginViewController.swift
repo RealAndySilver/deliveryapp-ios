@@ -140,6 +140,7 @@ class LoginViewController: UIViewController {
         MBProgressHUD.hideAllHUDsForView(view, animated: true)
         println("entre al gotorequestttt")
         let revealViewController = storyboard?.instantiateViewControllerWithIdentifier("revealViewController") as SWRevealViewController
+        revealViewController.transitioningDelegate = self
         presentViewController(revealViewController, animated: true, completion: nil)
     }
     
