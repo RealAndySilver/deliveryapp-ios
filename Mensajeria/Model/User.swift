@@ -8,6 +8,7 @@
 
 class User: NSObject {
     var identifier: String!
+    var password: String!
     var emailConfirmation: Bool!
     var name: String!
     var email: String!

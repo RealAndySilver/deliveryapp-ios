@@ -100,6 +100,7 @@ extension FinishedServicesViewController: UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
         serviceAcceptedVC.deliveryItem = finishedItems[indexPath.row]
+        serviceAcceptedVC.presentedFromPushNotification = false
         serviceAcceptedVC.presentedFromFindingServiceVC = false
         serviceAcceptedVC.presentedFromFinishedServicesVC = true
         navigationController?.pushViewController(serviceAcceptedVC, animated: true)

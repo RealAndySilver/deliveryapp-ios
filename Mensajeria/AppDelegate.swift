@@ -12,6 +12,9 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var appToken: String?
+    var deliveryItemId: String!
+    var currentServiceDetailScreenDeliveryItemID = ""
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -21,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         UINavigationBar.appearance().translucent = false
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        
+        //Register for remote notifications
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Sound | .Alert | .Badge, categories: nil))
         
         return true
     }
@@ -41,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        NSNotificationCenter.defaultCenter().postNotificationName("AppDidBecomeActiveNotification", object: nil)
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -77,9 +84,109 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        println("Receive remote notification: \(userInfo)")
+        let apsDic = userInfo["aps"] as [String : AnyObject]
+        let message = apsDic["alert"] as String
+        if userInfo["type"] as String == "delivery" {
+            
+            deliveryItemId = userInfo["id"] as String
+            if deliveryItemId != currentServiceDetailScreenDeliveryItemID {
+                println("id del servicio: \(deliveryItemId)")
+                let appState = UIApplication.sharedApplication().applicationState
+                if appState == .Active {
+                    println("the app was active when the notification arrived")
+                    UIAlertView(title: "Servicio actualizado", message: "\(message) ¿Quieres acceder al detalle del servicio?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Aceptar").show()
+                    
+                } else {
+                    UIAlertView(title: "Servicio actualizado", message: "\(message) ¿Quieres acceder al detalle del servicio?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Aceptar").show()
+                    println("the app was inactive when the notification arrived")
+                }
+            
+            } else {
+                //The user was in the service screen when the notification arrived, so update the service 
+                NSNotificationCenter.defaultCenter().postNotificationName("ServiceUpdatedNotification", object: nil)
+            }
+        }
+    }
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        application.registerForRemoteNotifications()
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        println("error registrandome para las notificacciones: \(error.localizedDescription)")
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        let token = deviceToken.description
+        var trimmedToken = token.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>"))
+        trimmedToken = trimmedToken.stringByReplacingOccurrencesOfString(" ", withString: "")
+        appToken = trimmedToken
+        println("Tokeeen: \(trimmedToken)")
+    }
+    
     func showPasswordView() {
         let passwordView = PasswordView(frame: CGRectMake(window!.bounds.size.width/2.0 - 140.0, window!.bounds.size.height/2.0 - 147.0, 280.0, 194.0))
         passwordView.showInWindow(window!)
+    }
+    
+    //MARK: Server 
+    
+    func getDeliveryItemId() {
+        Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/\(deliveryItemId)").responseJSON { (request, response, json, error) -> Void in
+            if error != nil {
+                //There was an error
+                println("error en el get delivery item: \(error?.localizedDescription)")
+            } else {
+                //Success
+                let jsonResponse = JSON(json!)
+                if jsonResponse["status"].boolValue {
+                    //True response 
+                    println("respuesta true del get delivery item by id: \(jsonResponse)")
+                    let deliveryItem = DeliveryItem(deliveryItemJSON: jsonResponse["response"])
+                    
+                    //go to delivery item detail
+                    self.goToDeliveryItemDetail(deliveryItem)
+                    
+                } else {
+                    //False response
+                }
+            }
+        }
+    }
+    
+    func goToDeliveryItemDetail(deliveryItem: DeliveryItem) {
+        println("iré al delivery iteeeeemmmmmm")
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let serviceAcceptedVC = storyboard.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
+        serviceAcceptedVC.deliveryItem = deliveryItem
+        serviceAcceptedVC.presentedFromPushNotification = true
+        serviceAcceptedVC.presentedFromFindingServiceVC = false
+        serviceAcceptedVC.presentedFromFinishedServicesVC = false
+        
+        let navigationController = UINavigationController(rootViewController: serviceAcceptedVC)
+        window?.makeKeyAndVisible()
+        
+        let topRootViewController = window?.rootViewController!
+        if var topVC = topRootViewController {
+            topVC = topVC.presentedViewController!
+            topVC.presentViewController(navigationController, animated: true, completion: nil)
+        } else {
+            topRootViewController?.presentViewController(navigationController, animated: true, completion: nil)
+        }
+    }
+}
+
+extension AppDelegate: UIAlertViewDelegate {
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        println("button index: \(buttonIndex)")
+        if buttonIndex == 1 {
+            //Present delivery item detail view controller
+            //Get delivery item 
+            getDeliveryItemId()
+        }
     }
 }
 

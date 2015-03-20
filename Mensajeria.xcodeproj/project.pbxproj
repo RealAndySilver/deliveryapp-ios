@@ -19,6 +19,7 @@
 		8B3158561A89201B005F43E4 /* RateDriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3158551A89201B005F43E4 /* RateDriverViewController.swift */; };
 		8B713BC01A94E03500800798 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B713BBF1A94E03500800798 /* AppInfo.swift */; };
 		8B713BC31A95068B00800798 /* ShadowedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B713BC21A95068B00800798 /* ShadowedView.swift */; };
+		8B770CD21ABCAF6E00486FBE /* AbortedServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B770CD11ABCAF6E00486FBE /* AbortedServicesViewController.swift */; };
 		8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */; };
 		8B7C0C911A89090500470D15 /* ServiceAcceptedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */; };
 		8B8427B51A9B7551003D1354 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8427B41A9B7551003D1354 /* ChangePasswordViewController.swift */; };
@@ -114,6 +115,7 @@
 		8B3158551A89201B005F43E4 /* RateDriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RateDriverViewController.swift; path = Controllers/RateDriverViewController.swift; sourceTree = "<group>"; };
 		8B713BBF1A94E03500800798 /* AppInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppInfo.swift; path = Model/AppInfo.swift; sourceTree = "<group>"; };
 		8B713BC21A95068B00800798 /* ShadowedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShadowedView.swift; path = "Custom Views/ShadowedView.swift"; sourceTree = "<group>"; };
+		8B770CD11ABCAF6E00486FBE /* AbortedServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbortedServicesViewController.swift; path = Controllers/AbortedServicesViewController.swift; sourceTree = "<group>"; };
 		8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FindingServiceViewController.swift; path = Controllers/FindingServiceViewController.swift; sourceTree = "<group>"; };
 		8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceAcceptedViewController.swift; path = Controllers/ServiceAcceptedViewController.swift; sourceTree = "<group>"; };
 		8B8427B41A9B7551003D1354 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangePasswordViewController.swift; path = Controllers/ChangePasswordViewController.swift; sourceTree = "<group>"; };
@@ -477,6 +479,7 @@
 				8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */,
 				8B8C364B1A8BB42200373EA2 /* MyProfileViewController.swift */,
 				8BA5A8081A8E51DE00379651 /* MenuViewController.swift */,
+				8B770CD11ABCAF6E00486FBE /* AbortedServicesViewController.swift */,
 				8BA5A80A1A8E71CB00379651 /* ActiveServicesViewController.swift */,
 				8BCE59351A922C89000C0C1A /* FinishedServicesViewController.swift */,
 				8B8427B41A9B7551003D1354 /* ChangePasswordViewController.swift */,
@@ -642,6 +645,7 @@
 				8BC2C8721AA0BCA700E25204 /* ServiceImageCell.swift in Sources */,
 				8B8427BB1A9BC3FE003D1354 /* PasswordView.swift in Sources */,
 				8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */,
+				8B770CD21ABCAF6E00486FBE /* AbortedServicesViewController.swift in Sources */,
 				8BA5A8071A8E441200379651 /* SWRevealViewController.m in Sources */,
 				8B0D80D01A961ACC0058A6F4 /* MONActivityIndicatorView.m in Sources */,
 				8B9997E81A9E74E400C8BC75 /* FavouriteMessengerCell.swift in Sources */,

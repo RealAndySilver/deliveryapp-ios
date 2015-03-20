@@ -17,13 +17,14 @@ class MenuViewController: UIViewController {
         MisServiciosOption,
         MiPerfilOption,
         HistorialDeServiciosOptions,
+        AbortedServicesOption,
         TermsAndConditionsOptions,
         CerrarSesionOption
     }
 
     @IBOutlet weak var tableView: UITableView!
     var selectedMenu = 0
-    let menuArray = ["Solicitar Servicio", "Mis Servicios Activos", "Mi Perfil", "Servicios Terminados", "Términos y Condiciones", "Cerrar Sesión"]
+    let menuArray = ["Solicitar Servicio", "Mis Servicios Activos", "Mi Perfil", "Servicios Terminados", "Servicios abortados por mensajero", "Términos y Condiciones", "Cerrar Sesión"]
     
     //MARK: View life cycle
     
@@ -97,7 +98,12 @@ extension MenuViewController: UITableViewDelegate {
                 let finishedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("FinishedServicesNavController") as UINavigationController
                 revealViewController().pushFrontViewController(finishedServicesNavController, animated: true)
             
-            } /*else if indexPath.row == SelectedMenuOption.MisFavoritosOption.rawValue {
+            } else if indexPath.row == SelectedMenuOption.AbortedServicesOption.rawValue {
+                selectedMenu = indexPath.row
+                let abortedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("AbortedServicesNavController") as UINavigationController
+                revealViewController().pushFrontViewController(abortedServicesNavController, animated: true)
+            }
+            /*else if indexPath.row == SelectedMenuOption.MisFavoritosOption.rawValue {
                 selectedMenu = indexPath.row
                 let favMessengersNavController = storyboard?.instantiateViewControllerWithIdentifier("FavMessengersNavController") as UINavigationController
                 revealViewController().pushFrontViewController(favMessengersNavController, animated: true)

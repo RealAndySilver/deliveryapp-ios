@@ -15,6 +15,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var mensajeriaLabel: UILabel!
     @IBOutlet weak var userTextfield: UITextField!
     @IBOutlet weak var passwordTextfield: UITextField!
+    var userIsLoggedIn = false
     
     //MARK: Life Cycle
     
@@ -44,8 +45,9 @@ class LoginViewController: UIViewController {
             User.sharedInstance.updateUserWithJSON(JSON(userObject))
             
             //The user object exists, so go to the main screen (but with a delay of 2 seconds)
+            userIsLoggedIn = true
             MBProgressHUD.showHUDAddedTo(view, animated: true)
-            let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "goToRequestServiceVC", userInfo: nil, repeats: false)
+            let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "loginUserInServer", userInfo: nil, repeats: false)
         }
     }
     
@@ -100,14 +102,41 @@ class LoginViewController: UIViewController {
     func loginUserInServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         
+        if let userObject = NSUserDefaults.standardUserDefaults().objectForKey("UserInfo") as? [String : String] {
+            userIsLoggedIn = true
+        } else {
+            userIsLoggedIn = false
+        }
+        
+        //App token
+        var token = ""
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        if let theToken = appDelegate.appToken {
+            token = theToken
+        }
+        
+        var email = ""
+        var password = ""
+        if userIsLoggedIn {
+            email = User.sharedInstance.email
+            password = NSUserDefaults.standardUserDefaults().objectForKey("UserPass") as String
+            
+        } else {
+            email = userTextfield.text
+            password = passwordTextfield.text
+        }
+        
+        println("email: \(email)")
+        println("pass: \(password)")
+        
         //Encode password
-        let encodedPassword = passwordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)
+        let encodedPassword = password.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)
         
         //Make the login request to the server
-        Alamofire.manager.request(.PUT, Alamofire.loginWebServiceURL, parameters: ["email" : userTextfield.text, "password" : encodedPassword!], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(.PUT, Alamofire.loginWebServiceURL, parameters: ["email" : email, "password" : encodedPassword!, "device_info" : ["type" : UIDevice.currentDevice().model, "os" : "iOS", "token" : token, "name" : UIDevice.currentDevice().name]], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) -> Void in
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if error != nil {
-                //something wrong happened
+                //Something wrong happened
                 println("Error en el login: \(error?.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar iniciar sesión. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 
@@ -117,6 +146,8 @@ class LoginViewController: UIViewController {
                 if jsonResponse["status"].boolValue == true {
                     println("success en el login: \(jsonResponse)")
                     User.sharedInstance.updateUserWithJSON(jsonResponse["response"])
+                    User.sharedInstance.password = password
+                    NSUserDefaults.standardUserDefaults().setObject(password, forKey: "UserPass")
                     self.goToRequestServiceVC()
                     //saveUserWithDictionary
                     
@@ -134,8 +165,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    //MARK: Navigation 
-    
+    //MARK: Navigation
     func goToRequestServiceVC() {
         MBProgressHUD.hideAllHUDsForView(view, animated: true)
         println("entre al gotorequestttt")

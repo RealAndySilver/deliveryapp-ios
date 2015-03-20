@@ -143,6 +143,7 @@ extension ActiveServicesViewController: UITableViewDelegate {
         } else {
             serviceAcceptedVC.deliveryItem = acceptedItems[indexPath.row]
         }
+        serviceAcceptedVC.presentedFromPushNotification = false 
         serviceAcceptedVC.presentedFromFindingServiceVC = false
         serviceAcceptedVC.presentedFromFinishedServicesVC = false
         serviceAcceptedVC.delegate = self

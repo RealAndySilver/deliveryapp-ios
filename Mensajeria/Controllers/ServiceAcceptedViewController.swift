@@ -20,6 +20,7 @@ class ServiceAcceptedViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     var deliveryItem: DeliveryItem!
     var presentedFromFindingServiceVC: Bool!
+    var presentedFromPushNotification: Bool!
     var presentedFromFinishedServicesVC: Bool!
     
     //////////////////////////////////////////////////////
@@ -53,12 +54,24 @@ class ServiceAcceptedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        appDelegate.currentServiceDetailScreenDeliveryItemID = deliveryItem.identifier
+        
         if presentedFromFindingServiceVC == true {
             navigationItem.hidesBackButton = true
             backToHomeButton.hidden = false
-        } else {
+        } else if presentedFromFinishedServicesVC == true {
             backToHomeButton.hidden = true
             navigationItem.hidesBackButton = false
+        } else if presentedFromPushNotification == true {
+            backToHomeButton.hidden = true
+            navigationItem.hidesBackButton = false
+            
+            //Create a dismiss bar button item
+            let dismissBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "dismissVC")
+            navigationItem.leftBarButtonItem = dismissBarButtonItem
+        } else {
+            backToHomeButton.hidden = true
         }
         
         if presentedFromFinishedServicesVC == true {
@@ -69,8 +82,22 @@ class ServiceAcceptedViewController: UIViewController {
         fillUIWithDeliveryItemInfo()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "serviceUpdatedNotificationReceived", name: "ServiceUpdatedNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidBecomeActiveReceived", name: "AppDidBecomeActiveNotification", object: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        appDelegate.currentServiceDetailScreenDeliveryItemID = ""
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     deinit {
         println("me cerreeeeee")
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     //MARK: Custom Initialization Stuff
@@ -157,11 +184,19 @@ class ServiceAcceptedViewController: UIViewController {
     }
     
     //MARK: Actions
+    func dismissVC() {
+        navigationController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBAction func addToFavoritesPressed() {
         favouriteMessengerInServer()
     }
     
-    @IBAction func updateDeliveryItem(sender: AnyObject) {
+    @IBAction func updateDeliveryButtonPressed(sender: AnyObject) {
+        updateDeliveryItem()
+    }
+    
+    @IBAction func updateDeliveryItem() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/\(deliveryItem.identifier)").responseJSON { (request, response, json, error) -> Void in
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
@@ -262,6 +297,16 @@ class ServiceAcceptedViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    //MARK: Notification handlers 
+    
+    func serviceUpdatedNotificationReceived() {
+        updateDeliveryItem()
+    }
+    
+    func appDidBecomeActiveReceived() {
+        updateDeliveryItem()
     }
 }
 
