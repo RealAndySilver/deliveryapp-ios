@@ -2325,8 +2325,11 @@
                             <constraint firstItem="G2M-zS-lUr" firstAttribute="leading" secondItem="835-Ho-uHG" secondAttribute="leading" id="x43-y0-pqO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Servicios Abortados" id="yVo-pP-fig"/>
+                    <navigationItem key="navigationItem" title="Servicios Abortados" id="yVo-pP-fig">
+                        <barButtonItem key="leftBarButtonItem" image="SideIcon" id="1kw-t9-5sg"/>
+                    </navigationItem>
                     <connections>
+                        <outlet property="revealButtonItem" destination="1kw-t9-5sg" id="CUi-La-o5W"/>
                         <outlet property="tableView" destination="G2M-zS-lUr" id="GCK-fm-zTX"/>
                     </connections>
                 </viewController>
@@ -3403,7 +3406,7 @@
                                                         </variation>
                                                     </view>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstItem="Q5J-OW-pQu" firstAttribute="top" secondItem="dXq-ny-3qp" secondAttribute="top" id="5x0-4O-pAS"/>
                                                     <constraint firstAttribute="height" constant="226" id="66J-zx-uI7"/>
@@ -3660,6 +3663,7 @@
                         <outlet property="serviceNameLabel" destination="9Xk-7v-XkC" id="CGK-CM-NCT"/>
                         <outlet property="serviceStatusLabel" destination="KTT-Ym-3bd" id="uzr-oa-6Cs"/>
                         <outlet property="shipmentDayLabel" destination="f6w-hw-ydV" id="rCQ-h4-c87"/>
+                        <outlet property="updateButtonItem" destination="esg-dy-2HL" id="65l-jz-4E2"/>
                         <outletCollection property="buttonsCollection" destination="16r-dl-03X" collectionClass="NSMutableArray" id="E1K-Gg-eZa"/>
                         <outletCollection property="buttonsCollection" destination="ZAm-WJ-tbU" collectionClass="NSMutableArray" id="edJ-JF-mTK"/>
                     </connections>

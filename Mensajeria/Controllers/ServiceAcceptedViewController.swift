@@ -22,6 +22,7 @@ class ServiceAcceptedViewController: UIViewController {
     var presentedFromFindingServiceVC: Bool!
     var presentedFromPushNotification: Bool!
     var presentedFromFinishedServicesVC: Bool!
+    var presentedFromAbortedService: Bool?
     
     //////////////////////////////////////////////////////
     weak var delegate: ServiceAcceptedDelegate?
@@ -31,6 +32,7 @@ class ServiceAcceptedViewController: UIViewController {
     //var frameToOpenDetailFrom: CGRect!
     
     var noDriverLabel: UILabel!
+    @IBOutlet weak var updateButtonItem: UIBarButtonItem!
     @IBOutlet weak var serviceNameLabel: UILabel!
     @IBOutlet weak var serviceStatusLabel: UILabel!
     @IBOutlet weak var driverContainerView: UIView!
@@ -70,6 +72,15 @@ class ServiceAcceptedViewController: UIViewController {
             //Create a dismiss bar button item
             let dismissBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "dismissVC")
             navigationItem.leftBarButtonItem = dismissBarButtonItem
+        
+        } else if let abortedService = presentedFromAbortedService {
+            if abortedService == true {
+                serviceStatusLabel.text = "ABORTADO"
+                navigationItem.rightBarButtonItem = nil
+                backToHomeButton.hidden = false
+                backToHomeButton.setTitle("Reactivar servicio", forState: .Normal)
+            }
+        
         } else {
             backToHomeButton.hidden = true
         }
@@ -119,23 +130,25 @@ class ServiceAcceptedViewController: UIViewController {
         }
         platesLabel.text = deliveryItem.messengerInfo?.plate
         
-        switch deliveryItem.status {
-        case "available":
-            serviceStatusLabel.text = "BUSCANDO MENSAJERO"
-        case "accepted":
-            serviceStatusLabel.text = "ACEPTADO"
-        case "in-transit":
-            serviceStatusLabel.text = "EN TRÁNSITO"
-        case "returning":
-            serviceStatusLabel.text = "VOLVIENDO"
-        case "returned":
-            serviceStatusLabel.text = "DEVUELTO"
-        case "delivered":
-            serviceStatusLabel.text = "ENTREGADO"
-        default:
-            break
+        if presentedFromAbortedService == nil {
+            switch deliveryItem.status {
+            case "available":
+                serviceStatusLabel.text = "BUSCANDO MENSAJERO"
+            case "accepted":
+                serviceStatusLabel.text = "ACEPTADO"
+            case "in-transit":
+                serviceStatusLabel.text = "EN TRÁNSITO"
+            case "returning":
+                serviceStatusLabel.text = "VOLVIENDO"
+            case "returned":
+                serviceStatusLabel.text = "DEVUELTO"
+            case "delivered":
+                serviceStatusLabel.text = "ENTREGADO"
+            default:
+                break
+            }
         }
-        
+    
         if deliveryItem.overallStatus == "requested" {
             driverContainerView.hidden = true
             noDriverLabel.hidden = false
@@ -181,6 +194,22 @@ class ServiceAcceptedViewController: UIViewController {
         loadingView.delegate = self
         driverInfoTopContainer.addSubview(loadingView)
         loadingView.center = CGPoint(x: noDriverLabel.center.x, y: noDriverLabel.center.y + 30.0)
+        
+        //ETA Label
+        /*if let messengerInfo = deliveryItem.messengerInfo {
+            let timeToArrive = messengerInfo.time
+            etaLabel.text = "<\(timeToArrive)"
+        }*/
+        
+        println("estimated timeeee en el detalle del deliveryyyyyyy: \(deliveryItem.estimatedString)")
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
+        formatter.locale = NSLocale.currentLocale()
+        if let estimatedDate = formatter.dateFromString(deliveryItem.estimatedString) {
+            println("Estimated timeeee date: \(estimatedDate)")
+        } else {
+            println("nilllllllllllllll")
+        }
     }
     
     //MARK: Actions
@@ -225,6 +254,13 @@ class ServiceAcceptedViewController: UIViewController {
     }
     
     @IBAction func backToHomePressed() {
+        if let abortedService = presentedFromAbortedService {
+            if abortedService == true {
+                //Use this button to reactivate the service
+                enableService()
+            }
+            return
+        }
         UIAlertView(title: "", message: "Puedes acceder a la información del servicio que acabas de pedir desde el menu 'Mis Servicios'", delegate: nil, cancelButtonTitle: "Ok").show()
         navigationController?.popToRootViewControllerAnimated(true)
     }
@@ -250,6 +286,32 @@ class ServiceAcceptedViewController: UIViewController {
     }
     
     //MARK: Server Stuff
+    
+    func enableService() {
+        MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
+        Alamofire.manager.request(.PUT, "\(Alamofire.restartItemServiceURL)/\(deliveryItem.identifier)", parameters: ["user_id" : User.sharedInstance.identifier], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+            
+            MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
+            
+            if error != nil {
+                //Error
+                println("Error en el restart service: \(error?.localizedDescription)")
+                UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar habilitar de nuevo el servicio. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+            } else {
+                //Success
+                let jsonResponse = JSON(json!)
+                if jsonResponse["status"].boolValue {
+                    UIAlertView(title: "", message: "El servicio se ha habilitado de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+                    self.delegate?.serviceUpdated()
+                    self.navigationController?.popViewControllerAnimated(true)
+                    
+                } else {
+                    println("Respuesta false del restart item: \(jsonResponse)")
+                    UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar habilitar de nuevo el servicio.", delegate: nil, cancelButtonTitle: "Ok").show()
+                }
+            }
+        }
+    }
     
     func favouriteMessengerInServer() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)

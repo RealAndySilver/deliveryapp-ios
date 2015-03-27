@@ -152,6 +152,9 @@ class LoginViewController: UIViewController {
                     //saveUserWithDictionary
                     
                 } else {
+                    NSUserDefaults.standardUserDefaults().removeObjectForKey("UserInfo")
+                    NSUserDefaults.standardUserDefaults().removeObjectForKey("UserPass")
+                    
                     println("respuesta false en el login: \(jsonResponse)")
                     if jsonResponse["error_id"].intValue == 0 {
                         //Usuario no encontrado

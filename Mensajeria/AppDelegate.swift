@@ -4,7 +4,7 @@
 //
 //  Created by Developer on 4/02/15.
 //  Copyright (c) 2015 iAm Studio. All rights reserved.
-//
+// julian.montana@gmail.com
 
 import UIKit
 
@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Register for remote notifications
         UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Sound | .Alert | .Badge, categories: nil))
         
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        
         return true
     }
 
@@ -48,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         NSNotificationCenter.defaultCenter().postNotificationName("AppDidBecomeActiveNotification", object: nil)
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -86,26 +89,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         println("Receive remote notification: \(userInfo)")
-        let apsDic = userInfo["aps"] as [String : AnyObject]
-        let message = apsDic["alert"] as String
-        if userInfo["type"] as String == "delivery" {
-            
-            deliveryItemId = userInfo["id"] as String
-            if deliveryItemId != currentServiceDetailScreenDeliveryItemID {
-                println("id del servicio: \(deliveryItemId)")
-                let appState = UIApplication.sharedApplication().applicationState
-                if appState == .Active {
-                    println("the app was active when the notification arrived")
-                    UIAlertView(title: "Servicio actualizado", message: "\(message) ¿Quieres acceder al detalle del servicio?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Aceptar").show()
+        
+        if NSUserDefaults.standardUserDefaults().objectForKey("UserInfo") != nil {
+            //Handle push only if the user is log in
+            let apsDic = userInfo["aps"] as [String : AnyObject]
+            let message = apsDic["alert"] as String
+            if userInfo["u_type"] as String == "user" && userInfo["action"] as String == "delivery" {
+                
+                deliveryItemId = userInfo["id"] as String
+                if deliveryItemId != currentServiceDetailScreenDeliveryItemID {
+                    println("id del servicio: \(deliveryItemId)")
+                    let appState = UIApplication.sharedApplication().applicationState
+                    if appState == .Active {
+                        println("the app was active when the notification arrived")
+                        UIAlertView(title: "Servicio actualizado", message: "\(message) ¿Quieres acceder al detalle del servicio?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Aceptar").show()
+                        
+                    } else {
+                        UIAlertView(title: "Servicio actualizado", message: "\(message) ¿Quieres acceder al detalle del servicio?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Aceptar").show()
+                        println("the app was inactive when the notification arrived")
+                    }
                     
                 } else {
-                    UIAlertView(title: "Servicio actualizado", message: "\(message) ¿Quieres acceder al detalle del servicio?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Aceptar").show()
-                    println("the app was inactive when the notification arrived")
+                    //The user was in the service screen when the notification arrived, so update the service
+                    NSNotificationCenter.defaultCenter().postNotificationName("ServiceUpdatedNotification", object: nil)
                 }
-            
-            } else {
-                //The user was in the service screen when the notification arrived, so update the service 
-                NSNotificationCenter.defaultCenter().postNotificationName("ServiceUpdatedNotification", object: nil)
             }
         }
     }

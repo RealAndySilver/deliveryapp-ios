@@ -11,6 +11,8 @@ import UIKit
 //GetPrice/lat,lon/lat,lon
 class DeliveryItem: NSObject {
     
+    var estimatedString: String
+    var pickupStringTest: String
     var rated: Bool
     var name: String
     var status: String
@@ -29,6 +31,7 @@ class DeliveryItem: NSObject {
     var pickupObject: RequestObject
     var instructions: String
     var overallStatus: String
+    var abortReason: String?
     var deliveryItemDescription: String {
         get {
             return "********** Info del delivery item *************\nname: \(name)\nstatus: \(status)\npickup time: \(pickupTimeString)\npriority: \(priority)\ndelivery object: \(deliveryObject.requestObjectDescription)\nuser info: \(userInfo.userInfoDescription)\npickup object: \(pickupObject.requestObjectDescription)\ndeclared value: \(declaredValue)\nmessenger info: \(messengerInfo?.messengerInfoDescription)"
@@ -45,7 +48,16 @@ class DeliveryItem: NSObject {
         dateToStringFormatter.timeStyle = .ShortStyle
         dateToStringFormatter.locale = NSLocale.currentLocale()*/
         
+        pickupStringTest = deliveryItemJSON["pickup_time"].stringValue
+        
+        estimatedString = deliveryItemJSON["estimated"].stringValue
+        //estimatedString = estimatedString.stringByReplacingCharactersInRange(Range(start: 18, end: 5), withString: "")
+        println("estimated striinnggg *********************: \(estimatedString)")
+        
+        let deliveryItemPickup = deliveryItemJSON["pickup_time"].stringValue
+        println("delivery item pickup string: \(deliveryItemPickup)")
         if let pickupDate = AppInfo.sharedInstance.stringToDateFormatter.dateFromString(deliveryItemJSON["pickup_time"].stringValue) {
+            println("delivery item dateeeee: \(pickupDate)")
             pickupTimeString = AppInfo.sharedInstance.dateToStringFormatter.stringFromDate(pickupDate)
         } else {
             pickupTimeString = ""
@@ -62,7 +74,7 @@ class DeliveryItem: NSObject {
         //pickupTimeString = deliveryItemJSON["pickup_time"].stringValue
         priority = deliveryItemJSON["priority"].intValue
         declaredValue = deliveryItemJSON["declared_value"].intValue
-        
+        abortReason = deliveryItemJSON["abort_reason"].string
         deliveryObject = RequestObject(requestObjectJSON: JSON(deliveryItemJSON["delivery_object"].object))
         identifier = deliveryItemJSON["_id"].stringValue
         //deadline = deliveryItemJSON["deadline"].stringValue
@@ -102,6 +114,7 @@ class RequestObject: NSObject {
 
 class MessengerInfo: NSObject {
     var profilePicString: String
+    var time: String
     var lastName: String
     var plate: String
     var mobilePhone: String
@@ -116,6 +129,7 @@ class MessengerInfo: NSObject {
     }
     init (messengerInfoJSON: JSON) {
         profilePicString = messengerInfoJSON["url"].stringValue
+        time = messengerInfoJSON["time"].stringValue
         lastName = messengerInfoJSON["lastname"].stringValue
         plate = messengerInfoJSON["plate"].stringValue
         mobilePhone = messengerInfoJSON["mobilephone"].stringValue

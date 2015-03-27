@@ -23,7 +23,7 @@ class User: NSObject {
     }
     var userDictionary: [String : AnyObject] {
         get {
-            return ["name" : name, "email_confirmation" : emailConfirmation, "_id" : identifier, "email" : email, "lastname" : lastName]
+            return ["name" : name, "email_confirmation" : emailConfirmation, "_id" : identifier, "email" : email, "lastname" : lastName, "mobilephone" : mobilePhone]
         }
     }
     
