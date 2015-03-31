@@ -7,11 +7,25 @@
 //
 
 import UIKit
-//item_name
-//GetPrice/lat,lon/lat,lon
 class DeliveryItem: NSObject {
     
-    var estimatedString: String
+    var estimatedString: String?
+    var estimatedDate: NSDate?
+    var timeToMessengerArrival: Int? {
+        get {
+            if let theEstimatedDate = estimatedDate {
+                var secondsToArrival = theEstimatedDate.timeIntervalSinceDate(NSDate())
+                if secondsToArrival < 0 {
+                    secondsToArrival = 0
+                }
+                let minutesToArrival = Int(secondsToArrival/60.0)
+                return minutesToArrival
+                
+            } else {
+                return nil
+            }
+        }
+    }
     var pickupStringTest: String
     var rated: Bool
     var name: String
@@ -39,25 +53,20 @@ class DeliveryItem: NSObject {
     }
     
     init(deliveryItemJSON: JSON) {
-        /*let stringToDateFormatter = NSDateFormatter()
-        stringToDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
-        stringToDateFormatter.locale = NSLocale.currentLocale()
-        
-        let dateToStringFormatter = NSDateFormatter()
-        dateToStringFormatter.dateStyle = .LongStyle
-        dateToStringFormatter.timeStyle = .ShortStyle
-        dateToStringFormatter.locale = NSLocale.currentLocale()*/
-        
         pickupStringTest = deliveryItemJSON["pickup_time"].stringValue
         
-        estimatedString = deliveryItemJSON["estimated"].stringValue
-        //estimatedString = estimatedString.stringByReplacingCharactersInRange(Range(start: 18, end: 5), withString: "")
-        println("estimated striinnggg *********************: \(estimatedString)")
+        estimatedString = deliveryItemJSON["estimated"].string
+        if let theEstimatedString = estimatedString {
+            let range = Range(start: advance(theEstimatedString.endIndex, -4), end: theEstimatedString.endIndex)
+            estimatedString = theEstimatedString.stringByReplacingCharactersInRange(range, withString: "000Z")
+            if let theEstimatedDate = AppInfo.sharedInstance.stringToDateFormatter.dateFromString(estimatedString!) {
+                estimatedDate = theEstimatedDate
+            }
+        }
+    
         
         let deliveryItemPickup = deliveryItemJSON["pickup_time"].stringValue
-        println("delivery item pickup string: \(deliveryItemPickup)")
         if let pickupDate = AppInfo.sharedInstance.stringToDateFormatter.dateFromString(deliveryItemJSON["pickup_time"].stringValue) {
-            println("delivery item dateeeee: \(pickupDate)")
             pickupTimeString = AppInfo.sharedInstance.dateToStringFormatter.stringFromDate(pickupDate)
         } else {
             pickupTimeString = ""
@@ -71,13 +80,11 @@ class DeliveryItem: NSObject {
         
         name = deliveryItemJSON["item_name"].stringValue
         status = deliveryItemJSON["status"].stringValue
-        //pickupTimeString = deliveryItemJSON["pickup_time"].stringValue
         priority = deliveryItemJSON["priority"].intValue
         declaredValue = deliveryItemJSON["declared_value"].intValue
         abortReason = deliveryItemJSON["abort_reason"].string
         deliveryObject = RequestObject(requestObjectJSON: JSON(deliveryItemJSON["delivery_object"].object))
         identifier = deliveryItemJSON["_id"].stringValue
-        //deadline = deliveryItemJSON["deadline"].stringValue
         userInfo = UserInfo(userInfoJSON: JSON(deliveryItemJSON["user_info"].object))
         priceToPay = deliveryItemJSON["price_to_pay"].intValue
         userID = deliveryItemJSON["user_id"].stringValue

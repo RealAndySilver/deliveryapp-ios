@@ -161,6 +161,13 @@ class ServiceAcceptedViewController: UIViewController {
             loadingView.hidden = true
             loadingView.stopAnimating()
         }
+        
+        //ETA Label 
+        if let timeToArrival = deliveryItem.timeToMessengerArrival {
+            etaLabel.text = "<\(timeToArrival)min"
+        } else {
+            etaLabel.text = ""
+        }
     }
     
     func setupUI() {
@@ -195,21 +202,7 @@ class ServiceAcceptedViewController: UIViewController {
         driverInfoTopContainer.addSubview(loadingView)
         loadingView.center = CGPoint(x: noDriverLabel.center.x, y: noDriverLabel.center.y + 30.0)
         
-        //ETA Label
-        /*if let messengerInfo = deliveryItem.messengerInfo {
-            let timeToArrive = messengerInfo.time
-            etaLabel.text = "<\(timeToArrive)"
-        }*/
-        
-        println("estimated timeeee en el detalle del deliveryyyyyyy: \(deliveryItem.estimatedString)")
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
-        formatter.locale = NSLocale.currentLocale()
-        if let estimatedDate = formatter.dateFromString(deliveryItem.estimatedString) {
-            println("Estimated timeeee date: \(estimatedDate)")
-        } else {
-            println("nilllllllllllllll")
-        }
+        println("Minutes to arrivallllll: \(deliveryItem.timeToMessengerArrival)")
     }
     
     //MARK: Actions
