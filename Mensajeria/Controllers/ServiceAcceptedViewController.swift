@@ -32,6 +32,7 @@ class ServiceAcceptedViewController: UIViewController {
     //var frameToOpenDetailFrom: CGRect!
     
     var noDriverLabel: UILabel!
+    @IBOutlet weak var noPhotosLabel: UILabel!
     @IBOutlet weak var updateButtonItem: UIBarButtonItem!
     @IBOutlet weak var serviceNameLabel: UILabel!
     @IBOutlet weak var serviceStatusLabel: UILabel!
@@ -138,12 +139,16 @@ class ServiceAcceptedViewController: UIViewController {
                 serviceStatusLabel.text = "ACEPTADO"
             case "in-transit":
                 serviceStatusLabel.text = "EN TRÁNSITO"
+                cancelServiceButton.hidden = true
             case "returning":
                 serviceStatusLabel.text = "VOLVIENDO"
+                cancelServiceButton.hidden = true
             case "returned":
                 serviceStatusLabel.text = "DEVUELTO"
+                cancelServiceButton.hidden = true
             case "delivered":
                 serviceStatusLabel.text = "ENTREGADO"
+                cancelServiceButton.hidden = true
             default:
                 break
             }
@@ -167,6 +172,12 @@ class ServiceAcceptedViewController: UIViewController {
             etaLabel.text = "<\(timeToArrival)min"
         } else {
             etaLabel.text = ""
+        }
+        
+        if deliveryItem.serviceImages.count > 0 {
+            noPhotosLabel.hidden = true
+        } else {
+            noPhotosLabel.hidden = false
         }
     }
     
@@ -232,6 +243,7 @@ class ServiceAcceptedViewController: UIViewController {
                     self.delegate?.serviceUpdated()
                     
                     self.deliveryItem = DeliveryItem(deliveryItemJSON: JSON(jsonResponse["response"].object))
+                    self.collectionView.reloadData()
                     self.fillUIWithDeliveryItemInfo()
                     if self.deliveryItem.overallStatus == "finished" {
                         let serviceFinishedAlert = UIAlertView(title: "Servicio Completado", message: "Tu servicio se ha realizado de forma exitosa. Puedes acceder a todos tus servicios finalizados desde el menú 'Servicios Terminados'", delegate: self, cancelButtonTitle: "Ok!")

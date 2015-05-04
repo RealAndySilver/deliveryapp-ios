@@ -257,6 +257,22 @@ class RequestServiceViewController: UIViewController {
     
     func goToMapVCFromPickupTextfield(pickupSelected: Bool) {
         if let mapVC = storyboard?.instantiateViewControllerWithIdentifier("Map") as? MapViewController {
+            if pickupSelected {
+                //Check if theres a location in this textfield and pass it to the map vc to display the location
+                if let locationLat = pickupLocationDic["lat"] as? CLLocationDegrees {
+                    if let locationLon = pickupLocationDic["lon"] as? CLLocationDegrees {
+                        mapVC.locationDic = pickupLocationDic
+                    }
+                }
+            
+            } else {
+                if let locationLat = destinationLocationDic["lat"] as? CLLocationDegrees {
+                    if let locationLon = destinationLocationDic["lon"] as? CLLocationDegrees {
+                        mapVC.locationDic = destinationLocationDic
+                    }
+                }
+            }
+            
             mapVC.wasSelectingPickupLocation = pickupSelected
             mapVC.onAddressAvailable = {[weak self]
                 (theAddress, theCoordinates, selectedPickupLocation) in

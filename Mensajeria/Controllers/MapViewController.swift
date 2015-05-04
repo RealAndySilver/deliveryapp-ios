@@ -11,11 +11,11 @@ import UIKit
 class MapViewController: UIViewController {
 
     //Public Interface
+    var locationDic: NSDictionary?
     var wasSelectingPickupLocation: Bool!
     var onAddressAvailable: ((theAddress: String, locationCoordinates: CLLocationCoordinate2D, selectingPickupLocation: Bool) -> ())?
     
     //Private Interface
-    
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addressTextfield: UITextField!
     private let locationManager = CLLocationManager()
@@ -32,7 +32,6 @@ class MapViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        sendAddressToPreviousVC(addressTextfield.text, location: currentLocationCoordinate, selectingPickupLocation: wasSelectingPickupLocation)
     }
     
     //MARK: Map Stuff
@@ -54,6 +53,14 @@ class MapViewController: UIViewController {
             }
         }
     }
+    
+    //MARK: Actions 
+    
+    @IBAction func locationChoosed(sender: AnyObject) {
+        sendAddressToPreviousVC(addressTextfield.text, location: currentLocationCoordinate, selectingPickupLocation: wasSelectingPickupLocation)
+        navigationController?.popViewControllerAnimated(true)
+    }
+    
     
     //MARK: Custom Stuff
     
@@ -85,7 +92,11 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         if let location = locations.first as? CLLocation {
-            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            if let locationDic = locationDic {
+                mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude: locationDic["lat"] as CLLocationDegrees, longitude: locationDic["lon"] as CLLocationDegrees), zoom: 15, bearing: 0, viewingAngle: 0)
+            } else {
+                mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            }
             locationManager.stopUpdatingLocation()
         }
     }
