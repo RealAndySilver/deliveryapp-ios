@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var appToken: String?
     var deliveryItemId: String!
     var currentServiceDetailScreenDeliveryItemID = ""
+    var onWaitingForConfirmationScreen = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -97,7 +98,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if userInfo["u_type"] as String == "user" && userInfo["action"] as String == "delivery" {
                 
                 deliveryItemId = userInfo["id"] as String
-                if deliveryItemId != currentServiceDetailScreenDeliveryItemID {
+                println("id del servicio que llego en la notificacion: \(deliveryItemId)")
+                println("id del currentservicedetailid: \(currentServiceDetailScreenDeliveryItemID)")
+                if deliveryItemId != currentServiceDetailScreenDeliveryItemID && !onWaitingForConfirmationScreen {
                     println("id del servicio: \(deliveryItemId)")
                     let appState = UIApplication.sharedApplication().applicationState
                     if appState == .Active {

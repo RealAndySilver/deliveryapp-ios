@@ -26,6 +26,10 @@ class FindingServiceViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.onWaitingForConfirmationScreen = true
+        }
+        
         if firstTimeViewAppeared {
             setupUI()
             firstTimeViewAppeared = false
@@ -35,6 +39,10 @@ class FindingServiceViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         serviceRequestTimer.invalidate()
+        
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.onWaitingForConfirmationScreen = false
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {

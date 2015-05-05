@@ -100,6 +100,18 @@ class ServiceAcceptedViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidBecomeActiveReceived", name: "AppDidBecomeActiveNotification", object: nil)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        /*if viewAppearedForTheFirstTime {
+            if deliveryItem.rated == false && deliveryItem.overallStatus == "finished" {
+                let alert = UIAlertView(title: "", message: "Tu servicio se completó de forma exitosa. Por favor califica al mensajero encargado del servicio", delegate: self, cancelButtonTitle: "Ok")
+                alert.tag = 3
+                alert.show()
+            }
+            viewAppearedForTheFirstTime = false
+        }*/
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
@@ -446,6 +458,9 @@ extension ServiceAcceptedViewController: UIAlertViewDelegate {
                 //If the service has not been rated, proceed to rate it
                 goToRateMessengerVC()
             }
+        
+        } else if alertView.tag == 3 {
+            goToRateMessengerVC()
         }
     }
 }
