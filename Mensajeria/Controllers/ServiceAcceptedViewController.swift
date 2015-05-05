@@ -57,8 +57,6 @@ class ServiceAcceptedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        appDelegate.currentServiceDetailScreenDeliveryItemID = deliveryItem.identifier
         
         if presentedFromFindingServiceVC == true {
             navigationItem.hidesBackButton = true
@@ -96,6 +94,10 @@ class ServiceAcceptedViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        appDelegate.currentServiceDetailScreenDeliveryItemID = deliveryItem.identifier
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "serviceUpdatedNotificationReceived", name: "ServiceUpdatedNotification", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "appDidBecomeActiveReceived", name: "AppDidBecomeActiveNotification", object: nil)
     }
