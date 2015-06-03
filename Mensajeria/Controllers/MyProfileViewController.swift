@@ -74,7 +74,7 @@ class MyProfileViewController: UIViewController {
     //MARK: Form Validation 
     
     func formIsCorrect() -> Bool {
-        if countElements(nameTextfield.text) > 0 && countElements(lastNameTextfield.text) > 0 && countElements(phoneTextfield.text) > 0 {
+        if count(nameTextfield.text) > 0 && count(lastNameTextfield.text) > 0 && count(phoneTextfield.text) > 0 {
             return true
         }
         return false

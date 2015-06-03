@@ -117,7 +117,7 @@ extension ActiveServicesViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ActiveServiceCell") as ActiveServiceCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ActiveServiceCell") as! ActiveServiceCell
         
         if indexPath.section == 0 {
             cell.serviceNameLabel.text = requestedItems[indexPath.row].name
@@ -137,7 +137,7 @@ extension ActiveServicesViewController: UITableViewDataSource {
 extension ActiveServicesViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
+        let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as! ServiceAcceptedViewController
         if indexPath.section == 0 {
             serviceAcceptedVC.deliveryItem = requestedItems[indexPath.row]
         } else {

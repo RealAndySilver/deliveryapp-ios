@@ -89,11 +89,11 @@ extension AddressHistoryViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("SavedAddressCell") as? AddressCell
         
         if indexPath.section == 0 {
-            cell!.addressNameLabel.text = savedAddressesArray[indexPath.row]["address"] as String!
-            cell!.dateSavedLabel.text = savedAddressesArray[indexPath.row]["dateSaved"] as String!
+            cell!.addressNameLabel.text = savedAddressesArray[indexPath.row]["address"] as? String
+            cell!.dateSavedLabel.text = savedAddressesArray[indexPath.row]["dateSaved"] as? String
         } else {
-            cell!.addressNameLabel.text = savedDestinationAddressesArray[indexPath.row]["address"] as String!
-            cell!.dateSavedLabel.text = savedDestinationAddressesArray[indexPath.row]["dateSaved"] as String!
+            cell!.addressNameLabel.text = savedDestinationAddressesArray[indexPath.row]["address"] as? String
+            cell!.dateSavedLabel.text = savedDestinationAddressesArray[indexPath.row]["dateSaved"] as? String
         }
         return cell!
     }
@@ -114,7 +114,7 @@ extension AddressHistoryViewController: UITableViewDelegate {
             //selectedAddress = savedDestinationAddressesArray[indexPath.row]["address"]!
         }
         
-        let addressName = selectedAddressDic["address"] as String!
+        let addressName = selectedAddressDic["address"] as! String
         UIAlertView(title: "", message: "Usar la dirección '\(addressName)' en: ", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Dirección de Recogida", "Dirección de Entrega").show()
     }
 }

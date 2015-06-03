@@ -37,7 +37,7 @@ class PasswordView: UIView {
     
     private func loadViewFromNib() -> UIView {
         let nib = UINib(nibName: nibName, bundle: NSBundle.mainBundle())
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as UIView
+        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
         return view
     }
     
@@ -74,7 +74,7 @@ class PasswordView: UIView {
     }
     
     func passwordsAreCorrect() -> Bool {
-        if countElements(newPasswordTextfield.text) > 0 && countElements(confirmPasswordTextfield.text) > 0 {
+        if count(newPasswordTextfield.text) > 0 && count(confirmPasswordTextfield.text) > 0 {
             if newPasswordTextfield.text == confirmPasswordTextfield.text {
                 return true
                 
@@ -93,7 +93,7 @@ class PasswordView: UIView {
     
     func changePasswordInServer() {
         MBProgressHUD.showHUDAddedTo(self, animated: true)
-        let token = NSUserDefaults.standardUserDefaults().objectForKey("token")! as String
+        let token = NSUserDefaults.standardUserDefaults().objectForKey("token") as! String
         println("token: \(token)")
         let encodedPass = newPasswordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(.allZeros)
         Alamofire.manager.request(.PUT, "\(Alamofire.newPasswordServiceURL)/\(token)", parameters: ["password" : encodedPass!], encoding: .URL).responseJSON { (request, response, json, error) -> Void in

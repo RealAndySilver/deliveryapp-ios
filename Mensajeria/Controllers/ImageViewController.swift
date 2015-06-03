@@ -44,7 +44,7 @@ class ImageViewController: UIViewController {
 extension ImageViewController: UIScrollViewDelegate {
     func scrollViewDidZoom(scrollView: UIScrollView) {
         println("entreeeeeeeeee")
-        let subView = self.scrollView.subviews[0] as UIImageView
+        let subView = self.scrollView.subviews[0] as! UIImageView
         
         let offsetX = (self.scrollView.bounds.size.width > self.scrollView.contentSize.width) ? (self.scrollView.bounds.size.width - self.scrollView.contentSize.width) * 0.5 : 0.0;
         

@@ -136,7 +136,7 @@ class CreateAccountViewController: UIViewController {
     }
     
     func passwordsAreCorrect() -> Bool {
-        if countElements(passwordTextfield.text) > 0 && countElements(confirmPasswordTextfield.text) > 0 && passwordTextfield.text == confirmPasswordTextfield.text {
+        if count(passwordTextfield.text) > 0 && count(confirmPasswordTextfield.text) > 0 && passwordTextfield.text == confirmPasswordTextfield.text {
             return true
         } else {
             return false
@@ -149,7 +149,7 @@ class CreateAccountViewController: UIViewController {
         var emailIsCorrect = false
         var phoneIsCorrect = false
         
-        if countElements(nameTextfield.text) > 0 {
+        if count(nameTextfield.text) > 0 {
             nameIsCorrect = true
             nameTextfield.layer.borderWidth = 0.0
             
@@ -158,7 +158,7 @@ class CreateAccountViewController: UIViewController {
             nameTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        if countElements(lastNameTextfield.text) > 0 {
+        if count(lastNameTextfield.text) > 0 {
             lastNameIsCorrect = true
             lastNameTextfield.layer.borderWidth = 0.0
 
@@ -167,7 +167,7 @@ class CreateAccountViewController: UIViewController {
             lastNameTextfield.layer.borderWidth = 1.0
         }
         
-        if countElements(emailTextfield.text) > 0{
+        if count(emailTextfield.text) > 0{
             emailIsCorrect = true
             emailTextfield.layer.borderWidth = 0.0
 
@@ -176,7 +176,7 @@ class CreateAccountViewController: UIViewController {
             emailTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        if countElements(cellphoneTextfield.text) > 0 {
+        if count(cellphoneTextfield.text) > 0 {
             phoneIsCorrect = true
             cellphoneTextfield.layer.borderWidth = 0.0
         } else {
@@ -199,7 +199,7 @@ class CreateAccountViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "TermsConditionsSegue" {
-            let termsConditionsVC = segue.destinationViewController as UIViewController
+            let termsConditionsVC = segue.destinationViewController as! UIViewController
             termsConditionsVC.transitioningDelegate = self
         }
     }

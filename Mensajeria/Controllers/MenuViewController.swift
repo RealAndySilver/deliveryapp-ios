@@ -55,7 +55,7 @@ extension MenuViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell") as MenuCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell") as! MenuCell
         cell.menuItemLabel.text = menuArray[indexPath.row]
         return cell
     }
@@ -73,14 +73,14 @@ extension MenuViewController: UITableViewDelegate {
             if indexPath.row == SelectedMenuOption.SolicitarOption.rawValue {
                 selectedMenu = indexPath.row
                 //Go to "Solicitar Servicio"
-                let requestNavController = storyboard?.instantiateViewControllerWithIdentifier("MainNavController") as UINavigationController
+                let requestNavController = storyboard?.instantiateViewControllerWithIdentifier("MainNavController") as! UINavigationController
                 revealViewController().pushFrontViewController(requestNavController, animated: true)
             }
             
             else if indexPath.row == SelectedMenuOption.MiPerfilOption.rawValue {
                 selectedMenu = indexPath.row
                 //Go to "Mi Perfil"
-                let myProfileNavController = storyboard?.instantiateViewControllerWithIdentifier("MyProfileNavController") as UINavigationController
+                let myProfileNavController = storyboard?.instantiateViewControllerWithIdentifier("MyProfileNavController") as! UINavigationController
                 revealViewController().pushFrontViewController(myProfileNavController, animated: true)
             
             } else if indexPath.row == SelectedMenuOption.CerrarSesionOption.rawValue {
@@ -90,17 +90,17 @@ extension MenuViewController: UITableViewDelegate {
             } else if indexPath.row == SelectedMenuOption.MisServiciosOption.rawValue {
                 selectedMenu = indexPath.row
                 //Go to "Mis Servicios"
-                let activeServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("ActiveServicesNavController") as UINavigationController
+                let activeServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("ActiveServicesNavController") as! UINavigationController
                 revealViewController().pushFrontViewController(activeServicesNavController, animated: true)
             
             } else if indexPath.row == SelectedMenuOption.HistorialDeServiciosOptions.rawValue {
                 selectedMenu = indexPath.row
-                let finishedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("FinishedServicesNavController") as UINavigationController
+                let finishedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("FinishedServicesNavController") as! UINavigationController
                 revealViewController().pushFrontViewController(finishedServicesNavController, animated: true)
             
             } else if indexPath.row == SelectedMenuOption.AbortedServicesOption.rawValue {
                 selectedMenu = indexPath.row
-                let abortedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("AbortedServicesNavController") as UINavigationController
+                let abortedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("AbortedServicesNavController") as! UINavigationController
                 revealViewController().pushFrontViewController(abortedServicesNavController, animated: true)
             }
             /*else if indexPath.row == SelectedMenuOption.MisFavoritosOption.rawValue {

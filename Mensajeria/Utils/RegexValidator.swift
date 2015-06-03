@@ -16,10 +16,7 @@ class RegexValidator: NSObject {
         let laxString = "[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\\.[a-zA-Z]{2,4}"
         //let emailRegex = strictFilter ? strictFilterString : laxString
         let emailRegex = laxString
-        if let emailTest = NSPredicate(format: "SELF MATCHES '\(emailRegex)'") {
-            return emailTest.evaluateWithObject(emailString)
-        } else {
-            return false
-        }
+        let emailTest = NSPredicate(format: "SELF MATCHES '\(emailRegex)'")
+        return emailTest.evaluateWithObject(emailString)
     }
 }

@@ -63,9 +63,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if url.absoluteString?.lowercaseString.rangeOfString("password_redirect") != nil {
             let urlString = url.absoluteString
             let parametersDic = Utils.URLQueryParameters(url)
-            let token = parametersDic["token"] as String
-            let userType = parametersDic["type"] as String
-            let requestType = parametersDic["request"] as String
+            let token = parametersDic["token"] as! String
+            let userType = parametersDic["type"] as! String
+            let requestType = parametersDic["request"] as! String
             println("token: \(token)")
             println("user type: \(userType)")
             println("request type: \(requestType)")
@@ -93,11 +93,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if NSUserDefaults.standardUserDefaults().objectForKey("UserInfo") != nil {
             //Handle push only if the user is log in
-            let apsDic = userInfo["aps"] as [String : AnyObject]
-            let message = apsDic["alert"] as String
-            if userInfo["u_type"] as String == "user" && userInfo["action"] as String == "delivery" {
+            let apsDic = userInfo["aps"] as! [String : AnyObject]
+            let message = apsDic["alert"] as! String
+            if userInfo["u_type"] as! String == "user" && userInfo["action"] as! String == "delivery" {
                 
-                deliveryItemId = userInfo["id"] as String
+                deliveryItemId = userInfo["id"] as! String
                 println("id del servicio que llego en la notificacion: \(deliveryItemId)")
                 println("id del currentservicedetailid: \(currentServiceDetailScreenDeliveryItemID)")
                 if deliveryItemId != currentServiceDetailScreenDeliveryItemID && !onWaitingForConfirmationScreen {
@@ -170,7 +170,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("iré al delivery iteeeeemmmmmm")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let serviceAcceptedVC = storyboard.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
+        let serviceAcceptedVC = storyboard.instantiateViewControllerWithIdentifier("ServiceAccepted") as! ServiceAcceptedViewController
         serviceAcceptedVC.deliveryItem = deliveryItem
         serviceAcceptedVC.presentedFromPushNotification = true
         serviceAcceptedVC.presentedFromFindingServiceVC = false

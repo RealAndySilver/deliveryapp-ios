@@ -85,7 +85,7 @@ extension FinishedServicesViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("FinishedServiceCell") as ActiveServiceCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("FinishedServiceCell") as! ActiveServiceCell
         cell.serviceNameLabel.text = finishedItems[indexPath.row].name
         cell.pickupAdressLabel.text = finishedItems[indexPath.row].pickupObject.address
         cell.deliveryAddressLabel.text = finishedItems[indexPath.row].deliveryObject.address
@@ -98,7 +98,7 @@ extension FinishedServicesViewController: UITableViewDataSource {
 extension FinishedServicesViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
+        let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as! ServiceAcceptedViewController
         serviceAcceptedVC.deliveryItem = finishedItems[indexPath.row]
         serviceAcceptedVC.presentedFromPushNotification = false
         serviceAcceptedVC.presentedFromFindingServiceVC = false

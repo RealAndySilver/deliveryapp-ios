@@ -126,13 +126,14 @@ class RequestServiceViewController: UIViewController {
     
     func getServicePrice() {
         if pickupLocationDic["lat"] != nil && pickupLocationDic["lon"] != nil && destinationLocationDic["lat"] != nil && destinationLocationDic["lon"] != nil {
-            let pickupLatitude = pickupLocationDic["lat"] as CLLocationDegrees
-            let pickupLongitude = pickupLocationDic["lon"] as CLLocationDegrees
-            let deliveryLatitude = destinationLocationDic["lat"] as CLLocationDegrees
-            let deliveryLongitude = destinationLocationDic["lon"] as CLLocationDegrees
+            let pickupLatitude = pickupLocationDic["lat"] as! CLLocationDegrees
+            let pickupLongitude = pickupLocationDic["lon"] as! CLLocationDegrees
+            let deliveryLatitude = destinationLocationDic["lat"] as! CLLocationDegrees
+            let deliveryLongitude = destinationLocationDic["lon"] as! CLLocationDegrees
             println("url del request: \(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)")
             
-            Alamofire.manager.request(.GET, "\(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)").responseJSON({ (request, response, json, error) in
+            Alamofire.manager.request(.GET, "\(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)").responseJSON(options: .allZeros, completionHandler: { (request, response, json, error) -> Void in
+                
                 if error != nil {
                     println("Hubo un erorr en el get price: \(error?.localizedDescription)")
                     self.servicePriceLabel.text = "COP $0"
@@ -197,7 +198,7 @@ class RequestServiceViewController: UIViewController {
         var instructionsAreCorrect = false
         var deliveryDayHourIsCorrect = false
         
-        if countElements(serviceNameTextfield.text) > 0 {
+        if count(serviceNameTextfield.text) > 0 {
             serviceNameIsCorrect = true
             serviceNameTextfield.layer.borderWidth = 0.0
         } else {
@@ -205,7 +206,7 @@ class RequestServiceViewController: UIViewController {
             serviceNameTextfield.layer.borderWidth = 1.0
         }
     
-        if countElements(pickupAddressTextfield.text) > 0 {
+        if count(pickupAddressTextfield.text) > 0 {
             pickupAddressIsCorrect = true
             pickupAddressTextfield.layer.borderWidth = 0.0
         } else {
@@ -213,7 +214,7 @@ class RequestServiceViewController: UIViewController {
             pickupAddressTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        if countElements(finalAddressTextfield.text) > 0 {
+        if count(finalAddressTextfield.text) > 0 {
             finalAddressIsCorrect = true
             finalAddressTextfield.layer.borderWidth = 0.0
         } else {
@@ -221,7 +222,7 @@ class RequestServiceViewController: UIViewController {
             finalAddressTextfield.layer.borderWidth = 1.0
         }
         
-        if countElements(dayHourTextfield.text) > 0 {
+        if count(dayHourTextfield.text) > 0 {
             dayAndHourIsCorrect = true
             dayHourTextfield.layer.borderWidth = 0.0
         } else {
@@ -229,7 +230,7 @@ class RequestServiceViewController: UIViewController {
             dayHourTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        if countElements(deliveryDayHourTextfield.text) > 0 {
+        if count(deliveryDayHourTextfield.text) > 0 {
             deliveryDayHourIsCorrect = true
             deliveryDayHourTextfield.layer.borderWidth = 0.0
         } else {
@@ -237,7 +238,7 @@ class RequestServiceViewController: UIViewController {
             deliveryDayHourTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        if countElements(instructionsTextView.text) > 0 {
+        if count(instructionsTextView.text) > 0 {
             instructionsAreCorrect = true
             instructionsTextView.layer.borderColor = UIColor(white: 0.9, alpha: 1.0).CGColor
         } else {
@@ -250,7 +251,7 @@ class RequestServiceViewController: UIViewController {
     //MARK: Navigation
     
     func goToFindingServiceWithServiceID(serviceID: String) {
-        let findingServiceVC = storyboard?.instantiateViewControllerWithIdentifier("FindingService") as FindingServiceViewController
+        let findingServiceVC = storyboard?.instantiateViewControllerWithIdentifier("FindingService") as! FindingServiceViewController
         findingServiceVC.serviceID = serviceID
         navigationController?.pushViewController(findingServiceVC, animated: true)
     }
@@ -351,7 +352,7 @@ class RequestServiceViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AddressHistorySegue" {
-            let addressHistoryVC = segue.destinationViewController as AddressHistoryViewController
+            let addressHistoryVC = segue.destinationViewController as! AddressHistoryViewController
             addressHistoryVC.delegate = self
         }
     }
@@ -398,10 +399,10 @@ extension RequestServiceViewController: AddressHistoryDelegate {
     func addressSelected(adressDic: [String : AnyObject], forPickupLocation: Bool) {
         if forPickupLocation {
             pickupLocationDic = adressDic
-            pickupAddressTextfield.text = pickupLocationDic["address"] as String!
+            pickupAddressTextfield.text = pickupLocationDic["address"] as! String
         } else {
             destinationLocationDic = adressDic
-            finalAddressTextfield.text = destinationLocationDic["address"] as String!
+            finalAddressTextfield.text = destinationLocationDic["address"] as! String
         }
         getServicePrice()
     }

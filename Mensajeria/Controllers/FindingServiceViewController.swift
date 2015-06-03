@@ -128,7 +128,7 @@ class FindingServiceViewController: UIViewController {
     //MARK: Navigation 
     
     func goToServiceAcceptedWithDeliveryItem(deliveryItem: DeliveryItem) {
-        let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
+        let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as! ServiceAcceptedViewController
         serviceAcceptedVC.deliveryItem = deliveryItem
         serviceAcceptedVC.presentedFromPushNotification = false
         serviceAcceptedVC.presentedFromFindingServiceVC = true

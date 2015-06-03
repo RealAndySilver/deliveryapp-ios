@@ -94,7 +94,7 @@ class LoginViewController: UIViewController {
     //MARK: Form Stuff
     
     func formIsCorrect() -> Bool {
-        return countElements(userTextfield.text) > 0 && countElements(passwordTextfield.text) > 0 ? true : false
+        return count(userTextfield.text) > 0 && count(passwordTextfield.text) > 0 ? true : false
     }
     
     //MARK: Server stuff
@@ -110,7 +110,7 @@ class LoginViewController: UIViewController {
         
         //App token
         var token = ""
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         if let theToken = appDelegate.appToken {
             token = theToken
         }
@@ -119,7 +119,7 @@ class LoginViewController: UIViewController {
         var password = ""
         if userIsLoggedIn {
             email = User.sharedInstance.email
-            password = NSUserDefaults.standardUserDefaults().objectForKey("UserPass") as String
+            password = NSUserDefaults.standardUserDefaults().objectForKey("UserPass") as! String
             
         } else {
             email = userTextfield.text
@@ -172,14 +172,14 @@ class LoginViewController: UIViewController {
     func goToRequestServiceVC() {
         MBProgressHUD.hideAllHUDsForView(view, animated: true)
         println("entre al gotorequestttt")
-        let revealViewController = storyboard?.instantiateViewControllerWithIdentifier("revealViewController") as SWRevealViewController
+        let revealViewController = storyboard?.instantiateViewControllerWithIdentifier("revealViewController") as! SWRevealViewController
         revealViewController.transitioningDelegate = self
         presentViewController(revealViewController, animated: true, completion: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "CreateAccountSegue" {
-            let createAccountVC = segue.destinationViewController as CreateAccountViewController
+            let createAccountVC = segue.destinationViewController as! CreateAccountViewController
             createAccountVC.transitioningDelegate = self
         }
     }

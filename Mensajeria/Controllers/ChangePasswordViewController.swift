@@ -61,7 +61,7 @@ class ChangePasswordViewController: UIViewController {
     //MARK: Form Validation
     
     func formIsCorrect() -> Bool {
-        if countElements(newPasswordTextfield.text) > 0 && countElements(confirmNewPassTextfield.text) > 0 && countElements(actualPasswordTextfield.text) > 0 {
+        if count(newPasswordTextfield.text) > 0 && count(confirmNewPassTextfield.text) > 0 && count(actualPasswordTextfield.text) > 0 {
             if newPasswordTextfield.text == confirmNewPassTextfield.text {
                 return true
                 

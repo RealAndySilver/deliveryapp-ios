@@ -23,7 +23,7 @@ class ForgotPasswordViewController: UIViewController {
     //MARK: Actions 
     
     @IBAction func sendButtonPressed() {
-        if countElements(emailTextfield.text) > 0 {
+        if count(emailTextfield.text) > 0 {
             sendRecoverPetitionToServer()
             
         } else {

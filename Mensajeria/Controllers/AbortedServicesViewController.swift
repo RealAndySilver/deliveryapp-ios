@@ -125,7 +125,7 @@ extension AbortedServicesViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("AbortedServiceCell", forIndexPath: indexPath) as ActiveServiceCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("AbortedServiceCell", forIndexPath: indexPath) as! ActiveServiceCell
         cell.pickupAdressLabel.text = abortedServices[indexPath.row].pickupObject.address
         cell.deliveryAddressLabel.text = abortedServices[indexPath.row].deliveryObject.address
         cell.serviceNameLabel.text = abortedServices[indexPath.row].name
@@ -143,7 +143,7 @@ extension AbortedServicesViewController: UITableViewDelegate {
         //Show options alert
         //UIAlertView(title: "", message: "¿Que deseas hacer?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Habilitar servicio de nuevo", "Eliminar servicio").show()
         
-        let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as ServiceAcceptedViewController
+        let serviceAcceptedVC = storyboard?.instantiateViewControllerWithIdentifier("ServiceAccepted") as! ServiceAcceptedViewController
         serviceAcceptedVC.deliveryItem = abortedServices[indexPath.row]
         serviceAcceptedVC.presentedFromPushNotification = false
         serviceAcceptedVC.presentedFromFindingServiceVC = false

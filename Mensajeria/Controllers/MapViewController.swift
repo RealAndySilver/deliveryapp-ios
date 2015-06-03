@@ -42,7 +42,7 @@ class MapViewController: UIViewController {
         geocoder.reverseGeocodeCoordinate(coordinate) { (response, error) in
             if let address = response?.firstResult() {
                 if address.lines != nil {
-                    let lines = address.lines as [String]
+                    let lines = address.lines as! [String]
                     let fullAddress = join(" - ", lines)
                     let addressComponents = fullAddress.componentsSeparatedByString(" a ")
                     if let streetName = addressComponents.first {
@@ -93,7 +93,7 @@ extension MapViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         if let location = locations.first as? CLLocation {
             if let locationDic = locationDic {
-                mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude: locationDic["lat"] as CLLocationDegrees, longitude: locationDic["lon"] as CLLocationDegrees), zoom: 15, bearing: 0, viewingAngle: 0)
+                mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude: locationDic["lat"] as! CLLocationDegrees, longitude: locationDic["lon"] as! CLLocationDegrees), zoom: 15, bearing: 0, viewingAngle: 0)
             } else {
                 mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
             }

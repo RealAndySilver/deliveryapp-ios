@@ -48,7 +48,7 @@ class FavouriteMessengersViewController: UIViewController {
                 let jsonResponse = JSON(json!)
                 if jsonResponse["status"].boolValue {
                     println("Respuesta true del unfav: \(jsonResponse)")
-                    let messengersArray = jsonResponse["response"].object as [[String : AnyObject]]
+                    let messengersArray = jsonResponse["response"].object as! [[String : AnyObject]]
                     self.favoritesMessengers = MessengerInfo.getMessengersObjectsFromArray(messengersArray)
                     self.theTableView.reloadData()
                     
@@ -73,7 +73,7 @@ class FavouriteMessengersViewController: UIViewController {
                 let jsonResponse = JSON(json!)
                 if jsonResponse["status"].boolValue {
                     println("Resputa true del get favorites: \(jsonResponse)")
-                    let messengersArray = jsonResponse["response"].object as [[String : AnyObject]]
+                    let messengersArray = jsonResponse["response"].object as! [[String : AnyObject]]
                     self.favoritesMessengers = MessengerInfo.getMessengersObjectsFromArray(messengersArray)
                     self.theTableView.reloadData()
                     
@@ -104,7 +104,7 @@ extension FavouriteMessengersViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("FavMessengerCell") as FavouriteMessengerCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("FavMessengerCell") as! FavouriteMessengerCell
         cell.messengerName.text = "\(favoritesMessengers[indexPath.row].name) \(favoritesMessengers[indexPath.row].lastName)"
         cell.messengerPlate.text = favoritesMessengers[indexPath.row].plate
         return cell

@@ -95,7 +95,7 @@ class ServiceAcceptedViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.currentServiceDetailScreenDeliveryItemID = deliveryItem.identifier
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "serviceUpdatedNotificationReceived", name: "ServiceUpdatedNotification", object: nil)
@@ -116,7 +116,7 @@ class ServiceAcceptedViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.currentServiceDetailScreenDeliveryItemID = ""
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -298,7 +298,7 @@ class ServiceAcceptedViewController: UIViewController {
     //MARK: Navigation
     
     func goToRateMessengerVC() {
-        let rateMessengerVC = storyboard?.instantiateViewControllerWithIdentifier("RateDriver") as RateDriverViewController
+        let rateMessengerVC = storyboard?.instantiateViewControllerWithIdentifier("RateDriver") as! RateDriverViewController
         rateMessengerVC.messenger = deliveryItem.messengerInfo!
         rateMessengerVC.deliveryItemID = deliveryItem.identifier
         navigationController?.pushViewController(rateMessengerVC, animated: true)
@@ -399,7 +399,7 @@ extension ServiceAcceptedViewController: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ServiceImageCell", forIndexPath: indexPath) as ServiceImageCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ServiceImageCell", forIndexPath: indexPath) as! ServiceImageCell
         println("url de la imagennnn: \(deliveryItem.serviceImages[indexPath.item].urlString)")
         cell.serviceImageView.sd_setImageWithURL(NSURL(string: deliveryItem.serviceImages[indexPath.item].urlString))
         return cell
@@ -410,9 +410,9 @@ extension ServiceAcceptedViewController: UICollectionViewDataSource {
 
 extension ServiceAcceptedViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let selectedCell = collectionView.cellForItemAtIndexPath(indexPath) as ServiceImageCell
+        let selectedCell = collectionView.cellForItemAtIndexPath(indexPath) as! ServiceImageCell
         if let cellImage = selectedCell.serviceImageView.image {
-            let imageVC = storyboard?.instantiateViewControllerWithIdentifier("Image") as ImageViewController
+            let imageVC = storyboard?.instantiateViewControllerWithIdentifier("Image") as! ImageViewController
             imageVC.galleryImage = cellImage
             
             //let attributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)

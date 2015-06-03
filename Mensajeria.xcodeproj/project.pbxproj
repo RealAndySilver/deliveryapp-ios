@@ -38,6 +38,8 @@
 		8BA5A80E1A8E979A00379651 /* ActiveServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA5A80D1A8E979A00379651 /* ActiveServiceCell.swift */; };
 		8BA62C231AA497C8000F9C84 /* RegexValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA62C221AA497C8000F9C84 /* RegexValidator.swift */; };
 		8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */; };
+		8BB9D16E1B1F455100A1A812 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB9D16D1B1F455100A1A812 /* Alamofire.swift */; };
+		8BB9D1711B1F4CFA00A1A812 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB9D1701B1F4CFA00A1A812 /* SwiftyJSON.swift */; };
 		8BC2031F1AA79A900093D8B3 /* CloseSessionAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC2031E1AA79A900093D8B3 /* CloseSessionAnimationController.swift */; };
 		8BC2C8721AA0BCA700E25204 /* ServiceImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC2C8711AA0BCA700E25204 /* ServiceImageCell.swift */; };
 		8BC2C8951AA0C42500E25204 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC2C8751AA0C42500E25204 /* MKAnnotationView+WebCache.m */; };
@@ -67,8 +69,6 @@
 		8BEA65B01A82B1E100C20D5B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65AE1A82B1E100C20D5B /* LaunchScreen.xib */; };
 		8BEA65BC1A82B1E100C20D5B /* MensajeriaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65BB1A82B1E100C20D5B /* MensajeriaTests.swift */; };
 		8BEA65C71A82B98500C20D5B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65C61A82B98500C20D5B /* LoginViewController.swift */; };
-		8BEA65CB1A82C29900C20D5B /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65C91A82C29900C20D5B /* Alamofire.swift */; };
-		8BEA65CC1A82C29900C20D5B /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65CA1A82C29900C20D5B /* SwiftyJSON.swift */; };
 		8BEA65D01A82C6EB00C20D5B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65CF1A82C6EB00C20D5B /* MBProgressHUD.m */; };
 		A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */; };
 		A0AFE1481A83D31F0025CACF /* TermsConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */; };
@@ -137,6 +137,8 @@
 		8BA62C221AA497C8000F9C84 /* RegexValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegexValidator.swift; path = Utils/RegexValidator.swift; sourceTree = "<group>"; };
 		8BAF8A961A8D411B006F01EC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8BB9BE1A1A892BEF005EC694 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForgotPasswordViewController.swift; path = Controllers/ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		8BB9D16D1B1F455100A1A812 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
+		8BB9D1701B1F4CFA00A1A812 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		8BC2031E1AA79A900093D8B3 /* CloseSessionAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CloseSessionAnimationController.swift; path = "Animation Controllers/CloseSessionAnimationController.swift"; sourceTree = "<group>"; };
 		8BC2C8711AA0BCA700E25204 /* ServiceImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceImageCell.swift; path = "Custom Cells/ServiceImageCell.swift"; sourceTree = "<group>"; };
 		8BC2C8741AA0C42500E25204 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
@@ -187,8 +189,6 @@
 		8BEA65BA1A82B1E100C20D5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BEA65BB1A82B1E100C20D5B /* MensajeriaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MensajeriaTests.swift; sourceTree = "<group>"; };
 		8BEA65C61A82B98500C20D5B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = Controllers/LoginViewController.swift; sourceTree = "<group>"; };
-		8BEA65C91A82C29900C20D5B /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
-		8BEA65CA1A82C29900C20D5B /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		8BEA65CE1A82C6EB00C20D5B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		8BEA65CF1A82C6EB00C20D5B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		8BEA65DB1A82CA0A00C20D5B /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
@@ -342,6 +342,22 @@
 			name = "Custom Cells";
 			sourceTree = "<group>";
 		};
+		8BB9D16C1B1F455100A1A812 /* Alamofire */ = {
+			isa = PBXGroup;
+			children = (
+				8BB9D16D1B1F455100A1A812 /* Alamofire.swift */,
+			);
+			path = Alamofire;
+			sourceTree = "<group>";
+		};
+		8BB9D16F1B1F4CFA00A1A812 /* SwiftyJSON */ = {
+			isa = PBXGroup;
+			children = (
+				8BB9D1701B1F4CFA00A1A812 /* SwiftyJSON.swift */,
+			);
+			path = SwiftyJSON;
+			sourceTree = "<group>";
+		};
 		8BC2C8731AA0C42500E25204 /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -492,13 +508,13 @@
 		8BEA65C81A82C29900C20D5B /* Librerias */ = {
 			isa = PBXGroup;
 			children = (
+				8BB9D16F1B1F4CFA00A1A812 /* SwiftyJSON */,
+				8BB9D16C1B1F455100A1A812 /* Alamofire */,
 				8BC2C8731AA0C42500E25204 /* SDWebImage */,
 				8B0D80CD1A961ACC0058A6F4 /* MONActivityIndicatorView */,
 				8BA5A8041A8E441200379651 /* SWRevealViewController */,
 				8B31584B1A8910BF005F43E4 /* RatingView */,
 				8BEA65CD1A82C6EB00C20D5B /* MBProgressHUD */,
-				8BEA65C91A82C29900C20D5B /* Alamofire.swift */,
-				8BEA65CA1A82C29900C20D5B /* SwiftyJSON.swift */,
 			);
 			path = Librerias;
 			sourceTree = "<group>";
@@ -643,6 +659,7 @@
 				8BC2C8A21AA0C42500E25204 /* UIImageView+HighlightedWebCache.m in Sources */,
 				8B0D80D21A964E950058A6F4 /* ShadowedButton.swift in Sources */,
 				8BC2C8721AA0BCA700E25204 /* ServiceImageCell.swift in Sources */,
+				8BB9D16E1B1F455100A1A812 /* Alamofire.swift in Sources */,
 				8B8427BB1A9BC3FE003D1354 /* PasswordView.swift in Sources */,
 				8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */,
 				8B770CD21ABCAF6E00486FBE /* AbortedServicesViewController.swift in Sources */,
@@ -658,7 +675,6 @@
 				8BC2C89C1AA0C42500E25204 /* SDWebImageManager.m in Sources */,
 				8BC2C8A31AA0C42500E25204 /* UIImageView+WebCache.m in Sources */,
 				8B713BC31A95068B00800798 /* ShadowedView.swift in Sources */,
-				8BEA65CB1A82C29900C20D5B /* Alamofire.swift in Sources */,
 				8B713BC01A94E03500800798 /* AppInfo.swift in Sources */,
 				8BC2C8951AA0C42500E25204 /* MKAnnotationView+WebCache.m in Sources */,
 				8BC2C8961AA0C42500E25204 /* NSData+ImageContentType.m in Sources */,
@@ -667,6 +683,7 @@
 				8B31584E1A8910BF005F43E4 /* RatingView.m in Sources */,
 				8BEA65C71A82B98500C20D5B /* LoginViewController.swift in Sources */,
 				A0AFE1481A83D31F0025CACF /* TermsConditionsViewController.swift in Sources */,
+				8BB9D1711B1F4CFA00A1A812 /* SwiftyJSON.swift in Sources */,
 				8B3158561A89201B005F43E4 /* RateDriverViewController.swift in Sources */,
 				8BC2C89B1AA0C42500E25204 /* SDWebImageDownloaderOperation.m in Sources */,
 				A0AFE1691A84008A0025CACF /* MapViewController.swift in Sources */,
@@ -694,7 +711,6 @@
 				8BCC7B791AB9E0980085EDF5 /* ZoomTransitionDelegate.swift in Sources */,
 				8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */,
 				8BC2C89F1AA0C42500E25204 /* UIImage+GIF.m in Sources */,
-				8BEA65CC1A82C29900C20D5B /* SwiftyJSON.swift in Sources */,
 				8B12044A1A93D39B000B2020 /* MenuCell.swift in Sources */,
 				8B2F05C51A856B26007C462B /* User.swift in Sources */,
 				8BC2C8981AA0C42500E25204 /* SDWebImageCompat.m in Sources */,
@@ -834,10 +850,12 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Mensajeria/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f3ee79e8-01eb-4469-8226-4959069f9fb3";
+				PROVISIONING_PROFILE = "e18e59e0-721e-4fa9-beb9-ef07bd02014e";
 				SWIFT_OBJC_BRIDGING_HEADER = ./Mensajeria/BridgingHeader.h;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -852,10 +870,12 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Mensajeria/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f3ee79e8-01eb-4469-8226-4959069f9fb3";
+				PROVISIONING_PROFILE = "e18e59e0-721e-4fa9-beb9-ef07bd02014e";
 				SWIFT_OBJC_BRIDGING_HEADER = ./Mensajeria/BridgingHeader.h;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

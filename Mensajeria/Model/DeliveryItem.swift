@@ -95,7 +95,7 @@ class DeliveryItem: NSObject {
         messengerInfo = MessengerInfo(messengerInfoJSON: JSON(deliveryItemJSON["messenger_info"].object))
         rated = deliveryItemJSON["rated"].boolValue
         
-        let tempServiceImagesArray = deliveryItemJSON["images"].object as [[String : AnyObject]]
+        let tempServiceImagesArray = deliveryItemJSON["images"].object as! [[String : AnyObject]]
         for serviceImageDic in tempServiceImagesArray {
             let serviceImage = ServiceImage(serviceImageJSON: JSON(serviceImageDic))
             serviceImages.append(serviceImage)
