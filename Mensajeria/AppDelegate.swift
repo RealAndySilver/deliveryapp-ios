@@ -144,7 +144,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //MARK: Server 
     
     func getDeliveryItemId() {
-        Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/\(deliveryItemId)").responseJSON { (request, response, json, error) -> Void in
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.getDeliveryItemServiceURL)/\(deliveryItemId)", methodType: "GET")
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
             if error != nil {
                 //There was an error
                 println("error en el get delivery item: \(error?.localizedDescription)")

@@ -50,7 +50,10 @@ class ActiveServicesViewController: UIViewController {
     
     func getActiveDeliveryItems() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        Alamofire.manager.request(.GET, "\(Alamofire.activeItemsServiceURL)/\(User.sharedInstance.identifier)").responseJSON { (request, response, json, error) in
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.activeItemsServiceURL)/\(User.sharedInstance.identifier)", methodType: "GET")
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) in
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
                 println("Error en el get active services: \(error?.localizedDescription)")

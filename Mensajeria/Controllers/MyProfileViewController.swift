@@ -48,7 +48,11 @@ class MyProfileViewController: UIViewController {
     
     func updateUserInServer() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        Alamofire.manager.request(.PUT, "\(Alamofire.updateUserServiceURL)/\(User.sharedInstance.identifier)", parameters: ["name" : nameTextfield.text, "lastname" : lastNameTextfield.text, "mobilephone" : phoneTextfield.text], encoding: .URL).responseJSON { (request, response, json, error) in
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.updateUserServiceURL)/\(User.sharedInstance.identifier)", methodType: "PUT", theParameters: ["name" : nameTextfield.text, "lastname" : lastNameTextfield.text, "mobilephone" : phoneTextfield.text])
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) in
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
                 //Error

@@ -46,7 +46,11 @@ class FinishedServicesViewController: UIViewController {
     
     func getFinishedServices() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        Alamofire.manager.request(.GET, "\(Alamofire.finishedItemsServiceURL)/\(User.sharedInstance.identifier)").responseJSON { (request, response, json, error) in
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.finishedItemsServiceURL)/\(User.sharedInstance.identifier)", methodType: "GET")
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {

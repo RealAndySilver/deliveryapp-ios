@@ -58,7 +58,11 @@ class RateDriverViewController: UIViewController {
 
     func sendMessengerRating() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        Alamofire.manager.request(.PUT, "\(Alamofire.rateMessengerServiceURL)/\(deliveryItemID)", parameters: ["user_id" : User.sharedInstance.identifier, "rating" : rateView.value, "review" : commentsTextView.text]).responseJSON { (request, response, json, error) -> Void in
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.rateMessengerServiceURL)/\(deliveryItemID)", methodType: "PUT", theParameters: ["user_id" : User.sharedInstance.identifier, "rating" : rateView.value, "review" : commentsTextView.text])
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
                 println("error en la peticion: \(error?.localizedDescription)")

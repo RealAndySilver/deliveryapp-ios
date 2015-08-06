@@ -69,7 +69,11 @@ class FindingServiceViewController: UIViewController {
     func cancelServiceInServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         println("url del cancel: \(Alamofire.cancelRequestServiceURL)/\(serviceID)")
-        Alamofire.manager.request(.DELETE, "\(Alamofire.cancelRequestServiceURL)/\(serviceID)/\(User.sharedInstance.identifier)").responseJSON { (request, response, json, error) -> Void in
+        
+        let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.cancelRequestServiceURL)/\(serviceID)/\(User.sharedInstance.identifier)", methodType: "DELETE")
+        if mutableURLRequest == nil { return }
+        
+        Alamofire.manager.request(mutableURLRequest!).responseJSON { (request, response, json, error) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if error != nil {
@@ -97,7 +101,10 @@ class FindingServiceViewController: UIViewController {
     
     func checkServiceStatus() {
         println("Checkearé el statusssss")
-        Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/\(serviceID)").responseJSON { (request, response, json, error) in
+        let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.getDeliveryItemServiceURL)/\(serviceID)", methodType: "GET")
+        if mutableURLRequest == nil { return }
+        
+        Alamofire.manager.request(mutableURLRequest!).responseJSON { (request, response, json, error) in
             if error != nil {
                 //There was an error 
                 println("Error : \(error?.localizedDescription)")

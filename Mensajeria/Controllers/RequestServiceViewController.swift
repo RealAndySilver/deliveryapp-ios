@@ -132,7 +132,10 @@ class RequestServiceViewController: UIViewController {
             let deliveryLongitude = destinationLocationDic["lon"] as! CLLocationDegrees
             println("url del request: \(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)")
             
-            Alamofire.manager.request(.GET, "\(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)").responseJSON(options: .allZeros, completionHandler: { (request, response, json, error) -> Void in
+            let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)", methodType: "GET")
+            if mutableURLRequest == nil { return }
+            
+            Alamofire.manager.request(mutableURLRequest!).responseJSON(options: .allZeros, completionHandler: { (request, response, json, error) -> Void in
                 
                 if error != nil {
                     println("Hubo un erorr en el get price: \(error?.localizedDescription)")
@@ -162,7 +165,17 @@ class RequestServiceViewController: UIViewController {
     func sendServiceRequestToServer() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         println("date: \(deliveryDatePicker.date)")
-        Alamofire.manager.request(.POST, Alamofire.requestMensajeroServiceURL, parameters: ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "deadline" : deliveryDatePicker.date, "declared_value" : shipmentValueTextfield.text, "price_to_pay" : 25000, "pickup_time" : pickupDatePicker.date, "item_name" : serviceNameTextfield.text], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) in
+        
+        let urlParameters = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "deadline" : deliveryDatePicker.date.description, "declared_value" : shipmentValueTextfield.text, "price_to_pay" : 25000, "pickup_time" : pickupDatePicker.date.description, "item_name" : serviceNameTextfield.text]
+        
+        let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.requestMensajeroServiceURL, methodType: "POST", theParameters: urlParameters)
+        
+        if mutableURLRequest == nil {
+            println("Error creando el request, está en nil")
+            return
+        }
+        
+        Alamofire.manager.request(mutableURLRequest!).responseJSON { (request, response, json, error) in
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
                 //There was an error

@@ -245,7 +245,11 @@ class ServiceAcceptedViewController: UIViewController {
     
     @IBAction func updateDeliveryItem() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        Alamofire.manager.request(.GET, "\(Alamofire.getDeliveryItemServiceURL)/\(deliveryItem.identifier)").responseJSON { (request, response, json, error) -> Void in
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.getDeliveryItemServiceURL)/\(deliveryItem.identifier)", methodType: "GET")
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             
             if error != nil {
@@ -254,6 +258,7 @@ class ServiceAcceptedViewController: UIViewController {
                 let jsonResponse = JSON(json!)
                 if jsonResponse["status"].boolValue {
                     //Call our delegate
+                    println("Status updated: \(jsonResponse)")
                     self.delegate?.serviceUpdated()
                     
                     self.deliveryItem = DeliveryItem(deliveryItemJSON: JSON(jsonResponse["response"].object))
@@ -308,7 +313,11 @@ class ServiceAcceptedViewController: UIViewController {
     
     func enableService() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        Alamofire.manager.request(.PUT, "\(Alamofire.restartItemServiceURL)/\(deliveryItem.identifier)", parameters: ["user_id" : User.sharedInstance.identifier], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.restartItemServiceURL)/\(deliveryItem.identifier)", methodType: "PUT", theParameters: ["user_id" : User.sharedInstance.identifier])
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             
@@ -334,7 +343,11 @@ class ServiceAcceptedViewController: UIViewController {
     
     func favouriteMessengerInServer() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        Alamofire.manager.request(.PUT, "\(Alamofire.addToFavouritesServiceURL)/\(User.sharedInstance.identifier)", parameters: ["messenger_id" : deliveryItem.messengerInfo!.identifier], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.addToFavouritesServiceURL)/\(User.sharedInstance.identifier)", methodType: "PUT", theParameters: ["messenger_id" : deliveryItem.messengerInfo!.identifier])
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
@@ -357,7 +370,11 @@ class ServiceAcceptedViewController: UIViewController {
     
     func cancelServiceInServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
-        Alamofire.manager.request(.DELETE, "\(Alamofire.cancelRequestServiceURL)/\(deliveryItem.identifier)/\(User.sharedInstance.identifier)").responseJSON { (request, response, json, error) -> Void in
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.cancelRequestServiceURL)/\(deliveryItem.identifier)/\(User.sharedInstance.identifier)", methodType: "DELETE")
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if error != nil {

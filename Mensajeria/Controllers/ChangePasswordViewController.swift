@@ -35,7 +35,10 @@ class ChangePasswordViewController: UIViewController {
         let encodedPreviousPass = actualPasswordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(.allZeros)
         let encodedNewPass = newPasswordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(.allZeros)
         
-        Alamofire.manager.request(.PUT, "\(Alamofire.changePasswordServiceURL)/\(User.sharedInstance.identifier)", parameters: ["password" : encodedPreviousPass!, "new_password" : encodedNewPass!], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.changePasswordServiceURL)/\(User.sharedInstance.identifier)", methodType: "PUT", theParameters: ["password" : encodedPreviousPass!, "new_password" : encodedNewPass!])
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             
@@ -49,6 +52,8 @@ class ChangePasswordViewController: UIViewController {
                 if jsonResponse["status"].boolValue {
                     println("Resputa true del change pass: \(jsonResponse)")
                     UIAlertView(title: "", message: "Tu contraseña se ha cambiado de forma exitosa!", delegate: self, cancelButtonTitle: "Ok").show()
+                    User.sharedInstance.password = self.newPasswordTextfield.text
+                    NSUserDefaults.standardUserDefaults().setObject(self.newPasswordTextfield.text, forKey: "UserPass")
                     
                 } else {
                     println("respuesta false del change pass: \(jsonResponse)")

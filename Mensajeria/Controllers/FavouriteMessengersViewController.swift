@@ -38,7 +38,11 @@ class FavouriteMessengersViewController: UIViewController {
     
     func removeMessengerAtIndex(index: Int) {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        Alamofire.manager.request(.PUT, "\(Alamofire.removeFavoriteServiceURL)/\(User.sharedInstance.identifier)", parameters: ["messenger_id" : favoritesMessengers[index].identifier], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.removeFavoriteServiceURL)/\(User.sharedInstance.identifier)", methodType: "PUT", theParameters: ["messenger_id" : favoritesMessengers[index].identifier])
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
@@ -63,7 +67,11 @@ class FavouriteMessengersViewController: UIViewController {
     
     func getFavoriteMessengers() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        Alamofire.manager.request(.GET, "\(Alamofire.getFavoritesServiceURL)/\(User.sharedInstance.identifier)").responseJSON { (request, response, json, error) -> Void in
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.getFavoritesServiceURL)/\(User.sharedInstance.identifier)", methodType: "GET")
+        if request == nil { return }
+        
+        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             if error != nil {
