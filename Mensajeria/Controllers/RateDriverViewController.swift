@@ -34,6 +34,7 @@ class RateDriverViewController: UIViewController {
         if firstTimeViewAppears {
             rateView = RatingView(frame: CGRect(x: 30.0, y: 10.0, width: 200.0, height: 40.0), selectedImageName: "blueStar.png", unSelectedImage: "grayStar.png", minValue: 0, maxValue: 5, intervalValue: 0.5, stepByStep: false)
             rateView.delegate = self
+            rateView.value = 5.0
             starsContainer.addSubview(rateView)
             firstTimeViewAppears = false
         }

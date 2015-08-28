@@ -22,7 +22,7 @@ class AppInfo: NSObject {
     lazy var stringToDateFormatter: NSDateFormatter = {
         println("entre a nicializarrr")
         let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.000Z"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         formatter.locale = NSLocale.currentLocale()
         return formatter
         }()

@@ -68,6 +68,22 @@ class MapViewController: UIViewController {
         //Implement the closure to send the address back to the previous VC
         self.onAddressAvailable?(theAddress: address, locationCoordinates: location, selectingPickupLocation: selectingPickupLocation)
     }
+    
+    //MARK: Navigation 
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let visibleRegion = mapView.projection.visibleRegion()
+        let regionBounds = GMSCoordinateBounds(region: visibleRegion)
+        let northEast = regionBounds.northEast
+        let southWeast = regionBounds.southWest
+        println("\(northEast.latitude) - \(northEast.longitude), \(southWeast.latitude), \(southWeast.longitude)")
+        
+        if segue.identifier == "ToSearchAddressSegue" {
+            let searchAddressVC = segue.destinationViewController as! SearchAddressViewController
+            searchAddressVC.address = addressTextfield.text
+            searchAddressVC.delegate = self
+        }
+    }
 }
 
 //MARK: UITextfieldDelegate
@@ -107,5 +123,17 @@ extension MapViewController: CLLocationManagerDelegate {
 extension MapViewController: GMSMapViewDelegate {
     func mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!) {
         reverseGeocodeCoordinate(position.target)
+    }
+}
+
+//MARK: SearchAddressViewControllerDelegate 
+
+extension MapViewController: SearchAddressViewControllerDelegate {
+    func addressSelectedWithName(name: String, coordinates: CLLocationCoordinate2D) {
+        println("me llego el delegateeeee")
+        addressTextfield.text = name
+        currentLocationCoordinate = coordinates
+        let cameraPosition = GMSCameraPosition(target: currentLocationCoordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+        mapView.camera = cameraPosition
     }
 }

@@ -27,6 +27,7 @@ class RequestServiceViewController: UIViewController {
     @IBOutlet weak var dayHourTextfield: UITextField!
     @IBOutlet weak var shipmentValueTextfield: UITextField!
     @IBOutlet weak var instructionsTextView: UITextView!
+    private var activeTextfield: UITextField?
     var pickupLocationDic = [:]
     var destinationLocationDic = [:]
     lazy var dateFormatter: NSDateFormatter = {
@@ -87,6 +88,13 @@ class RequestServiceViewController: UIViewController {
     }
     
     //MARK: Actions
+    @IBAction func tapButtonPressed(sender: UITapGestureRecognizer) {
+        instructionsTextView.resignFirstResponder()
+        if let activeTextfield = activeTextfield {
+            activeTextfield.resignFirstResponder()
+        }
+    }
+    
     @IBAction func addAdditionalAddressPressed() {
     
     }
@@ -389,6 +397,7 @@ extension RequestServiceViewController: UITextFieldDelegate {
             goToMapVCFromPickupTextfield(false)
             return false
         } else {
+            activeTextfield = textField
             return true
         }
     }

@@ -21,6 +21,7 @@ class CreateAccountViewController: UIViewController {
     @IBOutlet weak var passwordTextfield: UITextField!
     @IBOutlet weak var confirmPasswordTextfield: UITextField!
     @IBOutlet weak var cellphoneTextfield: UITextField!
+    private var activeTextfield: UITextField?
     
     //MARK: Life Cycle
     
@@ -54,6 +55,12 @@ class CreateAccountViewController: UIViewController {
     }
     
     //MARK: Actions 
+    
+    @IBAction func tapDetected(sender: UITapGestureRecognizer) {
+        if let activeTextfield = activeTextfield {
+            activeTextfield.resignFirstResponder()
+        }
+    }
     
     @IBAction func registerButtonPressed() {
         if passwordsAreCorrect() {
@@ -105,7 +112,9 @@ class CreateAccountViewController: UIViewController {
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if error != nil {
                 //Error
+                UIAlertView(title: "", message: "Hubo un error al intentar crear la cuenta. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 println("Error en el Create User: \(error?.localizedDescription)")
+                
             } else {
                 //Success 
                 let jsonResponse = JSON(json!)
@@ -115,6 +124,12 @@ class CreateAccountViewController: UIViewController {
                     UIAlertView(title: "", message: "Tu usuario se ha creado exitosamente. Por favor confirma tu cuenta desde el correo que se te ha enviado.", delegate: nil, cancelButtonTitle: "Ok").show()
                     self.dismissViewControllerAnimated(true, completion: nil)
                 } else {
+                    if jsonResponse["err"]["code"].intValue == 11000 {
+                        //The email already exists
+                       UIAlertView(title: "", message: "Ya existe una cuenta con ese correo electrónico. Por favor ingresa otro correo.", delegate: nil, cancelButtonTitle: "Ok").show()
+                    } else {
+                        UIAlertView(title: "", message: "Hay un problema en los datos. Por favor revisa que el formulario esté completo e intenta de nuevo.", delegate: nil, cancelButtonTitle: "Ok").show()
+                    }
                     println("Respuesta false del create: \(jsonResponse)")
                 }
             }
@@ -211,6 +226,10 @@ extension CreateAccountViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        activeTextfield = textField
     }
 }
 

@@ -268,6 +268,17 @@ class ServiceAcceptedViewController: UIViewController {
                         let serviceFinishedAlert = UIAlertView(title: "Servicio Completado", message: "Tu servicio se ha realizado de forma exitosa. Puedes acceder a todos tus servicios finalizados desde el menú 'Servicios Terminados'", delegate: self, cancelButtonTitle: "Ok!")
                         serviceFinishedAlert.tag = 2
                         serviceFinishedAlert.show()
+                    
+                    } else if self.deliveryItem.overallStatus == "aborted" {
+                        let abortedMessage: String
+                        if let abortReason = jsonResponse["response"]["abort_reason"].string {
+                            abortedMessage = "El mensajero ha abortado el servicio. Razón: \(abortReason). Puedes acceder a los servicios abortados desde el menú 'Abortados por Mensajero'"
+                        } else {
+                            abortedMessage = "El mensajero ha abortado el servicio. Ponte en contacto con el para definir el estado de tu servicio. Puedes acceder a los servicios abortados desde el menú 'Abortados por Mensajero'"
+                        }
+                        let serviceAbortedAlert = UIAlertView(title: "Servicio Abortado", message: abortedMessage, delegate: self, cancelButtonTitle: "Ok")
+                        serviceAbortedAlert.tag = 4
+                        serviceAbortedAlert.show()
                     }
                     
                 } else {
@@ -480,6 +491,13 @@ extension ServiceAcceptedViewController: UIAlertViewDelegate {
         
         } else if alertView.tag == 3 {
             goToRateMessengerVC()
+        } else if alertView.tag == 4 {
+            //Aborted alert
+            if let navigationController = navigationController {
+                navigationController.popViewControllerAnimated(true)
+            } else {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
         }
     }
 }

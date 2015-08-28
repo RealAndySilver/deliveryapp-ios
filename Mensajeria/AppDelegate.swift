@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        GMSServices.provideAPIKey("AIzaSyC1iFx0VxvU0WpB7gyPksl3gph7oOXxj5k")
+        GMSServices.provideAPIKey("AIzaSyAromUOb3aQM6vmFpf_Rn218zE_gErSV38")
         
         UINavigationBar.appearance().barTintColor = UIColor.getPrimaryAppColor()
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]

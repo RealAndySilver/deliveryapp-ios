@@ -11,6 +11,7 @@
 		8B0D80D21A964E950058A6F4 /* ShadowedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0D80D11A964E950058A6F4 /* ShadowedButton.swift */; };
 		8B1204481A93B7C8000B2020 /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1204471A93B7C8000B2020 /* AddressCell.swift */; };
 		8B12044A1A93D39B000B2020 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1204491A93D39B000B2020 /* MenuCell.swift */; };
+		8B1E05C31B90CD48007EECA0 /* SearchAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E05C21B90CD48007EECA0 /* SearchAddressViewController.swift */; };
 		8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */; };
 		8B2F05C51A856B26007C462B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C41A856B26007C462B /* User.swift */; };
 		8B31584E1A8910BF005F43E4 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31584D1A8910BF005F43E4 /* RatingView.m */; };
@@ -107,6 +108,7 @@
 		8B0D80D11A964E950058A6F4 /* ShadowedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShadowedButton.swift; path = "Custom Views/ShadowedButton.swift"; sourceTree = "<group>"; };
 		8B1204471A93B7C8000B2020 /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressCell.swift; path = "Custom Cells/AddressCell.swift"; sourceTree = "<group>"; };
 		8B1204491A93D39B000B2020 /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuCell.swift; path = "Custom Cells/MenuCell.swift"; sourceTree = "<group>"; };
+		8B1E05C21B90CD48007EECA0 /* SearchAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchAddressViewController.swift; path = Controllers/SearchAddressViewController.swift; sourceTree = "<group>"; };
 		8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressHistoryViewController.swift; path = Controllers/AddressHistoryViewController.swift; sourceTree = "<group>"; };
 		8B2F05C41A856B26007C462B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		8B31584C1A8910BF005F43E4 /* RatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingView.h; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 				A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */,
 				A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */,
 				A0AFE1681A84008A0025CACF /* MapViewController.swift */,
+				8B1E05C21B90CD48007EECA0 /* SearchAddressViewController.swift */,
 				8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */,
 				8B7C0C8E1A89004C00470D15 /* FindingServiceViewController.swift */,
 				8B7C0C901A89090500470D15 /* ServiceAcceptedViewController.swift */,
@@ -597,6 +600,7 @@
 		8BEA65981A82B1E000C20D5B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "iAm Studio";
 				TargetAttributes = {
@@ -675,6 +679,7 @@
 				8BC3ED851A938A3D0009C54A /* UIColor+AppColors.swift in Sources */,
 				8BA62C231AA497C8000F9C84 /* RegexValidator.swift in Sources */,
 				8B1204481A93B7C8000B2020 /* AddressCell.swift in Sources */,
+				8B1E05C31B90CD48007EECA0 /* SearchAddressViewController.swift in Sources */,
 				8BC2C89C1AA0C42500E25204 /* SDWebImageManager.m in Sources */,
 				8BC2C8A31AA0C42500E25204 /* UIImageView+WebCache.m in Sources */,
 				8B713BC31A95068B00800798 /* ShadowedView.swift in Sources */,

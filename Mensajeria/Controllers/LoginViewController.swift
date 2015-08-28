@@ -188,11 +188,18 @@ class LoginViewController: UIViewController {
     
     func keyboardWillShow() {
         //Move textfields up
+        let distanceToMove: CGFloat
+        if view.bounds.size.height <= 568 {
+            distanceToMove = 78.0
+        } else {
+            distanceToMove = 90.0
+        }
+        
         UIView.animateWithDuration(0.3,
             delay: 0.0,
             options: .CurveLinear,
             animations: { () -> Void in
-                self.containerView.transform = CGAffineTransformMakeTranslation(0.0, -78.0)
+                self.containerView.transform = CGAffineTransformMakeTranslation(0.0, -distanceToMove)
         }, completion: nil)
     }
     
