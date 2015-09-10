@@ -10,8 +10,12 @@ import UIKit
 
 //POST -> email, password, name, lastname, mobilephone
 
-class CreateAccountViewController: UIViewController {
+protocol CreateAccountViewControllerDelegate: class {
+    func accountCreatedSuccessfullyWithUsername(username: String, password: String)
+}
 
+class CreateAccountViewController: UIViewController {
+    weak var delegate: CreateAccountViewControllerDelegate?
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
@@ -121,8 +125,10 @@ class CreateAccountViewController: UIViewController {
                 if jsonResponse["status"].boolValue == true {
                     println("Respuesta true del create: \(jsonResponse)")
                     //Show confirmation email alert
-                    UIAlertView(title: "", message: "Tu usuario se ha creado exitosamente. Por favor confirma tu cuenta desde el correo que se te ha enviado.", delegate: nil, cancelButtonTitle: "Ok").show()
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    let alert = UIAlertView(title: "", message: "Tu usuario se ha creado exitosamente.", delegate: self, cancelButtonTitle: "Ok")
+                    alert.tag = 1
+                    alert.show()
+                   
                 } else {
                     if jsonResponse["err"]["code"].intValue == 11000 {
                         //The email already exists
@@ -239,5 +245,18 @@ extension CreateAccountViewController: UIViewControllerTransitioningDelegate {
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         let shrinkAnimateController = ShrinkDismissAnimationController()
         return shrinkAnimateController
+    }
+}
+
+//MARK: UIAlertViewDelegate
+
+extension CreateAccountViewController: UIAlertViewDelegate {
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if alertView.tag == 1 {
+            //Account created successfully alert
+            dismissViewControllerAnimated(true, completion: { () -> Void in
+                delegate?.accountCreatedSuccessfullyWithUsername(emailTextfield.text, password: passwordTextfield.text)
+            })
+        }
     }
 }

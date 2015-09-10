@@ -27,6 +27,11 @@ class RateDriverViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         setupUI()
+        
+        //Save messenger info in UserDefaults, this is in case the user quits the app in this screen and don't rate the messenger, so the next time the user opens the app a popup will appear to rate the messenger
+        let pendingRatingDic = ["messengerName" : "\(messenger.name) \(messenger.lastName)", "deliveryItemId" : deliveryItemID, "userId" : User.sharedInstance.identifier]
+        NSUserDefaults.standardUserDefaults().setObject(pendingRatingDic, forKey: "pendingRatingDicKey")
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     override func viewDidLayoutSubviews() {
@@ -70,6 +75,8 @@ class RateDriverViewController: UIViewController {
                 UIAlertView(title: "Oops!", message: "Ocurrió un error el intentar calificar al mensajero. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
                 //Success
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("pendingRatingDicKey")
+
                 let jsonResponse = JSON(json!)
                 if jsonResponse["status"].boolValue {
                     println("Respuesta true del rate: \(jsonResponse)")

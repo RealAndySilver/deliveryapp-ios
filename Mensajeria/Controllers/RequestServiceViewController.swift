@@ -16,9 +16,18 @@ class RequestServiceViewController: UIViewController {
         case pickupTextfield = 1, finalTextfield, dayHourTextfield, shipmentValueTextfield
     }
     
+    enum PickerViewType: Int {
+        case pickupPicker = 1
+        case deliveryPicker
+    }
+    
+    
+    let pickupAndDeliveryCases: [(serverString: String, displayString: String)] = [("now", "Inmediato"), ("later", "Durante el día")]
+    var selectedPickupCase: (serverString: String, displayString: String)!
+    var selectedDeliveryCase: (serverString: String, displayString: String)!
     @IBOutlet weak var servicePriceLabel: UILabel!
-    var pickupDatePicker: UIDatePicker!
-    var deliveryDatePicker: UIDatePicker!
+    var pickupPicker: UIPickerView!
+    var deliveryPicker: UIPickerView!
     @IBOutlet weak var serviceNameTextfield: UITextField!
     @IBOutlet weak var deliveryDayHourTextfield: UITextField!
     @IBOutlet weak var pickupAddressTextfield: UITextField!
@@ -64,13 +73,25 @@ class RequestServiceViewController: UIViewController {
         instructionsTextView.layer.borderColor = UIColor(white: 0.9, alpha: 1.0).CGColor
         instructionsTextView.layer.cornerRadius = 10.0
         
-        pickupDatePicker = UIDatePicker()
+        /*pickupDatePicker = UIDatePicker()
         pickupDatePicker.addTarget(self, action: "dateChanged:", forControlEvents: .ValueChanged)
         dayHourTextfield.inputView = pickupDatePicker
         
         deliveryDatePicker = UIDatePicker()
         deliveryDatePicker.addTarget(self, action: "deliveryDateChanged:", forControlEvents: .ValueChanged)
-        deliveryDayHourTextfield.inputView = deliveryDatePicker
+        deliveryDayHourTextfield.inputView = deliveryDatePicker*/
+        
+        pickupPicker = UIPickerView()
+        pickupPicker.delegate = self
+        pickupPicker.dataSource = self
+        pickupPicker.tag = PickerViewType.pickupPicker.rawValue
+        dayHourTextfield.inputView = pickupPicker
+        
+        deliveryPicker = UIPickerView()
+        deliveryPicker.delegate = self
+        deliveryPicker.tag = PickerViewType.deliveryPicker.rawValue
+        deliveryPicker.dataSource = self
+        deliveryDayHourTextfield.inputView = deliveryPicker
         
         let toolBar = UIToolbar(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.size.width, height: 44.0))
         let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissPickers")
@@ -170,11 +191,11 @@ class RequestServiceViewController: UIViewController {
         }
     }
     
+    //time_to_pickup , time_to_deliver
     func sendServiceRequestToServer() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        println("date: \(deliveryDatePicker.date)")
         
-        let urlParameters = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "deadline" : deliveryDatePicker.date.description, "declared_value" : shipmentValueTextfield.text, "price_to_pay" : 25000, "pickup_time" : pickupDatePicker.date.description, "item_name" : serviceNameTextfield.text]
+        let urlParameters = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "declared_value" : shipmentValueTextfield.text, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString]
         
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.requestMensajeroServiceURL, methodType: "POST", theParameters: urlParameters)
         
@@ -375,6 +396,43 @@ class RequestServiceViewController: UIViewController {
         if segue.identifier == "AddressHistorySegue" {
             let addressHistoryVC = segue.destinationViewController as! AddressHistoryViewController
             addressHistoryVC.delegate = self
+        }
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+//IMPLEMENTACIÓN DE PROTOCOLOS
+
+//MARK: UIPickerViewDataSource
+
+extension RequestServiceViewController: UIPickerViewDataSource {
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickupAndDeliveryCases.count
+    }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+}
+
+//MARK: UIPickerViewDelegate
+
+extension RequestServiceViewController: UIPickerViewDelegate {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        return pickupAndDeliveryCases[row].displayString
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch pickerView.tag {
+        case PickerViewType.pickupPicker.rawValue:
+            dayHourTextfield.text = pickupAndDeliveryCases[row].displayString
+            selectedPickupCase = pickupAndDeliveryCases[row]
+        case PickerViewType.deliveryPicker.rawValue:
+            deliveryDayHourTextfield.text = pickupAndDeliveryCases[row].displayString
+            selectedDeliveryCase = pickupAndDeliveryCases[row]
+        default:
+            break
         }
     }
 }

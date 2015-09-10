@@ -148,7 +148,7 @@ class FindingServiceViewController: UIViewController {
 
 extension FindingServiceViewController: MONActivityIndicatorViewDelegate {
     func activityIndicatorView(activityIndicatorView: MONActivityIndicatorView!, circleBackgroundColorAtIndex index: UInt) -> UIColor! {
-        return UIColor.getPrimaryAppColor()
+        return UIColor.getSecondaryAppColor()
     }
 }
 

@@ -9,6 +9,8 @@
 import UIKit
 class DeliveryItem: NSObject {
     
+    var timeToPick: String
+    var timeToDeliver: String
     var estimatedString: String?
     var estimatedDate: NSDate?
     var timeToMessengerArrival: Int? {
@@ -26,11 +28,11 @@ class DeliveryItem: NSObject {
             }
         }
     }
-    var pickupStringTest: String
+    //var pickupStringTest: String
     var rated: Bool
     var name: String
     var status: String
-    var pickupTimeString: String
+    //var pickupTimeString: String
     var priority: Int
     var declaredValue: Int
     var identifier: String
@@ -38,7 +40,7 @@ class DeliveryItem: NSObject {
     var messengerInfo: MessengerInfo?
     var serviceImages = [ServiceImage]()
     var userInfo: UserInfo
-    var deadline: String
+    //var deadline: String
     var priceToPay: Int
     var userID: String
     var roundtrip: Bool
@@ -48,12 +50,15 @@ class DeliveryItem: NSObject {
     var abortReason: String?
     var deliveryItemDescription: String {
         get {
-            return "********** Info del delivery item *************\nname: \(name)\nstatus: \(status)\npickup time: \(pickupTimeString)\npriority: \(priority)\ndelivery object: \(deliveryObject.requestObjectDescription)\nuser info: \(userInfo.userInfoDescription)\npickup object: \(pickupObject.requestObjectDescription)\ndeclared value: \(declaredValue)\nmessenger info: \(messengerInfo?.messengerInfoDescription)"
+            return "********** Info del delivery item *************\nname: \(name)\nstatus: \(status)\npriority: \(priority)\ndelivery object: \(deliveryObject.requestObjectDescription)\nuser info: \(userInfo.userInfoDescription)\npickup object: \(pickupObject.requestObjectDescription)\ndeclared value: \(declaredValue)\nmessenger info: \(messengerInfo?.messengerInfoDescription)"
         }
     }
     
     init(deliveryItemJSON: JSON) {
-        pickupStringTest = deliveryItemJSON["pickup_time"].stringValue
+        //pickupStringTest = deliveryItemJSON["pickup_time"].stringValue
+        
+        timeToPick = deliveryItemJSON["time_to_pick"].stringValue
+        timeToDeliver = deliveryItemJSON["time_to_deliver"].stringValue
         
         estimatedString = deliveryItemJSON["estimated"].string
         if let theEstimatedString = estimatedString {
@@ -65,7 +70,7 @@ class DeliveryItem: NSObject {
         }
     
         
-        let deliveryItemPickup = deliveryItemJSON["pickup_time"].stringValue
+        /*let deliveryItemPickup = deliveryItemJSON["pickup_time"].stringValue
         if let pickupDate = AppInfo.sharedInstance.stringToDateFormatter.dateFromString(deliveryItemJSON["pickup_time"].stringValue) {
             pickupTimeString = AppInfo.sharedInstance.dateToStringFormatter.stringFromDate(pickupDate)
         } else {
@@ -76,7 +81,7 @@ class DeliveryItem: NSObject {
             deadline = AppInfo.sharedInstance.dateToStringFormatter.stringFromDate(deliveryDate)
         } else {
             deadline = ""
-        }
+        }*/
         
         name = deliveryItemJSON["item_name"].stringValue
         status = deliveryItemJSON["status"].stringValue

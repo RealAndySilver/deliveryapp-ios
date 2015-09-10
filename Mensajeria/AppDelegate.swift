@@ -31,6 +31,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
+        if let pendingRatingDic = NSUserDefaults.standardUserDefaults().objectForKey("pendingRatingDicKey") as? [String : String] {
+            println("Existe un mensajero sin rating *************************************************")
+            delay(3.0, { () -> () in
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let pendingRateVC = storyboard.instantiateViewControllerWithIdentifier("PendingRate") as! PendingRateViewController
+                pendingRateVC.modalPresentationStyle = .OverCurrentContext
+                pendingRateVC.modalTransitionStyle = .CrossDissolve
+                pendingRateVC.messengerDic = pendingRatingDic
+                
+                //let navigationController = UINavigationController(rootViewController: pendingRateVC)
+                self.window?.makeKeyAndVisible()
+                
+                let topRootViewController = self.window?.rootViewController!
+                if var topVC = topRootViewController {
+                    topVC = topVC.presentedViewController!
+                    topVC.presentViewController(pendingRateVC, animated: true, completion: nil)
+                } else {
+                    topRootViewController?.presentViewController(pendingRateVC, animated: true, completion: nil)
+                }
+            })
+            
+        } else {
+            println("No existe un rating dic de mensajero")
+        }
+        
         return true
     }
 

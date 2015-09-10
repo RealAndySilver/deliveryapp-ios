@@ -24,6 +24,7 @@ class MenuViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var selectedMenu = 0
+    let menuImagesNamesArray = ["ActiveServiceIcon", "RequestServiceIcon", "UserIcon", "FinishedServiceIcon", "AbortedServicesIcon", "TermsConditionsIcon", "CloseSessionIcon"]
     let menuArray = ["Solicitar Servicio", "Mis Servicios Activos", "Mi Perfil", "Servicios Terminados", "Abortados por mensajero", "Términos y Condiciones", "Cerrar Sesión"]
     
     //MARK: View life cycle
@@ -57,6 +58,7 @@ extension MenuViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MenuCell") as! MenuCell
         cell.menuItemLabel.text = menuArray[indexPath.row]
+        cell.menuImageView.image = UIImage(named: menuImagesNamesArray[indexPath.row])
         return cell
     }
 }

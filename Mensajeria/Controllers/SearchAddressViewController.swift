@@ -25,6 +25,7 @@ class SearchAddressViewController: UIViewController {
     }
     
     //Outlets
+    @IBOutlet weak var searchAddressView: DesignableView!
     @IBOutlet weak var addressTextfield: UITextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -96,7 +97,11 @@ class SearchAddressViewController: UIViewController {
     //MARK: Actions 
     
     @IBAction func opacityButtonPressed() {
-        dismissViewControllerAnimated(true, completion: nil)
+        searchAddressView.animation = "fall"
+        searchAddressView.animate()
+        delay(0.2) {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
 }
 

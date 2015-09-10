@@ -74,7 +74,7 @@ class ServiceAcceptedViewController: UIViewController {
         
         } else if let abortedService = presentedFromAbortedService {
             if abortedService == true {
-                serviceStatusLabel.text = "ABORTADO"
+                serviceStatusLabel.text = "CANCELADO"
                 navigationItem.rightBarButtonItem = nil
                 backToHomeButton.hidden = false
                 backToHomeButton.setTitle("Reactivar servicio", forState: .Normal)
@@ -134,7 +134,11 @@ class ServiceAcceptedViewController: UIViewController {
         serviceNameLabel.text = deliveryItem.name
         pickupLabel.text = deliveryItem.pickupObject.address
         deliveryLabel.text = deliveryItem.deliveryObject.address
-        shipmentDayLabel.text = deliveryItem.pickupTimeString
+        if deliveryItem.timeToDeliver == "now" {
+            shipmentDayLabel.text = "Inmediato"
+        } else {
+            shipmentDayLabel.text = "Durante el día"
+        }
         costLabel.text = "$\(deliveryItem.declaredValue)"
         if let theMessengerInfo = deliveryItem.messengerInfo {
             nameLabel.text = "\(theMessengerInfo.name) \(theMessengerInfo.lastName)"
@@ -152,16 +156,16 @@ class ServiceAcceptedViewController: UIViewController {
             case "accepted":
                 serviceStatusLabel.text = "ACEPTADO"
             case "in-transit":
-                serviceStatusLabel.text = "EN TRÁNSITO"
+                serviceStatusLabel.text = "EN CAMINO"
                 cancelServiceButton.hidden = true
             case "returning":
-                serviceStatusLabel.text = "VOLVIENDO"
+                serviceStatusLabel.text = "REGRESANDO"
                 cancelServiceButton.hidden = true
             case "returned":
-                serviceStatusLabel.text = "DEVUELTO"
+                serviceStatusLabel.text = "SERVICIO FINALIZADO"
                 cancelServiceButton.hidden = true
             case "delivered":
-                serviceStatusLabel.text = "ENTREGADO"
+                serviceStatusLabel.text = "SERVICIO FINALIZADO"
                 cancelServiceButton.hidden = true
             default:
                 break
@@ -529,6 +533,6 @@ extension ServiceAcceptedViewController: MFMessageComposeViewControllerDelegate 
 
 extension ServiceAcceptedViewController: MONActivityIndicatorViewDelegate {
     func activityIndicatorView(activityIndicatorView: MONActivityIndicatorView!, circleBackgroundColorAtIndex index: UInt) -> UIColor! {
-        return UIColor.getPrimaryAppColor()
+        return UIColor.getSecondaryAppColor()
     }
 }

@@ -181,6 +181,7 @@ class LoginViewController: UIViewController {
         if segue.identifier == "CreateAccountSegue" {
             let createAccountVC = segue.destinationViewController as! CreateAccountViewController
             createAccountVC.transitioningDelegate = self
+            createAccountVC.delegate = self
         }
     }
     
@@ -229,5 +230,15 @@ extension LoginViewController: UIViewControllerTransitioningDelegate {
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         let shrinkAnimationController = ShrinkDismissAnimationController()
         return shrinkAnimationController
+    }
+}
+
+//MARK: CreateAccountViewControllerDelegate
+
+extension LoginViewController: CreateAccountViewControllerDelegate {
+    func accountCreatedSuccessfullyWithUsername(username: String, password: String) {
+        userTextfield.text = username
+        passwordTextfield.text = password
+        loginUserInServer()
     }
 }
