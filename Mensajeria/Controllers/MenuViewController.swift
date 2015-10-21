@@ -10,7 +10,7 @@ import UIKit
 
 class MenuViewController: UIViewController {
     
-    @IBOutlet weak var mensajeriaLabel: UILabel!
+    //@IBOutlet weak var mensajeriaLabel: UILabel!
     
     enum SelectedMenuOption: Int {
         case SolicitarOption = 0,
@@ -39,12 +39,12 @@ class MenuViewController: UIViewController {
         tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.rowHeight = 48.0
         
-        mensajeriaLabel.layer.shadowColor = UIColor.blackColor().CGColor
+        /*mensajeriaLabel.layer.shadowColor = UIColor.blackColor().CGColor
         mensajeriaLabel.layer.shadowOffset = CGSizeMake(0.0, 1.0)
         mensajeriaLabel.layer.shadowOpacity = 0.2
         mensajeriaLabel.layer.shadowRadius = 1.0
         mensajeriaLabel.layer.shouldRasterize = true
-        mensajeriaLabel.layer.rasterizationScale = UIScreen.mainScreen().scale
+        mensajeriaLabel.layer.rasterizationScale = UIScreen.mainScreen().scale*/
     }
 }
 
