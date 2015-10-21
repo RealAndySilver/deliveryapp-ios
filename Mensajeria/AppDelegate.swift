@@ -45,8 +45,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 let topRootViewController = self.window?.rootViewController!
                 if var topVC = topRootViewController {
-                    topVC = topVC.presentedViewController!
-                    topVC.presentViewController(pendingRateVC, animated: true, completion: nil)
+                    if let presentedVC = topVC.presentedViewController {
+                        presentedVC.presentViewController(pendingRateVC, animated: true, completion: nil)
+                    }
                 } else {
                     topRootViewController?.presentViewController(pendingRateVC, animated: true, completion: nil)
                 }

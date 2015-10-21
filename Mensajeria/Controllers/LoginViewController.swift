@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var userTextfield: UITextField!
     @IBOutlet weak var passwordTextfield: UITextField!
     var userIsLoggedIn = false
+    var firstTimeViewAppears = true
     
     //MARK: Life Cycle
     
@@ -36,7 +37,10 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        checkIfUserIsLoggedIn()
+        if firstTimeViewAppears {
+            checkIfUserIsLoggedIn()
+            firstTimeViewAppears = false
+        }
     }
     
     func checkIfUserIsLoggedIn() {
@@ -139,6 +143,9 @@ class LoginViewController: UIViewController {
                 //Something wrong happened
                 println("Error en el login: \(error?.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar iniciar sesión. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("UserInfo")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("UserPass")
+                NSUserDefaults.standardUserDefaults().synchronize()
                 
             } else {
                 //Success
@@ -148,12 +155,14 @@ class LoginViewController: UIViewController {
                     User.sharedInstance.updateUserWithJSON(jsonResponse["response"])
                     User.sharedInstance.password = password
                     NSUserDefaults.standardUserDefaults().setObject(password, forKey: "UserPass")
+                    NSUserDefaults.standardUserDefaults().synchronize()
                     self.goToRequestServiceVC()
                     //saveUserWithDictionary
                     
                 } else {
                     NSUserDefaults.standardUserDefaults().removeObjectForKey("UserInfo")
                     NSUserDefaults.standardUserDefaults().removeObjectForKey("UserPass")
+                    NSUserDefaults.standardUserDefaults().synchronize()
                     
                     println("respuesta false en el login: \(jsonResponse)")
                     if jsonResponse["error_id"].intValue == 0 {
