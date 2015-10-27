@@ -14,11 +14,13 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var phoneTextfield: UITextField!
     @IBOutlet weak var lastNameTextfield: UITextField!
     @IBOutlet weak var nameTextfield: UITextField!
+    private var activeTextField: UITextField?
     
     //MARK: Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         setupUI()
     }
     
@@ -35,6 +37,10 @@ class MyProfileViewController: UIViewController {
     }
     
     //MARK: Actions
+    
+    @IBAction func tapDetected(sender: AnyObject) {
+        activeTextField?.resignFirstResponder()
+    }
     
     @IBAction func saveChangesPressed() {
         if formIsCorrect() {
@@ -91,5 +97,13 @@ extension MyProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        activeTextField = textField
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        activeTextField = nil
     }
 }

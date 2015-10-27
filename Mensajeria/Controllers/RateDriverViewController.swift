@@ -54,6 +54,10 @@ class RateDriverViewController: UIViewController {
     
     //MARK: Actions 
     
+    @IBAction func tapDetected(sender: AnyObject) {
+        commentsTextView.resignFirstResponder()
+    }
+
     @IBAction func rateButtonPressed() {
         //UIAlertView(title: "", message: "Mensajero calificado de forma exitosa!", delegate: nil, cancelButtonTitle: "Ok").show()
         //navigationController?.popToRootViewControllerAnimated(true)

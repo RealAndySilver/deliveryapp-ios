@@ -20,6 +20,7 @@ class ActiveServicesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         setupUI()
         getActiveDeliveryItems()
     }

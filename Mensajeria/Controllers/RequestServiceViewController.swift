@@ -13,7 +13,7 @@ class RequestServiceViewController: UIViewController {
     @IBOutlet weak var revealButtonItem: UIBarButtonItem!
     
     enum TextfieldName: Int {
-        case pickupTextfield = 1, finalTextfield, dayHourTextfield, shipmentValueTextfield
+        case pickupTextfield = 1, finalTextfield, dayHourTextfield, deliveryTextField
     }
     
     enum PickerViewType: Int {
@@ -21,13 +21,15 @@ class RequestServiceViewController: UIViewController {
         case deliveryPicker
     }
     
-    
+    var firstTimePickupTextFieldAppears = false
+    var firstTimeDeliveryTextFieldAppears = false
     let pickupAndDeliveryCases: [(serverString: String, displayString: String)] = [("now", "Inmediato"), ("later", "Durante el día")]
     var selectedPickupCase: (serverString: String, displayString: String)!
     var selectedDeliveryCase: (serverString: String, displayString: String)!
     @IBOutlet weak var servicePriceLabel: UILabel!
     var pickupPicker: UIPickerView!
     var deliveryPicker: UIPickerView!
+    @IBOutlet weak var deliveryAddressLabel: UILabel!
     @IBOutlet weak var serviceNameTextfield: UITextField!
     @IBOutlet weak var deliveryDayHourTextfield: UITextField!
     @IBOutlet weak var pickupAddressTextfield: UITextField!
@@ -58,6 +60,7 @@ class RequestServiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         println("entre acaaaa")
+        view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         setupUI()
     }
     
@@ -109,6 +112,12 @@ class RequestServiceViewController: UIViewController {
     }
     
     //MARK: Actions
+    
+    @IBAction func idaYVueltaSwitchPressed(sender: UISwitch) {
+        if sender.on { deliveryAddressLabel.text = "Dirección Intermedia" }
+        else { deliveryAddressLabel.text = "Dirección de Entrega"}
+    }                                          
+    
     @IBAction func tapButtonPressed(sender: UITapGestureRecognizer) {
         instructionsTextView.resignFirstResponder()
         if let activeTextfield = activeTextfield {
@@ -219,6 +228,7 @@ class RequestServiceViewController: UIViewController {
                     self.goToFindingServiceWithServiceID(deliveryItem.identifier)
                     println("id del servicio: \(deliveryItem.identifier)")
                     println("Descripcion completa del delivery item parseado: \(deliveryItem.deliveryItemDescription)")
+                    self.cleanUIFields()
                     /*if let requestID = jsonResponse["response"]["_id"].string {
                         self.goToFindingServiceWithServiceID(requestID)
                     }*/
@@ -287,6 +297,11 @@ class RequestServiceViewController: UIViewController {
             instructionsTextView.layer.borderColor = UIColor.redColor().CGColor
         }
         
+        let shipmentVal = shipmentValueTextfield.text.toInt() ?? 0
+        if shipmentVal < 2000 || shipmentVal > 2_000_000 {
+            return false
+        }
+        
         return serviceNameIsCorrect && pickupAddressIsCorrect && finalAddressIsCorrect && dayAndHourIsCorrect && instructionsAreCorrect && deliveryDayHourIsCorrect ? true : false
     }
     
@@ -328,6 +343,19 @@ class RequestServiceViewController: UIViewController {
     }
     
     //MARK: Custom Stuff
+    
+    func cleanUIFields() {
+        servicePriceLabel.text = nil
+        serviceNameTextfield.text = nil
+        deliveryDayHourTextfield.text = ""
+        pickupAddressTextfield.text = ""
+        finalAddressTextfield.text = ""
+        idaYVueltaSwitch.on = false
+        dayHourTextfield.text = ""
+        shipmentValueTextfield.text = ""
+        instructionsTextView.text = ""
+
+    }
     
     func updatePickupAddress(address: String, location: CLLocationCoordinate2D, selectedPickupLocation: Bool) {
         println("latitude: \(location.latitude)")
@@ -457,6 +485,19 @@ extension RequestServiceViewController: UITextFieldDelegate {
         } else {
             activeTextfield = textField
             return true
+        }
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        if textField.tag == TextfieldName.dayHourTextfield.rawValue && !firstTimePickupTextFieldAppears {
+            dayHourTextfield.text = pickupAndDeliveryCases[0].displayString
+            selectedPickupCase = pickupAndDeliveryCases[0]
+            firstTimePickupTextFieldAppears = true
+        
+        } else if textField.tag == TextfieldName.deliveryTextField.rawValue && !firstTimeDeliveryTextFieldAppears {
+            deliveryDayHourTextfield.text = pickupAndDeliveryCases[0].displayString
+            selectedDeliveryCase = pickupAndDeliveryCases[0]
+            firstTimeDeliveryTextFieldAppears = true
         }
     }
 }

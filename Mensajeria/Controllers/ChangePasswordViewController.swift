@@ -13,6 +13,7 @@ class ChangePasswordViewController: UIViewController {
     @IBOutlet weak var actualPasswordTextfield: UITextField!
     @IBOutlet weak var newPasswordTextfield: UITextField!
     @IBOutlet weak var confirmNewPassTextfield: UITextField!
+    private var activeTextField: UITextField?
     
     //MARK: Life cycle
     
@@ -21,6 +22,10 @@ class ChangePasswordViewController: UIViewController {
     }
     
     //MARK: Actions 
+    
+    @IBAction func tapDetected(sender: AnyObject) {
+        activeTextField?.resignFirstResponder()
+    }
     
     @IBAction func changeButtonPressed() {
         if formIsCorrect() {
@@ -88,6 +93,14 @@ extension ChangePasswordViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        activeTextField = textField
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        activeTextField = nil
     }
 }
 

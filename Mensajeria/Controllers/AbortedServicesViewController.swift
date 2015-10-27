@@ -19,6 +19,7 @@ class AbortedServicesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         setupUI()
         getAbortedServices()
     }

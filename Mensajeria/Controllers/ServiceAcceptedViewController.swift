@@ -23,6 +23,7 @@ class ServiceAcceptedViewController: UIViewController {
     var presentedFromPushNotification: Bool!
     var presentedFromFinishedServicesVC: Bool!
     var presentedFromAbortedService: Bool?
+    var viewAppearedForTheFirstTime = true
     
     //////////////////////////////////////////////////////
     weak var delegate: ServiceAcceptedDelegate?
@@ -51,7 +52,6 @@ class ServiceAcceptedViewController: UIViewController {
     @IBOutlet weak var etaLabel: UILabel!
     @IBOutlet weak var platesLabel: UILabel!
     @IBOutlet weak var codeLabel: UILabel!
-    var viewAppearedForTheFirstTime = true
     
     //MARK: View Life cycle
     

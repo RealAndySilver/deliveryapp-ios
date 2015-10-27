@@ -3,22 +3,21 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "Mainlogo.png"
+      "filename" : "triangle.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "Mainlogo@2x.png"
+      "filename" : "triangle@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "Mainlogo@3x.png"
+      "filename" : "triangle@3x.png"
     }
   ],
   "info" : {
     "version" : 1,
-    "author" : "xcode",
-    "template-rendering-intent" : "template"
+    "author" : "xcode"
   }
 }
