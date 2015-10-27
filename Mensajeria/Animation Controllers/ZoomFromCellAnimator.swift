@@ -13,21 +13,21 @@ class ZoomFromCellAnimator: NSObject {
 }
 
 extension ZoomFromCellAnimator: UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return 0.5
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
         let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView()!
         
         let animationDuration = transitionDuration(transitionContext)
         
         let fromViewFrame = fromVC.view.frame
         UIGraphicsBeginImageContext(fromViewFrame.size)
         fromVC.view.drawViewHierarchyInRect(fromViewFrame, afterScreenUpdates: true)
-        let snaphshotImage = UIGraphicsGetImageFromCurrentImageContext()
+        //let snaphshotImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         let snapshotView = toVC.view.resizableSnapshotViewFromRect(toVC.view.frame, afterScreenUpdates: true, withCapInsets: UIEdgeInsetsZero)
@@ -37,7 +37,7 @@ extension ZoomFromCellAnimator: UIViewControllerAnimatedTransitioning {
         toVC.view.alpha = 0.0
         containerView.addSubview(toVC.view)
         
-        UIView.animateWithDuration(animationDuration, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 20.0, options: nil,
+        UIView.animateWithDuration(animationDuration, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 20.0, options: [],
             animations: { () -> Void in
                 snapshotView.frame = fromVC.view.frame
             }, completion: { (finished) -> Void in

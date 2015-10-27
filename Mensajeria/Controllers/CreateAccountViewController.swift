@@ -110,20 +110,21 @@ class CreateAccountViewController: UIViewController {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         
         //Encode password
-        let encodedPassword = passwordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(.allZeros)
+        let encodedPassword = passwordTextfield.text!.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions([])
         
-        Alamofire.manager.request(.POST, Alamofire.createUserServiceURL, parameters: ["email" : emailTextfield.text, "password" : encodedPassword!, "name" : nameTextfield.text, "lastname" : lastNameTextfield.text, "mobilephone" : cellphoneTextfield.text], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(.POST, Alamofire.createUserServiceURL, parameters: ["email" : emailTextfield.text!, "password" : encodedPassword!, "name" : nameTextfield.text!, "lastname" : lastNameTextfield.text!, "mobilephone" : cellphoneTextfield.text!], encoding: .URL).responseJSON { (response) -> Void in
+            
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //Error
                 UIAlertView(title: "", message: "Hubo un error al intentar crear la cuenta. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
-                println("Error en el Create User: \(error?.localizedDescription)")
+                print("Error en el Create User: \(error.localizedDescription)")
                 
             } else {
                 //Success 
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue == true {
-                    println("Respuesta true del create: \(jsonResponse)")
+                    print("Respuesta true del create: \(jsonResponse)")
                     //Show confirmation email alert
                     let alert = UIAlertView(title: "", message: "Tu usuario se ha creado exitosamente.", delegate: self, cancelButtonTitle: "Ok")
                     alert.tag = 1
@@ -136,7 +137,7 @@ class CreateAccountViewController: UIViewController {
                     } else {
                         UIAlertView(title: "", message: "Hay un problema en los datos. Por favor revisa que el formulario esté completo e intenta de nuevo.", delegate: nil, cancelButtonTitle: "Ok").show()
                     }
-                    println("Respuesta false del create: \(jsonResponse)")
+                    print("Respuesta false del create: \(jsonResponse)")
                 }
             }
         }
@@ -145,7 +146,7 @@ class CreateAccountViewController: UIViewController {
     //MARK: Form Validation
     
     func emailIsCorrect() -> Bool {
-        if RegexValidator.stringIsAValidEmail(emailTextfield.text) {
+        if RegexValidator.stringIsAValidEmail(emailTextfield.text!) {
             emailTextfield.layer.borderWidth = 0.0
             return true
             
@@ -157,7 +158,7 @@ class CreateAccountViewController: UIViewController {
     }
     
     func passwordsAreCorrect() -> Bool {
-        if count(passwordTextfield.text) > 0 && count(confirmPasswordTextfield.text) > 0 && passwordTextfield.text == confirmPasswordTextfield.text {
+        if passwordTextfield.text!.characters.count > 0 && confirmPasswordTextfield.text!.characters.count > 0 && passwordTextfield.text == confirmPasswordTextfield.text {
             return true
         } else {
             return false
@@ -170,7 +171,7 @@ class CreateAccountViewController: UIViewController {
         var emailIsCorrect = false
         var phoneIsCorrect = false
         
-        if count(nameTextfield.text) > 0 {
+        if nameTextfield.text!.characters.count > 0 {
             nameIsCorrect = true
             nameTextfield.layer.borderWidth = 0.0
             
@@ -179,7 +180,7 @@ class CreateAccountViewController: UIViewController {
             nameTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        if count(lastNameTextfield.text) > 0 {
+        if lastNameTextfield.text!.characters.count > 0 {
             lastNameIsCorrect = true
             lastNameTextfield.layer.borderWidth = 0.0
 
@@ -188,7 +189,7 @@ class CreateAccountViewController: UIViewController {
             lastNameTextfield.layer.borderWidth = 1.0
         }
         
-        if count(emailTextfield.text) > 0{
+        if emailTextfield.text!.characters.count > 0{
             emailIsCorrect = true
             emailTextfield.layer.borderWidth = 0.0
 
@@ -197,7 +198,7 @@ class CreateAccountViewController: UIViewController {
             emailTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        if count(cellphoneTextfield.text) > 0 {
+        if cellphoneTextfield.text!.characters.count > 0 {
             phoneIsCorrect = true
             cellphoneTextfield.layer.borderWidth = 0.0
         } else {
@@ -211,7 +212,7 @@ class CreateAccountViewController: UIViewController {
     //MARK: User Defaults Saving 
     
     func saveFormInfo() {
-        let formInfo = ["name" : nameTextfield.text, "lastName" : lastNameTextfield.text, "email" : emailTextfield.text, "phone" : cellphoneTextfield.text]
+        let formInfo = ["name" : nameTextfield.text!, "lastName" : lastNameTextfield.text!, "email" : emailTextfield.text!, "phone" : cellphoneTextfield.text!]
         NSUserDefaults.standardUserDefaults().setObject(formInfo, forKey: "formDic")
         NSUserDefaults.standardUserDefaults().synchronize()
     }
@@ -220,7 +221,7 @@ class CreateAccountViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "TermsConditionsSegue" {
-            let termsConditionsVC = segue.destinationViewController as! UIViewController
+            let termsConditionsVC = segue.destinationViewController 
             termsConditionsVC.transitioningDelegate = self
         }
     }
@@ -255,7 +256,7 @@ extension CreateAccountViewController: UIAlertViewDelegate {
         if alertView.tag == 1 {
             //Account created successfully alert
             dismissViewControllerAnimated(true, completion: { () -> Void in
-                delegate?.accountCreatedSuccessfullyWithUsername(emailTextfield.text, password: passwordTextfield.text)
+                self.delegate?.accountCreatedSuccessfullyWithUsername(self.emailTextfield.text!, password: self.passwordTextfield.text!)
             })
         }
     }

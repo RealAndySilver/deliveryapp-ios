@@ -47,7 +47,7 @@ class User: NSObject {
         emailConfirmation = userJSON["email_confirmation"].boolValue
         mobilePhone = userJSON["mobilephone"].stringValue
         //favorites = userJSON["favorites"].rawValue as []
-        println(userDescription)
+        print(userDescription)
         
         //Save user info in NSUserDefaults 
         NSUserDefaults.standardUserDefaults().setObject(["name" : name, "_id" : identifier, "email" : email, "lastname" : lastName, "mobilephone" : mobilePhone], forKey: "UserInfo")

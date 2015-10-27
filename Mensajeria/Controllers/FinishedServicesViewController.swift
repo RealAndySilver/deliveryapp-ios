@@ -51,30 +51,30 @@ class FinishedServicesViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.finishedItemsServiceURL)/\(User.sharedInstance.identifier)", methodType: "GET")
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //There was an error 
-                println("Error en el get finished items: \(error?.localizedDescription)")
+                print("Error en el get finished items: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error intentando acceder a los servicios terminados. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle:"Ok").show()
             } else {
                 //Successfull response
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("Respuesta true del get finished items: \(jsonResponse)")
+                    print("Respuesta true del get finished items: \(jsonResponse)")
                     let deliveryItems = jsonResponse["response"]
                     var tempArray = [DeliveryItem]()
                     for i in 0..<deliveryItems.count {
                         let deliveryItem = DeliveryItem(deliveryItemJSON: deliveryItems[i])
-                        println("delivery item parseadooo: \(deliveryItem.description)")
+                        print("delivery item parseadooo: \(deliveryItem.description)")
                         tempArray.append(deliveryItem)
                     }
                     self.finishedItems = tempArray
                     self.tableView.reloadData()
                     
                 } else {
-                    println("Respuesta false del get finished items: \(jsonResponse)")
+                    print("Respuesta false del get finished items: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un problema al acceder a los servicios terminados. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }

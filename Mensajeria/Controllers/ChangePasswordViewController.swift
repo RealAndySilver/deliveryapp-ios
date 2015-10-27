@@ -37,31 +37,31 @@ class ChangePasswordViewController: UIViewController {
     
     func changePassword() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        let encodedPreviousPass = actualPasswordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(.allZeros)
-        let encodedNewPass = newPasswordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(.allZeros)
+        let encodedPreviousPass = actualPasswordTextfield.text!.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions([])
+        let encodedNewPass = newPasswordTextfield.text!.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions([])
         
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.changePasswordServiceURL)/\(User.sharedInstance.identifier)", methodType: "PUT", theParameters: ["password" : encodedPreviousPass!, "new_password" : encodedNewPass!])
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
-            
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
+
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //Error 
-                println("hubo un error en el change pass: \(error?.localizedDescription)")
+                print("hubo un error en el change pass: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar cambiar tu contraseña. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
                 //Success
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("Resputa true del change pass: \(jsonResponse)")
+                    print("Resputa true del change pass: \(jsonResponse)")
                     UIAlertView(title: "", message: "Tu contraseña se ha cambiado de forma exitosa!", delegate: self, cancelButtonTitle: "Ok").show()
                     User.sharedInstance.password = self.newPasswordTextfield.text
                     NSUserDefaults.standardUserDefaults().setObject(self.newPasswordTextfield.text, forKey: "UserPass")
                     
                 } else {
-                    println("respuesta false del change pass: \(jsonResponse)")
+                    print("respuesta false del change pass: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Tu contraseña actual no es correcta. Por favor revisa", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -71,7 +71,7 @@ class ChangePasswordViewController: UIViewController {
     //MARK: Form Validation
     
     func formIsCorrect() -> Bool {
-        if count(newPasswordTextfield.text) > 0 && count(confirmNewPassTextfield.text) > 0 && count(actualPasswordTextfield.text) > 0 {
+        if newPasswordTextfield.text!.characters.count > 0 && confirmNewPassTextfield.text!.characters.count > 0 && actualPasswordTextfield.text!.characters.count > 0 {
             if newPasswordTextfield.text == confirmNewPassTextfield.text {
                 return true
                 

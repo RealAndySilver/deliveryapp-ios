@@ -51,7 +51,7 @@ class LoginViewController: UIViewController {
             //The user object exists, so go to the main screen (but with a delay of 2 seconds)
             userIsLoggedIn = true
             MBProgressHUD.showHUDAddedTo(view, animated: true)
-            let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "loginUserInServer", userInfo: nil, repeats: false)
+            NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "loginUserInServer", userInfo: nil, repeats: false)
         }
     }
     
@@ -98,7 +98,7 @@ class LoginViewController: UIViewController {
     //MARK: Form Stuff
     
     func formIsCorrect() -> Bool {
-        return count(userTextfield.text) > 0 && count(passwordTextfield.text) > 0 ? true : false
+        return userTextfield.text!.characters.count > 0 && passwordTextfield.text!.characters.count > 0 ? true : false
     }
     
     //MARK: Server stuff
@@ -106,7 +106,7 @@ class LoginViewController: UIViewController {
     func loginUserInServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         
-        if let userObject = NSUserDefaults.standardUserDefaults().objectForKey("UserInfo") as? [String : String] {
+        if let _ = NSUserDefaults.standardUserDefaults().objectForKey("UserInfo") as? [String : String] {
             userIsLoggedIn = true
         } else {
             userIsLoggedIn = false
@@ -126,22 +126,23 @@ class LoginViewController: UIViewController {
             password = NSUserDefaults.standardUserDefaults().objectForKey("UserPass") as! String
             
         } else {
-            email = userTextfield.text
-            password = passwordTextfield.text
+            email = userTextfield.text!
+            password = passwordTextfield.text!
         }
         
-        println("email: \(email)")
-        println("pass: \(password)")
+        print("email: \(email)")
+        print("pass: \(password)")
         
         //Encode password
-        let encodedPassword = password.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.allZeros)
+        let encodedPassword = password.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
         
         //Make the login request to the server
-        Alamofire.manager.request(.PUT, Alamofire.loginWebServiceURL, parameters: ["email" : email, "password" : encodedPassword!, "device_info" : ["type" : UIDevice.currentDevice().model, "os" : "iOS", "token" : token, "name" : UIDevice.currentDevice().name]], encoding: ParameterEncoding.URL).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(.PUT, Alamofire.loginWebServiceURL, parameters: ["email" : email, "password" : encodedPassword!, "device_info" : ["type" : UIDevice.currentDevice().model, "os" : "iOS", "token" : token, "name" : UIDevice.currentDevice().name]], encoding: ParameterEncoding.URL).responseJSON { (response) -> Void in
+            
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-            if error != nil {
+            if case .Failure(let error) = response.result  {
                 //Something wrong happened
-                println("Error en el login: \(error?.localizedDescription)")
+                print("Error en el login: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar iniciar sesión. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 NSUserDefaults.standardUserDefaults().removeObjectForKey("UserInfo")
                 NSUserDefaults.standardUserDefaults().removeObjectForKey("UserPass")
@@ -149,9 +150,9 @@ class LoginViewController: UIViewController {
                 
             } else {
                 //Success
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue == true {
-                    println("success en el login: \(jsonResponse)")
+                    print("success en el login: \(jsonResponse)")
                     User.sharedInstance.updateUserWithJSON(jsonResponse["response"])
                     User.sharedInstance.password = password
                     NSUserDefaults.standardUserDefaults().setObject(password, forKey: "UserPass")
@@ -164,7 +165,7 @@ class LoginViewController: UIViewController {
                     NSUserDefaults.standardUserDefaults().removeObjectForKey("UserPass")
                     NSUserDefaults.standardUserDefaults().synchronize()
                     
-                    println("respuesta false en el login: \(jsonResponse)")
+                    print("respuesta false en el login: \(jsonResponse)")
                     if jsonResponse["error_id"].intValue == 0 {
                         //Usuario no encontrado
                         UIAlertView(title: "Oops!", message: "Usuario no encontrado", delegate: nil, cancelButtonTitle: "Ok").show()
@@ -180,7 +181,7 @@ class LoginViewController: UIViewController {
     //MARK: Navigation
     func goToRequestServiceVC() {
         MBProgressHUD.hideAllHUDsForView(view, animated: true)
-        println("entre al gotorequestttt")
+        print("entre al gotorequestttt")
         let revealViewController = storyboard?.instantiateViewControllerWithIdentifier("revealViewController") as! SWRevealViewController
         revealViewController.transitioningDelegate = self
         presentViewController(revealViewController, animated: true, completion: nil)

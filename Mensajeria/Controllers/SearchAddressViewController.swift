@@ -54,7 +54,7 @@ class SearchAddressViewController: UIViewController {
         super.viewDidLoad()
         resultsTableView.tableFooterView = UIView(frame: CGRectZero)
         addressTextfield.text = address
-        if count(addressTextfield.text) > 0 {
+        if addressTextfield.text!.characters.count > 0 {
             searchAddressUsingGeocoding()
         }
     }
@@ -66,28 +66,28 @@ class SearchAddressViewController: UIViewController {
     func searchAddressUsingGeocoding() {
         activityIndicator.startAnimating()
         
-        Alamofire.manager.request(.GET, "https://maps.googleapis.com/maps/api/geocode/json", parameters: ["address" : addressTextfield.text, "region" : "co", "bounds" : "\(kSouthWeastLatitude),\(kSouthWeastLongitude)|\(kNorthEastLatitude),\(kNorthEastLongitude)"], encoding: ParameterEncoding.URL).responseJSON(options: NSJSONReadingOptions.allZeros) { (_, _, json, error) -> Void in
+        Alamofire.manager.request(.GET, "https://maps.googleapis.com/maps/api/geocode/json", parameters: ["address" : addressTextfield.text!, "region" : "co", "bounds" : "\(kSouthWeastLatitude),\(kSouthWeastLongitude)|\(kNorthEastLatitude),\(kNorthEastLongitude)"], encoding: ParameterEncoding.URL).responseJSON { (response) -> Void in
             
             self.activityIndicator.stopAnimating()
-            if error != nil {
-                println("Hubo un error obteniendo las direcciones en Google: \(error?.localizedDescription)")
+            if case .Failure(let error) = response.result {
+                print("Hubo un error obteniendo las direcciones en Google: \(error.localizedDescription)")
             } else {
-                let jsonResponse = JSON(json!)
-                println("Respuesta correcta del get address: \(jsonResponse)")
+                let jsonResponse = JSON(response.result.value!)
+                print("Respuesta correcta del get address: \(jsonResponse)")
                 
                 let statusString = jsonResponse["status"].stringValue
                 let geocodingStatusCode = GeocodingStatusCode(rawValue: statusString)
                 if let geocodingStatusCode = geocodingStatusCode {
                     switch geocodingStatusCode {
                     case .Ok:
-                        println("Everything went ok")
+                        print("Everything went ok")
                         self.resultsArray = jsonResponse["results"].object as! [Dictionary<String , AnyObject>]
                         self.resultsTableView.reloadData()
                         
                     case .ZeroResults:
-                        println("No results")
+                        print("No results")
                     default:
-                        println("Hubo un error la petición al Geocoding")
+                        print("Hubo un error la petición al Geocoding")
                     }
                 }
             }
@@ -113,7 +113,7 @@ extension SearchAddressViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(kCellId, forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(kCellId, forIndexPath: indexPath) 
         cell.textLabel?.text = resultsArray[indexPath.row]["formatted_address"] as? String
         cell.detailTextLabel?.text = ""
         return cell
@@ -143,7 +143,7 @@ extension SearchAddressViewController: UITextFieldDelegate {
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        println("should change with replacement string: \(string)")
+        print("should change with replacement string: \(string)")
         activityIndicator.startAnimating()
         
         if timer != nil {

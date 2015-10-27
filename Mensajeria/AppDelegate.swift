@@ -27,13 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor.whiteColor()
         
         //Register for remote notifications
-        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Sound | .Alert | .Badge, categories: nil))
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Sound, .Alert, .Badge], categories: nil))
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
         if let pendingRatingDic = NSUserDefaults.standardUserDefaults().objectForKey("pendingRatingDicKey") as? [String : String] {
-            println("Existe un mensajero sin rating *************************************************")
-            delay(3.0, { () -> () in
+            print("Existe un mensajero sin rating *************************************************")
+            delay(3.0, closure: { () -> () in
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let pendingRateVC = storyboard.instantiateViewControllerWithIdentifier("PendingRate") as! PendingRateViewController
                 pendingRateVC.modalPresentationStyle = .OverCurrentContext
@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.window?.makeKeyAndVisible()
                 
                 let topRootViewController = self.window?.rootViewController!
-                if var topVC = topRootViewController {
+                if let topVC = topRootViewController {
                     if let presentedVC = topVC.presentedViewController {
                         presentedVC.presentViewController(pendingRateVC, animated: true, completion: nil)
                     }
@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
             
         } else {
-            println("No existe un rating dic de mensajero")
+            print("No existe un rating dic de mensajero")
         }
         
         return true
@@ -85,16 +85,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
-        println("Entre al handle url")
-        if url.absoluteString?.lowercaseString.rangeOfString("password_redirect") != nil {
-            let urlString = url.absoluteString
+        print("Entre al handle url")
+        if url.absoluteString.lowercaseString.rangeOfString("password_redirect") != nil {
+            //let urlString = url.absoluteString
             let parametersDic = Utils.URLQueryParameters(url)
             let token = parametersDic["token"] as! String
             let userType = parametersDic["type"] as! String
             let requestType = parametersDic["request"] as! String
-            println("token: \(token)")
-            println("user type: \(userType)")
-            println("request type: \(requestType)")
+            print("token: \(token)")
+            print("user type: \(userType)")
+            print("request type: \(requestType)")
             
             if requestType == "new_password" {
                 NSUserDefaults.standardUserDefaults().setObject(token, forKey: "token")
@@ -115,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        println("Receive remote notification: \(userInfo)")
+        print("Receive remote notification: \(userInfo)")
         
         if NSUserDefaults.standardUserDefaults().objectForKey("UserInfo") != nil {
             //Handle push only if the user is log in
@@ -124,18 +124,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if userInfo["u_type"] as! String == "user" && userInfo["action"] as! String == "delivery" {
                 
                 deliveryItemId = userInfo["id"] as! String
-                println("id del servicio que llego en la notificacion: \(deliveryItemId)")
-                println("id del currentservicedetailid: \(currentServiceDetailScreenDeliveryItemID)")
+                print("id del servicio que llego en la notificacion: \(deliveryItemId)")
+                print("id del currentservicedetailid: \(currentServiceDetailScreenDeliveryItemID)")
                 if deliveryItemId != currentServiceDetailScreenDeliveryItemID && !onWaitingForConfirmationScreen {
-                    println("id del servicio: \(deliveryItemId)")
+                    print("id del servicio: \(deliveryItemId)")
                     let appState = UIApplication.sharedApplication().applicationState
                     if appState == .Active {
-                        println("the app was active when the notification arrived")
+                        print("the app was active when the notification arrived")
                         UIAlertView(title: "Servicio actualizado", message: "\(message) ¿Quieres acceder al detalle del servicio?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Aceptar").show()
                         
                     } else {
                         UIAlertView(title: "Servicio actualizado", message: "\(message) ¿Quieres acceder al detalle del servicio?", delegate: self, cancelButtonTitle: "Cancelar", otherButtonTitles: "Aceptar").show()
-                        println("the app was inactive when the notification arrived")
+                        print("the app was inactive when the notification arrived")
                     }
                     
                 } else {
@@ -151,7 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        println("error registrandome para las notificacciones: \(error.localizedDescription)")
+        print("error registrandome para las notificacciones: \(error.localizedDescription)")
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -159,7 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var trimmedToken = token.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>"))
         trimmedToken = trimmedToken.stringByReplacingOccurrencesOfString(" ", withString: "")
         appToken = trimmedToken
-        println("Tokeeen: \(trimmedToken)")
+        print("Tokeeen: \(trimmedToken)")
     }
     
     func showPasswordView() {
@@ -174,16 +174,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.getDeliveryItemServiceURL)/\(deliveryItemId)", methodType: "GET")
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
-            if error != nil {
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
+            
+            if case .Failure(let error) = response.result {
                 //There was an error
-                println("error en el get delivery item: \(error?.localizedDescription)")
+                print("error en el get delivery item: \(error.localizedDescription)")
             } else {
                 //Success
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
                     //True response 
-                    println("respuesta true del get delivery item by id: \(jsonResponse)")
+                    print("respuesta true del get delivery item by id: \(jsonResponse)")
                     let deliveryItem = DeliveryItem(deliveryItemJSON: jsonResponse["response"])
                     
                     //go to delivery item detail
@@ -197,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func goToDeliveryItemDetail(deliveryItem: DeliveryItem) {
-        println("iré al delivery iteeeeemmmmmm")
+        print("iré al delivery iteeeeemmmmmm")
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let serviceAcceptedVC = storyboard.instantiateViewControllerWithIdentifier("ServiceAccepted") as! ServiceAcceptedViewController
@@ -221,7 +222,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        println("button index: \(buttonIndex)")
+        print("button index: \(buttonIndex)")
         if buttonIndex == 1 {
             //Present delivery item detail view controller
             //Get delivery item 

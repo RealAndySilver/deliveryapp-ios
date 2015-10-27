@@ -20,7 +20,7 @@ class AppInfo: NSObject {
     
     var deliveryItemStatusList = ["available", "accepted", "in-transit", "returning", "returned", "delivered"]
     lazy var stringToDateFormatter: NSDateFormatter = {
-        println("entre a nicializarrr")
+        print("entre a nicializarrr")
         let formatter = NSDateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         formatter.locale = NSLocale.currentLocale()

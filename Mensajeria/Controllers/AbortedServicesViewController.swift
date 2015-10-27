@@ -43,22 +43,22 @@ class AbortedServicesViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.restartItemServiceURL)/\(deliveryItem.identifier)", methodType: "PUT", theParameters: ["user_id" : User.sharedInstance.identifier])
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //Error
-                println("Error en el restart service: \(error?.localizedDescription)")
+                print("Error en el restart service: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar habilitar de nuevo el servicio. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
                 //Success
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
                     UIAlertView(title: "", message: "El servicio se ha habilitado de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                     
                 } else {
-                    println("Respuesta false del restart item: \(jsonResponse)")
+                    print("Respuesta false del restart item: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar habilitar de nuevo el servicio.", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -71,22 +71,22 @@ class AbortedServicesViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.cancelRequestServiceURL)/\(deliveryItem.identifier)/\(User.sharedInstance.identifier)", methodType: "DELETE")
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //Error
-                println("Error borrando el servicio: \(error?.localizedDescription)")
+                print("Error borrando el servicio: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al borrar el servicio. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
                 //Success
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("respuesta true del delete service: \(jsonResponse)")
+                    print("respuesta true del delete service: \(jsonResponse)")
                     
                 } else {
-                    println("Respuesta false del delete service: \(jsonResponse)")
+                    print("Respuesta false del delete service: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "El pedido no pudo ser eliminado", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -100,18 +100,19 @@ class AbortedServicesViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.abortedItemsServiceURL)/\(User.sharedInstance.identifier)", methodType: "GET")
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
+            
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //Error 
-                println("Error obteniendo los aborted items: \(error?.localizedDescription)")
+                print("Error obteniendo los aborted items: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar acceder a tus servicios abortados. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
                 //Success
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("Resputa true del aborted: \(jsonResponse)")
+                    print("Resputa true del aborted: \(jsonResponse)")
                     let tempDeliveryItems = jsonResponse["response"]
                     var tempAbortedService = [DeliveryItem]()
                     for i in 0..<tempDeliveryItems.count {
@@ -122,7 +123,7 @@ class AbortedServicesViewController: UIViewController {
                     self.tableView.reloadData()
                     
                 } else {
-                    println("Respuesta false del aborted: \(jsonResponse)")
+                    print("Respuesta false del aborted: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un error al acceder a tus servicios abortados. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -171,7 +172,7 @@ extension AbortedServicesViewController: UITableViewDelegate {
 
 extension AbortedServicesViewController: ServiceAcceptedDelegate {
     func serviceUpdated() {
-        println("Me llego el delegate*******************************************************")
+        print("Me llego el delegate*******************************************************")
         //Update our services
         getAbortedServices()
     }
@@ -181,7 +182,7 @@ extension AbortedServicesViewController: ServiceAcceptedDelegate {
 
 extension AbortedServicesViewController: UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        println("button index: \(buttonIndex)")
+        print("button index: \(buttonIndex)")
         if buttonIndex == 1 {
             //Habilitar servicio
             enableService(abortedServices[selectedService])

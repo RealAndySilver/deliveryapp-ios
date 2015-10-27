@@ -42,23 +42,23 @@ class FavouriteMessengersViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.removeFavoriteServiceURL)/\(User.sharedInstance.identifier)", methodType: "PUT", theParameters: ["messenger_id" : favoritesMessengers[index].identifier])
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
-            if error != nil {
-                println("Error en el unfav: \(error?.localizedDescription)")
+            if case .Failure(let error) = response.result {
+                print("Error en el unfav: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al remover este mensajero de tus favoritos. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("Respuesta true del unfav: \(jsonResponse)")
+                    print("Respuesta true del unfav: \(jsonResponse)")
                     let messengersArray = jsonResponse["response"].object as! [[String : AnyObject]]
                     self.favoritesMessengers = MessengerInfo.getMessengersObjectsFromArray(messengersArray)
                     self.theTableView.reloadData()
                     
                     
                 } else {
-                    println("Respuesta false del unfav: \(jsonResponse)")
+                    print("Respuesta false del unfav: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un error al remover este mensajero de tus favoritos. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -71,22 +71,22 @@ class FavouriteMessengersViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.getFavoritesServiceURL)/\(User.sharedInstance.identifier)", methodType: "GET")
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
-            if error != nil {
-                println("Error en el get favorites: \(error?.localizedDescription)")
+            if case .Failure(let error) = response.result {
+                print("Error en el get favorites: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error. Revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("Resputa true del get favorites: \(jsonResponse)")
+                    print("Resputa true del get favorites: \(jsonResponse)")
                     let messengersArray = jsonResponse["response"].object as! [[String : AnyObject]]
                     self.favoritesMessengers = MessengerInfo.getMessengersObjectsFromArray(messengersArray)
                     self.theTableView.reloadData()
                     
                 } else {
-                    println("respuesta false del get favorites: \(jsonResponse)")
+                    print("respuesta false del get favorites: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un error accediendo a tus favoritos. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -134,7 +134,7 @@ extension FavouriteMessengersViewController: UITableViewDelegate {
 extension FavouriteMessengersViewController: UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         //Messenger selected alert
-        println("button: \(buttonIndex)")
+        print("button: \(buttonIndex)")
         if buttonIndex == 1 {
             //Request service
             

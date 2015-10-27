@@ -62,7 +62,7 @@ class DeliveryItem: NSObject {
         
         estimatedString = deliveryItemJSON["estimated"].string
         if let theEstimatedString = estimatedString {
-            let range = Range(start: advance(theEstimatedString.endIndex, -4), end: theEstimatedString.endIndex)
+            let range = Range(start: theEstimatedString.endIndex.advancedBy(-4), end: theEstimatedString.endIndex)
             estimatedString = theEstimatedString.stringByReplacingCharactersInRange(range, withString: "000Z")
             if let theEstimatedDate = AppInfo.sharedInstance.stringToDateFormatter.dateFromString(estimatedString!) {
                 estimatedDate = theEstimatedDate

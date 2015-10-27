@@ -15,16 +15,16 @@ class CloseSessionAnimationController: NSObject {
 //MARK: UIViewControllerAnimatedTransition
 
 extension CloseSessionAnimationController: UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return 0.5
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+        //let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+        /*let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let finalFrame = transitionContext.finalFrameForViewController(toVC)
         
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView()*/
         
     }
 }

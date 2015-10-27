@@ -87,7 +87,7 @@ class ServiceAcceptedViewController: UIViewController {
         if presentedFromFinishedServicesVC == true {
             cancelServiceButton.hidden = true
         }
-        println("El delivery item: \(deliveryItem.deliveryItemDescription)")
+        print("El delivery item: \(deliveryItem.deliveryItemDescription)")
         setupUI()
         fillUIWithDeliveryItemInfo()
     }
@@ -122,7 +122,7 @@ class ServiceAcceptedViewController: UIViewController {
     }
     
     deinit {
-        println("me cerreeeeee")
+        print("me cerreeeeee")
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -231,7 +231,7 @@ class ServiceAcceptedViewController: UIViewController {
         driverInfoTopContainer.addSubview(loadingView)
         loadingView.center = CGPoint(x: noDriverLabel.center.x, y: noDriverLabel.center.y + 30.0)
         
-        println("Minutes to arrivallllll: \(deliveryItem.timeToMessengerArrival)")
+        print("Minutes to arrivallllll: \(deliveryItem.timeToMessengerArrival)")
     }
     
     //MARK: Actions
@@ -253,16 +253,17 @@ class ServiceAcceptedViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.getDeliveryItemServiceURL)/\(deliveryItem.identifier)", methodType: "GET")
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
+            
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             
-            if error != nil {
+            if case .Failure = response.result {
                 
             } else {
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
                     //Call our delegate
-                    println("Status updated: \(jsonResponse)")
+                    print("Status updated: \(jsonResponse)")
                     self.delegate?.serviceUpdated()
                     
                     self.deliveryItem = DeliveryItem(deliveryItemJSON: JSON(jsonResponse["response"].object))
@@ -332,24 +333,24 @@ class ServiceAcceptedViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.restartItemServiceURL)/\(deliveryItem.identifier)", methodType: "PUT", theParameters: ["user_id" : User.sharedInstance.identifier])
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
             
-            if error != nil {
+            if case .Failure(let error) = response.result{
                 //Error
-                println("Error en el restart service: \(error?.localizedDescription)")
+                print("Error en el restart service: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar habilitar de nuevo el servicio. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
                 //Success
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
                     UIAlertView(title: "", message: "El servicio se ha habilitado de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                     self.delegate?.serviceUpdated()
                     self.navigationController?.popViewControllerAnimated(true)
                     
                 } else {
-                    println("Respuesta false del restart item: \(jsonResponse)")
+                    print("Respuesta false del restart item: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar habilitar de nuevo el servicio.", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -362,21 +363,21 @@ class ServiceAcceptedViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.addToFavouritesServiceURL)/\(User.sharedInstance.identifier)", methodType: "PUT", theParameters: ["messenger_id" : deliveryItem.messengerInfo!.identifier])
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
-            if error != nil {
-                println("hubo un error en el agregar a favoritos: \(error?.localizedDescription)")
+            if case .Failure(let error) = response.result {
+                print("hubo un error en el agregar a favoritos: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error. Revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
                     //Success
-                    println("Resputa true del agregar a favoritos: \(jsonResponse)")
+                    print("Resputa true del agregar a favoritos: \(jsonResponse)")
                     UIAlertView(title: "", message: "Se ha agregado este mensajero a tus favoritos!", delegate: nil, cancelButtonTitle: "Ok").show()
                     
                 } else {
-                    println("Respuesta false del agregar a favoritos: \(jsonResponse)")
+                    print("Respuesta false del agregar a favoritos: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un error al agregar este mensajero a tus favoritos. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -389,23 +390,23 @@ class ServiceAcceptedViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.cancelRequestServiceURL)/\(deliveryItem.identifier)/\(User.sharedInstance.identifier)", methodType: "DELETE")
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //There was an error
-                println("Error en el cancel service: \(error?.localizedDescription)")
+                print("Error en el cancel service: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un problema en el servidor. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("Respuesta correcta del cancel service: \(jsonResponse)")
+                    print("Respuesta correcta del cancel service: \(jsonResponse)")
                     UIAlertView(title: "", message: "Servicio cancelado de manera exitosa!", delegate: nil, cancelButtonTitle: "Ok").show()
                     self.navigationController?.popToRootViewControllerAnimated(true)
                     self.delegate?.serviceUpdated()
                     
                 } else {
-                    println("Respuesta false del cancel service: \(jsonResponse)")
+                    print("Respuesta false del cancel service: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un error al cancelar el servicio. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -432,7 +433,7 @@ extension ServiceAcceptedViewController: UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ServiceImageCell", forIndexPath: indexPath) as! ServiceImageCell
-        println("url de la imagennnn: \(deliveryItem.serviceImages[indexPath.item].urlString)")
+        print("url de la imagennnn: \(deliveryItem.serviceImages[indexPath.item].urlString)")
         cell.serviceImageView.sd_setImageWithURL(NSURL(string: deliveryItem.serviceImages[indexPath.item].urlString))
         return cell
     }
@@ -466,7 +467,7 @@ extension ServiceAcceptedViewController: UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if alertView.tag == 1 {
             //Call messenger tag
-            println(buttonIndex)
+            print(buttonIndex)
             if buttonIndex == 1 {
                 //Call the messenger
                 let cellPhone = deliveryItem.messengerInfo?.mobilePhone
@@ -474,7 +475,7 @@ extension ServiceAcceptedViewController: UIAlertViewDelegate {
                 if let theURL = url {
                     UIApplication.sharedApplication().openURL(theURL)
                 } else {
-                    println("La url está en nillllll")
+                    print("La url está en nillllll")
                 }
                 
             } else if buttonIndex == 2 {
@@ -509,18 +510,18 @@ extension ServiceAcceptedViewController: UIAlertViewDelegate {
 //MARK: MFMessageComposeViewController
 
 extension ServiceAcceptedViewController: MFMessageComposeViewControllerDelegate {
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
-        switch (result.value) {
-            case MessageComposeResultCancelled.value:
-                println("El mensaje se cancelo")
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
+        switch (result.rawValue) {
+            case MessageComposeResultCancelled.rawValue:
+                print("El mensaje se cancelo")
                 dismissViewControllerAnimated(true, completion: nil)
             
-            case MessageComposeResultFailed.value:
-                println("el mensaje falló")
+            case MessageComposeResultFailed.rawValue:
+                print("el mensaje falló")
                 dismissViewControllerAnimated(true, completion: nil)
             
-            case MessageComposeResultSent.value:
-                println("el mensaje se envió")
+            case MessageComposeResultSent.rawValue:
+                print("el mensaje se envió")
                 dismissViewControllerAnimated(true, completion: nil)
             
             default:

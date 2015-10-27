@@ -26,7 +26,7 @@ class ActiveServicesViewController: UIViewController {
     }
     
     deinit {
-        println("me cerreeeeee")
+        print("me cerreeeeee")
     }
     
     func setupUI() {
@@ -54,20 +54,21 @@ class ActiveServicesViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.activeItemsServiceURL)/\(User.sharedInstance.identifier)", methodType: "GET")
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
+            
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
-            if error != nil {
-                println("Error en el get active services: \(error?.localizedDescription)")
+            if case .Failure(let error) = response.result {
+                print("Error en el get active services: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al acceder a los servicios activos. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("Resputa correcta del get active services: \(jsonResponse)")
+                    print("Resputa correcta del get active services: \(jsonResponse)")
                     let deliveryItems = jsonResponse["response"]
                     var tempArray = [DeliveryItem]()
                     for i in 0..<deliveryItems.count {
                         let deliveryItem = DeliveryItem(deliveryItemJSON: deliveryItems[i])
-                        println("delivery item parseadooo: \(deliveryItem.description)")
+                        print("delivery item parseadooo: \(deliveryItem.description)")
                         tempArray.append(deliveryItem)
                     }
                     
@@ -92,7 +93,7 @@ class ActiveServicesViewController: UIViewController {
                     self.tableView.reloadData()
                     
                 } else {
-                    println("Respuesta false del get active services: \(jsonResponse)")
+                    print("Respuesta false del get active services: \(jsonResponse)")
                 }
             }
         }
@@ -159,7 +160,7 @@ extension ActiveServicesViewController: UITableViewDelegate {
 
 extension ActiveServicesViewController: ServiceAcceptedDelegate {
     func serviceUpdated() {
-        println("Me llego el delegate")
+        print("Me llego el delegate")
         //Update our services
         getActiveDeliveryItems()
     }

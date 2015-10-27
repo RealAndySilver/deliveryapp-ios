@@ -42,7 +42,7 @@ class RequestServiceViewController: UIViewController {
     var pickupLocationDic = [:]
     var destinationLocationDic = [:]
     lazy var dateFormatter: NSDateFormatter = {
-        println("entre a nicializarrr")
+        print("entre a nicializarrr")
         let formatter = NSDateFormatter()
         formatter.dateStyle = .LongStyle
         formatter.timeStyle = .ShortStyle
@@ -59,14 +59,14 @@ class RequestServiceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("entre acaaaa")
+        print("entre acaaaa")
         view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         setupUI()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        println("aparecereeee")
+        print("aparecereeee")
     }
  
     //MARK: UI Setup
@@ -147,7 +147,7 @@ class RequestServiceViewController: UIViewController {
     
     func dateChanged(datePicker: UIDatePicker) {
         dayHourTextfield.text = dateFormatter.stringFromDate(datePicker.date)
-        println(datePicker.date)
+        print(datePicker.date)
     }
     
     func deliveryDateChanged(datePicker: UIDatePicker) {
@@ -168,35 +168,35 @@ class RequestServiceViewController: UIViewController {
             let pickupLongitude = pickupLocationDic["lon"] as! CLLocationDegrees
             let deliveryLatitude = destinationLocationDic["lat"] as! CLLocationDegrees
             let deliveryLongitude = destinationLocationDic["lon"] as! CLLocationDegrees
-            println("url del request: \(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)")
+            print("url del request: \(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)")
             
             let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)", methodType: "GET")
             if mutableURLRequest == nil { return }
             
-            Alamofire.manager.request(mutableURLRequest!).responseJSON(options: .allZeros, completionHandler: { (request, response, json, error) -> Void in
-                
-                if error != nil {
-                    println("Hubo un erorr en el get price: \(error?.localizedDescription)")
+            Alamofire.manager.request(mutableURLRequest!).responseJSON(completionHandler: { (response) -> Void in
+            
+                if case .Failure(let error) = response.result {
+                    print("Hubo un erorr en el get price: \(error.localizedDescription)")
                     self.servicePriceLabel.text = "COP $0"
 
                 } else {
                     //Success
-                    let jsonResponse = JSON(json!)
+                    let jsonResponse = JSON(response.result.value!)
                     if jsonResponse["status"].boolValue {
-                        println("Llego en true el get prices: \(jsonResponse)")
+                        print("Llego en true el get prices: \(jsonResponse)")
                         //Update price label 
                         let servicePrice = jsonResponse["value"].intValue
                         self.servicePriceLabel.text = "COP $\(servicePrice)"
                         
                     } else {
-                        println("Llego en false el get prices: \(jsonResponse)")
+                        print("Llego en false el get prices: \(jsonResponse)")
                         self.servicePriceLabel.text = "COP $0"
                     }
                 }
             })
             
         } else {
-            println("Algun campo esta en nil, asi que no llamaré al get prices")
+            print("Algun campo esta en nil, asi que no llamaré al get prices")
         }
     }
     
@@ -204,36 +204,37 @@ class RequestServiceViewController: UIViewController {
     func sendServiceRequestToServer() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         
-        let urlParameters = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text, "priority" : 5, "declared_value" : shipmentValueTextfield.text, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString]
+        let urlParameters = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "declared_value" : shipmentValueTextfield.text!, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString]
         
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.requestMensajeroServiceURL, methodType: "POST", theParameters: urlParameters)
         
         if mutableURLRequest == nil {
-            println("Error creando el request, está en nil")
+            print("Error creando el request, está en nil")
             return
         }
         
-        Alamofire.manager.request(mutableURLRequest!).responseJSON { (request, response, json, error) in
+        Alamofire.manager.request(mutableURLRequest!).responseJSON { (response) -> Void in
+        
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //There was an error
-                println("Hubo error en el request: \(error?.localizedDescription)")
+                print("Hubo error en el request: \(error.localizedDescription)")
                 UIAlertView(title: "Oops", message: "Hubo un error en el servidor. Por favor intenta de nuevo en un momento", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
                 //Successful response 
-                let jsonResponse = JSON(json!)
-                println("Respuesta correcta del request: \(jsonResponse)")
+                let jsonResponse = JSON(response.result.value!)
+                print("Respuesta correcta del request: \(jsonResponse)")
                 if jsonResponse["status"].boolValue {
                     let deliveryItem = DeliveryItem(deliveryItemJSON: JSON(jsonResponse["response"].object))
                     self.goToFindingServiceWithServiceID(deliveryItem.identifier)
-                    println("id del servicio: \(deliveryItem.identifier)")
-                    println("Descripcion completa del delivery item parseado: \(deliveryItem.deliveryItemDescription)")
+                    print("id del servicio: \(deliveryItem.identifier)")
+                    print("Descripcion completa del delivery item parseado: \(deliveryItem.deliveryItemDescription)")
                     self.cleanUIFields()
                     /*if let requestID = jsonResponse["response"]["_id"].string {
                         self.goToFindingServiceWithServiceID(requestID)
                     }*/
                 } else {
-                    println("Llego en false el request: \(jsonResponse)")
+                    print("Llego en false el request: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un error al pedir el servicio. Por favor intenta de nuevo en un momento", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -250,7 +251,7 @@ class RequestServiceViewController: UIViewController {
         var instructionsAreCorrect = false
         var deliveryDayHourIsCorrect = false
         
-        if count(serviceNameTextfield.text) > 0 {
+        if serviceNameTextfield.text!.characters.count > 0 {
             serviceNameIsCorrect = true
             serviceNameTextfield.layer.borderWidth = 0.0
         } else {
@@ -258,7 +259,7 @@ class RequestServiceViewController: UIViewController {
             serviceNameTextfield.layer.borderWidth = 1.0
         }
     
-        if count(pickupAddressTextfield.text) > 0 {
+        if pickupAddressTextfield.text!.characters.count > 0 {
             pickupAddressIsCorrect = true
             pickupAddressTextfield.layer.borderWidth = 0.0
         } else {
@@ -266,7 +267,7 @@ class RequestServiceViewController: UIViewController {
             pickupAddressTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        if count(finalAddressTextfield.text) > 0 {
+        if finalAddressTextfield.text!.characters.count > 0 {
             finalAddressIsCorrect = true
             finalAddressTextfield.layer.borderWidth = 0.0
         } else {
@@ -274,7 +275,7 @@ class RequestServiceViewController: UIViewController {
             finalAddressTextfield.layer.borderWidth = 1.0
         }
         
-        if count(dayHourTextfield.text) > 0 {
+        if dayHourTextfield.text!.characters.count > 0 {
             dayAndHourIsCorrect = true
             dayHourTextfield.layer.borderWidth = 0.0
         } else {
@@ -282,7 +283,7 @@ class RequestServiceViewController: UIViewController {
             dayHourTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        if count(deliveryDayHourTextfield.text) > 0 {
+        if deliveryDayHourTextfield.text!.characters.count > 0 {
             deliveryDayHourIsCorrect = true
             deliveryDayHourTextfield.layer.borderWidth = 0.0
         } else {
@@ -290,14 +291,14 @@ class RequestServiceViewController: UIViewController {
             deliveryDayHourTextfield.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        if count(instructionsTextView.text) > 0 {
+        if instructionsTextView.text.characters.count > 0 {
             instructionsAreCorrect = true
             instructionsTextView.layer.borderColor = UIColor(white: 0.9, alpha: 1.0).CGColor
         } else {
             instructionsTextView.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        let shipmentVal = shipmentValueTextfield.text.toInt() ?? 0
+        let shipmentVal = Int(shipmentValueTextfield.text!) ?? 0
         if shipmentVal < 2000 || shipmentVal > 2_000_000 {
             return false
         }
@@ -317,15 +318,15 @@ class RequestServiceViewController: UIViewController {
         if let mapVC = storyboard?.instantiateViewControllerWithIdentifier("Map") as? MapViewController {
             if pickupSelected {
                 //Check if theres a location in this textfield and pass it to the map vc to display the location
-                if let locationLat = pickupLocationDic["lat"] as? CLLocationDegrees {
-                    if let locationLon = pickupLocationDic["lon"] as? CLLocationDegrees {
+                if let _ = pickupLocationDic["lat"] as? CLLocationDegrees {
+                    if let _ = pickupLocationDic["lon"] as? CLLocationDegrees {
                         mapVC.locationDic = pickupLocationDic
                     }
                 }
             
             } else {
-                if let locationLat = destinationLocationDic["lat"] as? CLLocationDegrees {
-                    if let locationLon = destinationLocationDic["lon"] as? CLLocationDegrees {
+                if let _ = destinationLocationDic["lat"] as? CLLocationDegrees {
+                    if let _ = destinationLocationDic["lon"] as? CLLocationDegrees {
                         mapVC.locationDic = destinationLocationDic
                     }
                 }
@@ -358,9 +359,9 @@ class RequestServiceViewController: UIViewController {
     }
     
     func updatePickupAddress(address: String, location: CLLocationCoordinate2D, selectedPickupLocation: Bool) {
-        println("latitude: \(location.latitude)")
-        println("longitude: \(location.longitude)")
-        println("selected pickup: \(selectedPickupLocation)")
+        print("latitude: \(location.latitude)")
+        print("longitude: \(location.longitude)")
+        print("selected pickup: \(selectedPickupLocation)")
         if selectedPickupLocation {
             pickupAddressTextfield.text = address
             //Update our pickup location dic
@@ -386,7 +387,7 @@ class RequestServiceViewController: UIViewController {
         pickupAddressDic["lon"] = pickupLocationDic["lon"]
         
         if var pickupAddresses = NSUserDefaults.standardUserDefaults().objectForKey(savedPickupAdressesKey) as? [[String: AnyObject]] {
-            println("Ya existia el arreglo de direcciones")
+            print("Ya existia el arreglo de direcciones")
             pickupAddresses.insert(pickupAddressDic, atIndex: 0)
             if pickupAddresses.count > maxAllowedSavedAddresses {
                 pickupAddresses.removeLast()
@@ -394,7 +395,7 @@ class RequestServiceViewController: UIViewController {
             NSUserDefaults.standardUserDefaults().setObject(pickupAddresses, forKey: savedPickupAdressesKey)
             
         } else {
-            println("No existía el arreglo de direcciones")
+            print("No existía el arreglo de direcciones")
             let addressesArray = [pickupAddressDic]
             NSUserDefaults.standardUserDefaults().setObject(addressesArray, forKey: savedPickupAdressesKey)
         }
@@ -447,7 +448,7 @@ extension RequestServiceViewController: UIPickerViewDataSource {
 //MARK: UIPickerViewDelegate
 
 extension RequestServiceViewController: UIPickerViewDelegate {
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickupAndDeliveryCases[row].displayString
     }
     
@@ -474,7 +475,7 @@ extension RequestServiceViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        println("Empzaré a editar el textfield \(textField.tag)")
+        print("Empzaré a editar el textfield \(textField.tag)")
         if textField.tag == TextfieldName.pickupTextfield.rawValue {
             goToMapVCFromPickupTextfield(true)
             return false
@@ -520,10 +521,10 @@ extension RequestServiceViewController: AddressHistoryDelegate {
     func addressSelected(adressDic: [String : AnyObject], forPickupLocation: Bool) {
         if forPickupLocation {
             pickupLocationDic = adressDic
-            pickupAddressTextfield.text = pickupLocationDic["address"] as! String
+            pickupAddressTextfield.text = pickupLocationDic["address"] as? String
         } else {
             destinationLocationDic = adressDic
-            finalAddressTextfield.text = destinationLocationDic["address"] as! String
+            finalAddressTextfield.text = destinationLocationDic["address"] as? String
         }
         getServicePrice()
     }

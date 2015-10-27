@@ -59,21 +59,22 @@ class PendingRateViewController: UIViewController {
         let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.rateMessengerServiceURL)/\(deliveryItemId)", methodType: "PUT", theParameters: ["user_id" : userID, "rating" : rateView.value, "review" : commentTextView.text])
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
+            
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-            if error != nil {
-                println("error en la peticion: \(error?.localizedDescription)")
+            if case .Failure(let error) = response.result {
+                print("error en la peticion: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error el intentar calificar al mensajero. Por favor revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
                 //Success
                 NSUserDefaults.standardUserDefaults().removeObjectForKey("pendingRatingDicKey")
                 
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("Respuesta true del rate: \(jsonResponse)")
+                    print("Respuesta true del rate: \(jsonResponse)")
                     UIAlertView(title: "", message: "Mensajero calificado de forma exitosa!", delegate: nil, cancelButtonTitle: "Ok").show()
                 } else {
-                    println("respuesta false del rate: \(jsonResponse)")
+                    print("respuesta false del rate: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un problema al calificar el mensajero. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
                 self.dismissViewControllerAnimated(true, completion: nil)

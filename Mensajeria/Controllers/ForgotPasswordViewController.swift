@@ -23,7 +23,7 @@ class ForgotPasswordViewController: UIViewController {
     //MARK: Actions 
     
     @IBAction func sendButtonPressed() {
-        if count(emailTextfield.text) > 0 {
+        if emailTextfield.text!.characters.count > 0 {
             sendRecoverPetitionToServer()
             
         } else {
@@ -35,23 +35,24 @@ class ForgotPasswordViewController: UIViewController {
     
     func sendRecoverPetitionToServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
-        Alamofire.manager.request(.GET, "\(Alamofire.recoverPassServiceURL)/\(emailTextfield.text)").responseJSON { (request, response, json, error) in
+        Alamofire.manager.request(.GET, "\(Alamofire.recoverPassServiceURL)/\(emailTextfield.text)").responseJSON { (response) -> Void in
+            
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //There was an error
-                println("Error: \(error?.localizedDescription)")
+                print("Error: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error, por favor revisa que tu dirección de correo electrónico sea correcta", delegate: nil, cancelButtonTitle: "Ok").show()
             
             } else {
                 //Successfull service request
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("respuesta true del recover: \(jsonResponse)")
+                    print("respuesta true del recover: \(jsonResponse)")
                     UIAlertView(title: "", message: "Se te ha enviado un correo electrónico con las instrucciones para reestablecer tu contraseña", delegate: nil, cancelButtonTitle: "Ok").show()
                     self.dismissViewControllerAnimated(true, completion: nil)
                     
                 } else {
-                    println("respuesta false del recover: \(jsonResponse)")
+                    print("respuesta false del recover: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un error al enviar el correo electrónico. Asegúrate de que el email es correcto", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }

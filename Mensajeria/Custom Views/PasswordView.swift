@@ -21,7 +21,7 @@ class PasswordView: UIView {
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -29,7 +29,7 @@ class PasswordView: UIView {
     private func setup() {
         view = loadViewFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth]
         alpha = 0.0
         transform = CGAffineTransformMakeScale(0.5, 0.5)
         addSubview(view)
@@ -74,7 +74,7 @@ class PasswordView: UIView {
     }
     
     func passwordsAreCorrect() -> Bool {
-        if count(newPasswordTextfield.text) > 0 && count(confirmPasswordTextfield.text) > 0 {
+        if newPasswordTextfield.text!.characters.count > 0 && confirmPasswordTextfield.text!.characters.count > 0 {
             if newPasswordTextfield.text == confirmPasswordTextfield.text {
                 return true
                 
@@ -94,25 +94,26 @@ class PasswordView: UIView {
     func changePasswordInServer() {
         MBProgressHUD.showHUDAddedTo(self, animated: true)
         let token = NSUserDefaults.standardUserDefaults().objectForKey("token") as! String
-        println("token: \(token)")
-        let encodedPass = newPasswordTextfield.text.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(.allZeros)
-        Alamofire.manager.request(.PUT, "\(Alamofire.newPasswordServiceURL)/\(token)", parameters: ["password" : encodedPass!], encoding: .URL).responseJSON { (request, response, json, error) -> Void in
+        print("token: \(token)")
+        let encodedPass = newPasswordTextfield.text!.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions([])
+        Alamofire.manager.request(.PUT, "\(Alamofire.newPasswordServiceURL)/\(token)", parameters: ["password" : encodedPass!], encoding: .URL).responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self, animated: true)
-            if error != nil {
+            
+            if case .Failure(let error) = response.result {
                 //Error
-                println("HUbo un error en el new password: \(error?.localizedDescription)")
+                print("HUbo un error en el new password: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar cambiar la contraseña. Revisa que estés conectado a internet e intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             
             } else {
                 //Success 
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("respuesta true del new pass: \(jsonResponse)")
+                    print("respuesta true del new pass: \(jsonResponse)")
                     UIAlertView(title: "", message: "Tu clave se ha modificado con éxito!", delegate: self, cancelButtonTitle: "Ok").show()
                     
                 } else {
-                    println("Resputa false del new pass: \(jsonResponse)")
+                    print("Resputa false del new pass: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un problema al intentar cambiar la contraseña. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }

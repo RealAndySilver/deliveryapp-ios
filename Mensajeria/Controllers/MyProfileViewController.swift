@@ -55,26 +55,27 @@ class MyProfileViewController: UIViewController {
     func updateUserInServer() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         
-        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.updateUserServiceURL)/\(User.sharedInstance.identifier)", methodType: "PUT", theParameters: ["name" : nameTextfield.text, "lastname" : lastNameTextfield.text, "mobilephone" : phoneTextfield.text])
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.updateUserServiceURL)/\(User.sharedInstance.identifier)", methodType: "PUT", theParameters: ["name" : nameTextfield.text!, "lastname" : lastNameTextfield.text!, "mobilephone" : phoneTextfield.text!])
         if request == nil { return }
         
-        Alamofire.manager.request(request!).responseJSON { (request, response, json, error) in
+        Alamofire.manager.request(request!).responseJSON { (response) -> Void in
+            
             MBProgressHUD.hideAllHUDsForView(self.navigationController?.view, animated: true)
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //Error
-                println("Error en el update user: \(error?.localizedDescription)")
+                print("Error en el update user: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar actualizar el usuario. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
                     //Success response, update our user object
                     User.sharedInstance.updateUserWithJSON(jsonResponse["response"])
-                    println("Resputa true del update user: \(jsonResponse)")
+                    print("Resputa true del update user: \(jsonResponse)")
                     UIAlertView(title: "", message: "Usuario actualizado de forma exitosa!", delegate: nil, cancelButtonTitle: "Ok").show()
                     
                 } else {
                     //False response
-                    println("respuesta false del update user: \(jsonResponse)")
+                    print("respuesta false del update user: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un problema al intentar actualizar tus datos, por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -84,7 +85,7 @@ class MyProfileViewController: UIViewController {
     //MARK: Form Validation 
     
     func formIsCorrect() -> Bool {
-        if count(nameTextfield.text) > 0 && count(lastNameTextfield.text) > 0 && count(phoneTextfield.text) > 0 {
+        if nameTextfield.text!.characters.count > 0 && lastNameTextfield.text!.characters.count > 0 && phoneTextfield.text!.characters.count > 0 {
             return true
         }
         return false

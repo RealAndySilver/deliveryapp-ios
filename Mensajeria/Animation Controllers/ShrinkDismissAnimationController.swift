@@ -15,7 +15,7 @@ class ShrinkDismissAnimationController: NSObject {
 //MARK: UIViewControllerAnimatedTransition
 
 extension ShrinkDismissAnimationController: UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return 0.5
     }
     
@@ -24,7 +24,7 @@ extension ShrinkDismissAnimationController: UIViewControllerAnimatedTransitionin
         let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let finalFrame = transitionContext.finalFrameForViewController(toViewController)
         
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView()!
         toViewController.view.frame = finalFrame
         toViewController.view.alpha = 0.5
         

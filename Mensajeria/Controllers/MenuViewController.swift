@@ -32,7 +32,7 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        println("selected menu: \(selectedMenu)")
+        print("selected menu: \(selectedMenu)")
     }
     
     func setupUI() {
@@ -67,7 +67,7 @@ extension MenuViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         if indexPath.row == selectedMenu {
-            println("aqui estoy")
+            print("aqui estoy")
             //The selected option was the current screen, so don't replace the front view controller
             revealViewController().setFrontViewPosition(FrontViewPosition.Left, animated: true)
         

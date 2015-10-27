@@ -43,7 +43,7 @@ class MapViewController: UIViewController {
             if let address = response?.firstResult() {
                 if address.lines != nil {
                     let lines = address.lines as! [String]
-                    let fullAddress = join(" - ", lines)
+                    let fullAddress = lines.joinWithSeparator(" - ")
                     let addressComponents = fullAddress.componentsSeparatedByString(" a ")
                     if let streetName = addressComponents.first {
                         self.addressTextfield.text = "\(streetName)"
@@ -57,7 +57,7 @@ class MapViewController: UIViewController {
     //MARK: Actions 
     
     @IBAction func locationChoosed(sender: AnyObject) {
-        sendAddressToPreviousVC(addressTextfield.text, location: currentLocationCoordinate, selectingPickupLocation: wasSelectingPickupLocation)
+        sendAddressToPreviousVC(addressTextfield.text!, location: currentLocationCoordinate, selectingPickupLocation: wasSelectingPickupLocation)
         navigationController?.popViewControllerAnimated(true)
     }
     
@@ -76,7 +76,7 @@ class MapViewController: UIViewController {
         let regionBounds = GMSCoordinateBounds(region: visibleRegion)
         let northEast = regionBounds.northEast
         let southWeast = regionBounds.southWest
-        println("\(northEast.latitude) - \(northEast.longitude), \(southWeast.latitude), \(southWeast.longitude)")
+        print("\(northEast.latitude) - \(northEast.longitude), \(southWeast.latitude), \(southWeast.longitude)")
         
         if segue.identifier == "ToSearchAddressSegue" {
             let searchAddressVC = segue.destinationViewController as! SearchAddressViewController
@@ -98,7 +98,7 @@ extension MapViewController: UITextFieldDelegate {
 //MARK: CLLocationManagerDelegate
 
 extension MapViewController: CLLocationManagerDelegate {
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == CLAuthorizationStatus.AuthorizedWhenInUse {
             locationManager.startUpdatingLocation()
             mapView.myLocationEnabled = true
@@ -106,8 +106,8 @@ extension MapViewController: CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        if let location = locations.first as? CLLocation {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first  {
             if let locationDic = locationDic {
                 mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude: locationDic["lat"] as! CLLocationDegrees, longitude: locationDic["lon"] as! CLLocationDegrees), zoom: 15, bearing: 0, viewingAngle: 0)
             } else {
@@ -130,7 +130,7 @@ extension MapViewController: GMSMapViewDelegate {
 
 extension MapViewController: SearchAddressViewControllerDelegate {
     func addressSelectedWithName(name: String, coordinates: CLLocationCoordinate2D) {
-        println("me llego el delegateeeee")
+        print("me llego el delegateeeee")
         addressTextfield.text = name
         currentLocationCoordinate = coordinates
         let cameraPosition = GMSCameraPosition(target: currentLocationCoordinate, zoom: 15, bearing: 0, viewingAngle: 0)

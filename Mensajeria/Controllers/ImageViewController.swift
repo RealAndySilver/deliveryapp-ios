@@ -24,9 +24,9 @@ class ImageViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        println("entre acaaaa")
+        print("entre acaaaa")
         scrollView.contentSize = galleryImage.size
-        println("cntent size: \(scrollView.contentSize)")
+        print("cntent size: \(scrollView.contentSize)")
         galleryImageView.frame = CGRect(x: 0.0, y: 0.0, width: galleryImageView.image!.size.width, height: galleryImageView.image!.size.height)
         galleryImageView.center = CGPoint(x: scrollView.frame.size.width/2.0, y: scrollView.frame.size.height/2.0)
     }
@@ -43,7 +43,7 @@ class ImageViewController: UIViewController {
 
 extension ImageViewController: UIScrollViewDelegate {
     func scrollViewDidZoom(scrollView: UIScrollView) {
-        println("entreeeeeeeeee")
+        print("entreeeeeeeeee")
         let subView = self.scrollView.subviews[0] as! UIImageView
         
         let offsetX = (self.scrollView.bounds.size.width > self.scrollView.contentSize.width) ? (self.scrollView.bounds.size.width - self.scrollView.contentSize.width) * 0.5 : 0.0;
@@ -55,7 +55,7 @@ extension ImageViewController: UIScrollViewDelegate {
     }
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
-        println("seteeeeeee")
+        print("seteeeeeee")
         return galleryImageView
     }
 }

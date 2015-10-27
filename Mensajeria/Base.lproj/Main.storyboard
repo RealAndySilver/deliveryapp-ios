@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="zZe-kc-yWT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="zZe-kc-yWT">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -1581,7 +1582,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CtW-zt-99K" customClass="ShadowedView" customModule="Mensajeria" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CtW-zt-99K" customClass="ShadowedView" customModule="Mensajeria" customModuleProvider="target">
                                 <rect key="frame" x="22" y="85" width="556" height="260"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nombres" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jdt-7i-tZB">
@@ -1603,7 +1604,7 @@
                                             </mask>
                                         </variation>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Diego Fernando " minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KjA-Z4-B9S">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Diego Fernando " minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KjA-Z4-B9S">
                                         <rect key="frame" x="8" y="33" width="540" height="30"/>
                                         <animations/>
                                         <constraints>
@@ -1634,7 +1635,7 @@
                                             </mask>
                                         </variation>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Vidal Illera" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bov-zR-ML1">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Vidal Illera" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bov-zR-ML1">
                                         <rect key="frame" x="8" y="92" width="540" height="30"/>
                                         <animations/>
                                         <constraints>
@@ -1665,7 +1666,7 @@
                                             </mask>
                                         </variation>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="3205495049" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dcp-Bk-pvT">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="3205495049" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dcp-Bk-pvT">
                                         <rect key="frame" x="8" y="151" width="540" height="30"/>
                                         <animations/>
                                         <constraints>
@@ -1677,7 +1678,7 @@
                                             <outlet property="delegate" destination="PGl-xY-Nlc" id="8DV-d7-OWJ"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vvu-Di-QBe">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vvu-Di-QBe">
                                         <rect key="frame" x="0.0" y="196" width="556" height="44"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.98039215686274506" green="0.58431372549019611" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
@@ -1704,7 +1705,7 @@
                                             <action selector="saveChangesPressed" destination="PGl-xY-Nlc" eventType="touchUpInside" id="N7H-Nd-3lW"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Grr-xI-PAY">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Grr-xI-PAY">
                                         <rect key="frame" x="8" y="64" width="540" height="1"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.75894850127551017" green="0.75894850127551017" blue="0.75894850127551017" alpha="1" colorSpace="calibratedRGB"/>
@@ -1712,7 +1713,7 @@
                                             <constraint firstAttribute="height" constant="1" id="NUB-7i-UeV"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XSb-yW-w83">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XSb-yW-w83">
                                         <rect key="frame" x="8" y="123" width="540" height="1"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.75894850130000002" green="0.75894850130000002" blue="0.75894850130000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1720,7 +1721,7 @@
                                             <constraint firstAttribute="height" constant="1" id="1Cx-t8-vTC"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4ag-3f-LP0">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ag-3f-LP0">
                                         <rect key="frame" x="8" y="182" width="540" height="1"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.75894850130000002" green="0.75894850130000002" blue="0.75894850130000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1775,7 +1776,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6TZ-Du-Ez1" customClass="ShadowedView" customModule="Mensajeria" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6TZ-Du-Ez1" customClass="ShadowedView" customModule="Mensajeria" customModuleProvider="target">
                                 <rect key="frame" x="22" y="364" width="556" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mas Opciones" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Un1-R8-QoF">
@@ -1789,7 +1790,7 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zPf-Qw-G8h">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zPf-Qw-G8h">
                                         <rect key="frame" x="0.0" y="37" width="556" height="44"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.98039215686274506" green="0.58431372549019611" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
@@ -1870,7 +1871,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Para cambiar tu contraseña, por favor escribe tu contraseña actual y tu nueva contraseña" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fqr-P0-zb8">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Para cambiar tu contraseña, por favor escribe tu contraseña actual y tu nueva contraseña" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fqr-P0-zb8">
                                 <rect key="frame" x="35" y="83" width="530" height="55"/>
                                 <animations/>
                                 <constraints>
@@ -1880,7 +1881,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Contraseña actual" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X6L-fP-zNi">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Contraseña actual" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X6L-fP-zNi">
                                 <rect key="frame" x="35" y="157" width="530" height="30"/>
                                 <animations/>
                                 <constraints>
@@ -1892,7 +1893,7 @@
                                     <outlet property="delegate" destination="des-I0-RkM" id="kf1-R4-h9S"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nueva contraseña" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d6U-B9-4JL">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nueva contraseña" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d6U-B9-4JL">
                                 <rect key="frame" x="35" y="195" width="530" height="30"/>
                                 <animations/>
                                 <constraints>
@@ -1904,7 +1905,7 @@
                                     <outlet property="delegate" destination="des-I0-RkM" id="V0v-pL-8yB"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirmar nueva contraseña" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PtM-o1-tgD">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirmar nueva contraseña" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PtM-o1-tgD">
                                 <rect key="frame" x="35" y="233" width="530" height="30"/>
                                 <animations/>
                                 <constraints>
@@ -1916,7 +1917,7 @@
                                     <outlet property="delegate" destination="des-I0-RkM" id="Mpw-a0-VzL"/>
                                 </connections>
                             </textField>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TG3-aU-Ckv">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TG3-aU-Ckv">
                                 <rect key="frame" x="35" y="188" width="530" height="1"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.80078125" green="0.80078125" blue="0.80078125" alpha="1" colorSpace="calibratedRGB"/>
@@ -1924,7 +1925,7 @@
                                     <constraint firstAttribute="height" constant="1" id="tbz-8k-4VL"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qeu-nL-Dg0">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qeu-nL-Dg0">
                                 <rect key="frame" x="35" y="226" width="530" height="1"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.80078125" green="0.80078125" blue="0.80078125" alpha="1" colorSpace="calibratedRGB"/>
@@ -1938,7 +1939,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wUG-c1-18J">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wUG-c1-18J">
                                 <rect key="frame" x="35" y="264" width="530" height="1"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.80078125" green="0.80078125" blue="0.80078125" alpha="1" colorSpace="calibratedRGB"/>
@@ -1952,7 +1953,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9qy-gn-584" customClass="ShadowedButton" customModule="Mensajeria" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9qy-gn-584" customClass="ShadowedButton" customModule="Mensajeria" customModuleProvider="target">
                                 <rect key="frame" x="35" y="280" width="530" height="44"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.98039215686274506" green="0.58431372549019611" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
@@ -3276,10 +3277,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cjz-ma-Whd" customClass="ShadowedView" customModule="Mensajeria" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cjz-ma-Whd" customClass="ShadowedView" customModule="Mensajeria" customModuleProvider="target">
                                 <rect key="frame" x="27" y="85" width="547" height="208"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9P-ab-SKE">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9P-ab-SKE">
                                         <rect key="frame" x="17" y="0.0" width="513" height="96"/>
                                         <animations/>
                                         <constraints>
@@ -3302,7 +3303,7 @@
                                             </mask>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NdZ-MH-loU" customClass="ShadowedButton" customModule="Mensajeria" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NdZ-MH-loU" customClass="ShadowedButton" customModule="Mensajeria" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="151" width="547" height="44"/>
                                         <animations/>
                                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -4227,7 +4228,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Por favor califica al mensajero" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psd-gZ-nol">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Por favor califica al mensajero" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psd-gZ-nol">
                                 <rect key="frame" x="28" y="105" width="544" height="19"/>
                                 <animations/>
                                 <constraints>
@@ -4237,7 +4238,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Diego Fernando Vidal Illera" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="164-BK-xob">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Diego Fernando Vidal Illera" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="164-BK-xob">
                                 <rect key="frame" x="28" y="123" width="544" height="22"/>
                                 <animations/>
                                 <constraints>
@@ -4247,10 +4248,10 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hIf-0d-QvG" customClass="ShadowedView" customModule="Mensajeria" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hIf-0d-QvG" customClass="ShadowedView" customModule="Mensajeria" customModuleProvider="target">
                                 <rect key="frame" x="28" y="154" width="544" height="73"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-Zx-laf">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="5.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-Zx-laf">
                                         <rect key="frame" x="0.0" y="52" width="544" height="21"/>
                                         <animations/>
                                         <constraints>
@@ -4281,7 +4282,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comentarios sobre el servicio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T42-8z-pQl">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Comentarios sobre el servicio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T42-8z-pQl">
                                 <rect key="frame" x="28" y="242" width="228" height="21"/>
                                 <animations/>
                                 <constraints>
@@ -4292,7 +4293,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H6h-m0-2k1">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H6h-m0-2k1">
                                 <rect key="frame" x="28" y="263" width="544" height="77"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4311,7 +4312,7 @@
                                     <outlet property="delegate" destination="8em-XR-0dT" id="li5-Fk-mly"/>
                                 </connections>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ABW-OQ-czq" customClass="ShadowedButton" customModule="Mensajeria" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ABW-OQ-czq" customClass="ShadowedButton" customModule="Mensajeria" customModuleProvider="target">
                                 <rect key="frame" x="28" y="371" width="544" height="44"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.98039215686274506" green="0.58431372549019611" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
@@ -4625,7 +4626,7 @@
                                     <constraint firstAttribute="centerX" secondItem="DZO-es-fn6" secondAttribute="centerX" id="g1j-QM-l5s"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wmf-hY-90J">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wmf-hY-90J">
                                 <rect key="frame" x="38" y="84" width="525" height="496"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

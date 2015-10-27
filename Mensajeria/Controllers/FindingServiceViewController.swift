@@ -20,7 +20,7 @@ class FindingServiceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("id del servicio: \(serviceID)")
+        print("id del servicio: \(serviceID)")
         serviceRequestTimer = NSTimer.scheduledTimerWithTimeInterval(10.0, target: self, selector: "checkServiceStatus", userInfo: nil, repeats: true)
     }
     
@@ -68,22 +68,22 @@ class FindingServiceViewController: UIViewController {
     
     func cancelServiceInServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
-        println("url del cancel: \(Alamofire.cancelRequestServiceURL)/\(serviceID)")
+        print("url del cancel: \(Alamofire.cancelRequestServiceURL)/\(serviceID)")
         
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.cancelRequestServiceURL)/\(serviceID)/\(User.sharedInstance.identifier)", methodType: "DELETE")
         if mutableURLRequest == nil { return }
         
-        Alamofire.manager.request(mutableURLRequest!).responseJSON { (request, response, json, error) -> Void in
+        Alamofire.manager.request(mutableURLRequest!).responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-            if error != nil {
+            if case .Failure(let error) = response.result {
                 //There was an error
-                println("Error en el cancel service: \(error?.localizedDescription)")
+                print("Error en el cancel service: \(error.localizedDescription)")
                 UIAlertView(title: "Oops!", message: "Ocurrió un problema en el servidor. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
             } else {
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("Respuesta correcta del cancel service: \(jsonResponse)")
+                    print("Respuesta correcta del cancel service: \(jsonResponse)")
                     UIAlertView(title: "", message: "Servicio cancelado de manera exitosa!", delegate: nil, cancelButtonTitle: "Ok").show()
                     
                     //Cancel request check timer 
@@ -91,7 +91,7 @@ class FindingServiceViewController: UIViewController {
                     self.navigationController?.popViewControllerAnimated(true)
                     
                 } else {
-                    println("Respuesta false del cancel service: \(jsonResponse)")
+                    print("Respuesta false del cancel service: \(jsonResponse)")
                     UIAlertView(title: "Oops!", message: "Ocurrió un error al cancelar el servicio. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
@@ -100,33 +100,34 @@ class FindingServiceViewController: UIViewController {
     }
     
     func checkServiceStatus() {
-        println("Checkearé el statusssss")
+        print("Checkearé el statusssss")
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.getDeliveryItemServiceURL)/\(serviceID)", methodType: "GET")
         if mutableURLRequest == nil { return }
         
-        Alamofire.manager.request(mutableURLRequest!).responseJSON { (request, response, json, error) in
-            if error != nil {
+        Alamofire.manager.request(mutableURLRequest!).responseJSON { (response) -> Void in
+        
+            if case .Failure(let error) = response.result {
                 //There was an error 
-                println("Error : \(error?.localizedDescription)")
+                print("Error : \(error.localizedDescription)")
             } else {
                 //Success
-                let jsonResponse = JSON(json!)
+                let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    println("Succes json response: \(jsonResponse)")
+                    print("Succes json response: \(jsonResponse)")
                     //Check if the service was accepted by a messenger 
                     if jsonResponse["response"]["overall_status"].stringValue == "started" {
                         self.serviceRequestTimer.invalidate()
                         let deliveryItem = DeliveryItem(deliveryItemJSON: JSON(jsonResponse["response"].object))
-                        if let messengerInfo = deliveryItem.messengerInfo {
+                        if let _ = deliveryItem.messengerInfo {
                             self.goToServiceAcceptedWithDeliveryItem(deliveryItem)
 
                         } else {
-                            println("Hubo algun error grave porque no me llego el objeto messenger info")
+                            print("Hubo algun error grave porque no me llego el objeto messenger info")
                         }
                     }
                     
                 } else {
-                    println("llego en status false el json response: \(jsonResponse)")
+                    print("llego en status false el json response: \(jsonResponse)")
                 }
             }
         }

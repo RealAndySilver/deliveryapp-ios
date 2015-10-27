@@ -40,7 +40,7 @@ class AddressHistoryViewController: UIViewController {
     }
     
     deinit {
-        println("me cerreeeeeee")
+        print("me cerreeeeeee")
     }
     
     //MARK: Custom Initialization Stuff
@@ -104,7 +104,7 @@ extension AddressHistoryViewController: UITableViewDataSource {
 extension AddressHistoryViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let selectedAddressIndex = indexPath.row
+        //let selectedAddressIndex = indexPath.row
         
         if indexPath.section == 0 {
             selectedAddressDic = savedAddressesArray[indexPath.row]
