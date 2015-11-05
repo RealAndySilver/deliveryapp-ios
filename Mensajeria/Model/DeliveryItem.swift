@@ -9,6 +9,7 @@
 import UIKit
 class DeliveryItem: NSObject {
     
+    var sendImage: Bool?
     var timeToPick: String
     var timeToDeliver: String
     var estimatedString: String?
@@ -50,7 +51,7 @@ class DeliveryItem: NSObject {
     var abortReason: String?
     var deliveryItemDescription: String {
         get {
-            return "********** Info del delivery item *************\nname: \(name)\nstatus: \(status)\npriority: \(priority)\ndelivery object: \(deliveryObject.requestObjectDescription)\nuser info: \(userInfo.userInfoDescription)\npickup object: \(pickupObject.requestObjectDescription)\ndeclared value: \(declaredValue)\nmessenger info: \(messengerInfo?.messengerInfoDescription)"
+            return "********** Info del delivery item *************\nname: \(name)\nstatus: \(status)\npriority: \(priority)\ndelivery object: \(deliveryObject.requestObjectDescription)\nuser info: \(userInfo.userInfoDescription)\npickup object: \(pickupObject.requestObjectDescription)\ndeclared value: \(declaredValue)\nmessenger info: \(messengerInfo?.messengerInfoDescription), sendImage: \(sendImage)"
         }
     }
     
@@ -59,6 +60,7 @@ class DeliveryItem: NSObject {
         
         timeToPick = deliveryItemJSON["time_to_pick"].stringValue
         timeToDeliver = deliveryItemJSON["time_to_deliver"].stringValue
+        sendImage = deliveryItemJSON["send_image"].bool
         
         estimatedString = deliveryItemJSON["estimated"].string
         if let theEstimatedString = estimatedString {

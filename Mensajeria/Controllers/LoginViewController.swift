@@ -135,7 +135,7 @@ class LoginViewController: UIViewController {
         
         //Encode password
         let encodedPassword = password.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
-        
+    
         //Make the login request to the server
         Alamofire.manager.request(.PUT, Alamofire.loginWebServiceURL, parameters: ["email" : email, "password" : encodedPassword!, "device_info" : ["type" : UIDevice.currentDevice().model, "os" : "iOS", "token" : token, "name" : UIDevice.currentDevice().name]], encoding: ParameterEncoding.URL).responseJSON { (response) -> Void in
             

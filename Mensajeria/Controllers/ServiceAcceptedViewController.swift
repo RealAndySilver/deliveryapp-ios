@@ -42,6 +42,7 @@ class ServiceAcceptedViewController: UIViewController {
     @IBOutlet var buttonsCollection: [UIButton]!
     @IBOutlet weak var backToHomeButton: UIButton!
     @IBOutlet weak var cellphoneButton: UIButton!
+    @IBOutlet weak var sendImageSwitch: UISwitch!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var costLabel: UILabel!
     @IBOutlet weak var shipmentDayLabel: UILabel!
@@ -131,6 +132,7 @@ class ServiceAcceptedViewController: UIViewController {
     func fillUIWithDeliveryItemInfo() {
         ////////////////////////////////////////////////////////////////////////
         //Set service info in the UI
+        sendImageSwitch.on = deliveryItem.sendImage ?? false
         serviceNameLabel.text = deliveryItem.name
         pickupLabel.text = deliveryItem.pickupObject.address
         deliveryLabel.text = deliveryItem.deliveryObject.address

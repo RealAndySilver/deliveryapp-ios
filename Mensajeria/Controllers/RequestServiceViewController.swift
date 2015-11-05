@@ -13,22 +13,30 @@ class RequestServiceViewController: UIViewController {
     @IBOutlet weak var revealButtonItem: UIBarButtonItem!
     
     enum TextfieldName: Int {
-        case pickupTextfield = 1, finalTextfield, dayHourTextfield, deliveryTextField
+        case pickupTextfield = 1, finalTextfield, dayHourTextfield, deliveryTextField, valorDeclaradoTextfield, valorAseguradoTextField
     }
     
     enum PickerViewType: Int {
         case pickupPicker = 1
-        case deliveryPicker
+        case deliveryPicker = 2
+        case valorAseguradoPicker = 3
     }
     
     var firstTimePickupTextFieldAppears = false
     var firstTimeDeliveryTextFieldAppears = false
+    var firstTimeValorAseguradoTextFieldAppears = false
+    let valorAseguradoCases: [(serverString: String, displayString: String)] = [("500000", "Hasta $500.000"), ("1000000", "Hasta $1000.000"), ("2000000", "Hasta $2.000.000")]
     let pickupAndDeliveryCases: [(serverString: String, displayString: String)] = [("now", "Inmediato"), ("later", "Durante el día")]
     var selectedPickupCase: (serverString: String, displayString: String)!
     var selectedDeliveryCase: (serverString: String, displayString: String)!
+    var selectedValorAseguradoCase: (serverString: String, displayString: String)?
     @IBOutlet weak var servicePriceLabel: UILabel!
+    @IBOutlet weak var insurancePriceLabel: UILabel!
     var pickupPicker: UIPickerView!
     var deliveryPicker: UIPickerView!
+    var valorAseguradoPicker: UIPickerView!
+    @IBOutlet weak var valorAseguradoTextField: UITextField!
+    @IBOutlet weak var asegurarSwitch: UISwitch!
     @IBOutlet weak var deliveryAddressLabel: UILabel!
     @IBOutlet weak var serviceNameTextfield: UITextField!
     @IBOutlet weak var deliveryDayHourTextfield: UITextField!
@@ -38,9 +46,10 @@ class RequestServiceViewController: UIViewController {
     @IBOutlet weak var dayHourTextfield: UITextField!
     @IBOutlet weak var shipmentValueTextfield: UITextField!
     @IBOutlet weak var instructionsTextView: UITextView!
+    @IBOutlet weak var sendImageSwitch: UISwitch!
     private var activeTextfield: UITextField?
-    var pickupLocationDic = [:]
-    var destinationLocationDic = [:]
+    var pickupLocationDic = [String : AnyObject]()
+    var destinationLocationDic = [String : AnyObject]()
     lazy var dateFormatter: NSDateFormatter = {
         print("entre a nicializarrr")
         let formatter = NSDateFormatter()
@@ -96,6 +105,13 @@ class RequestServiceViewController: UIViewController {
         deliveryPicker.dataSource = self
         deliveryDayHourTextfield.inputView = deliveryPicker
         
+        valorAseguradoPicker = UIPickerView()
+        valorAseguradoPicker.delegate = self
+        valorAseguradoPicker.dataSource = self
+        valorAseguradoPicker.tag = PickerViewType.valorAseguradoPicker.rawValue
+        valorAseguradoTextField.inputView = valorAseguradoPicker
+        
+        
         let toolBar = UIToolbar(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.size.width, height: 44.0))
         let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissPickers")
         toolBar.setItems([doneButton], animated: false)
@@ -109,9 +125,21 @@ class RequestServiceViewController: UIViewController {
             revealButtonItem.target = revealViewController()
             revealButtonItem.action = "revealToggle:"
         }
+        
+        if !asegurarSwitch.on {
+            valorAseguradoTextField.enabled = false
+        }
     }
     
     //MARK: Actions
+    
+    @IBAction func asegurarSwitchPressed(sender: UISwitch) {
+        if sender.on {
+            valorAseguradoTextField.enabled = true
+        } else {
+            valorAseguradoTextField.enabled = false
+        }
+    }
     
     @IBAction func idaYVueltaSwitchPressed(sender: UISwitch) {
         if sender.on { deliveryAddressLabel.text = "Dirección Intermedia" }
@@ -163,48 +191,64 @@ class RequestServiceViewController: UIViewController {
     //MARK: Server Stuff
     
     func getServicePrice() {
-        if pickupLocationDic["lat"] != nil && pickupLocationDic["lon"] != nil && destinationLocationDic["lat"] != nil && destinationLocationDic["lon"] != nil {
-            let pickupLatitude = pickupLocationDic["lat"] as! CLLocationDegrees
-            let pickupLongitude = pickupLocationDic["lon"] as! CLLocationDegrees
-            let deliveryLatitude = destinationLocationDic["lat"] as! CLLocationDegrees
-            let deliveryLongitude = destinationLocationDic["lon"] as! CLLocationDegrees
-            print("url del request: \(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)")
+        /*if pickupLocationDic["lat"] != nil && pickupLocationDic["lon"] != nil && destinationLocationDic["lat"] != nil && destinationLocationDic["lon"] != nil {
+            //See if the user has a insurance value selected and send it as a parameter*/
+        /*var selectedInsuranceValue = ""
+        if let selectedInsurance = selectedValorAseguradoCase {
+            selectedInsuranceValue = selectedInsurance.serverString
+        }*/
+        var selectedInsuranceValue = selectedValorAseguradoCase?.serverString ?? ""
+        if !asegurarSwitch.on { selectedInsuranceValue = "" }
+        
+        let pickupLatitude = (pickupLocationDic["lat"] as? CLLocationDegrees) ?? 0
+        let pickupLongitude = (pickupLocationDic["lon"] as? CLLocationDegrees) ?? 0
+        let deliveryLatitude = (destinationLocationDic["lat"] as? CLLocationDegrees) ?? 0
+        let deliveryLongitude = (destinationLocationDic["lon"] as? CLLocationDegrees) ?? 0
+        print("url del request: \(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)")
+        
+        let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)/\(selectedInsuranceValue)", methodType: "GET")
+        if mutableURLRequest == nil { return }
+        
+        Alamofire.manager.request(mutableURLRequest!).responseJSON(completionHandler: { (response) -> Void in
             
-            let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)", methodType: "GET")
-            if mutableURLRequest == nil { return }
-            
-            Alamofire.manager.request(mutableURLRequest!).responseJSON(completionHandler: { (response) -> Void in
-            
-                if case .Failure(let error) = response.result {
-                    print("Hubo un erorr en el get price: \(error.localizedDescription)")
-                    self.servicePriceLabel.text = "COP $0"
-
+            if case .Failure(let error) = response.result {
+                print("Hubo un erorr en el get price: \(error.localizedDescription)")
+                self.servicePriceLabel.text = "COP $0"
+                
+            } else {
+                //Success
+                let jsonResponse = JSON(response.result.value!)
+                if jsonResponse["status"].boolValue {
+                    print("Llego en true el get prices: \(jsonResponse)")
+                    //Update price label
+                    let servicePrice = jsonResponse["value"].intValue
+                    self.servicePriceLabel.text = "COP $\(servicePrice)"
+                    
                 } else {
-                    //Success
-                    let jsonResponse = JSON(response.result.value!)
-                    if jsonResponse["status"].boolValue {
-                        print("Llego en true el get prices: \(jsonResponse)")
-                        //Update price label 
-                        let servicePrice = jsonResponse["value"].intValue
-                        self.servicePriceLabel.text = "COP $\(servicePrice)"
-                        
-                    } else {
-                        print("Llego en false el get prices: \(jsonResponse)")
-                        self.servicePriceLabel.text = "COP $0"
-                    }
+                    print("Llego en false el get prices: \(jsonResponse)")
+                    self.servicePriceLabel.text = "COP $0"
                 }
-            })
-            
-        } else {
-            print("Algun campo esta en nil, asi que no llamaré al get prices")
-        }
+                
+                if let insuranceValue = jsonResponse["insurance"].int {
+                    self.insurancePriceLabel.text = "COP $\(insuranceValue)"
+                } else {
+                    self.insurancePriceLabel.text = "COP $0"
+                }
+            }
+        })
     }
     
     //time_to_pickup , time_to_deliver
     func sendServiceRequestToServer() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         
-        let urlParameters = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "declared_value" : shipmentValueTextfield.text!, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString]
+        "insurancevalue"
+        var insuranceValueString = ""
+        if let selectedInsurance = selectedValorAseguradoCase {
+            insuranceValueString = selectedInsurance.serverString
+        }
+        
+        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "declared_value" : shipmentValueTextfield.text!, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValueString]
         
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.requestMensajeroServiceURL, methodType: "POST", theParameters: urlParameters)
         
@@ -437,7 +481,14 @@ class RequestServiceViewController: UIViewController {
 
 extension RequestServiceViewController: UIPickerViewDataSource {
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickupAndDeliveryCases.count
+        switch pickerView.tag {
+        case PickerViewType.deliveryPicker.rawValue, PickerViewType.pickupPicker.rawValue:
+            return pickupAndDeliveryCases.count
+        case PickerViewType.valorAseguradoPicker.rawValue:
+            return valorAseguradoCases.count
+        default:
+            return 0
+        }
     }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
@@ -449,7 +500,14 @@ extension RequestServiceViewController: UIPickerViewDataSource {
 
 extension RequestServiceViewController: UIPickerViewDelegate {
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickupAndDeliveryCases[row].displayString
+        switch pickerView.tag {
+        case PickerViewType.deliveryPicker.rawValue, PickerViewType.pickupPicker.rawValue:
+            return pickupAndDeliveryCases[row].displayString
+        case PickerViewType.valorAseguradoPicker.rawValue:
+            return valorAseguradoCases[row].displayString
+        default:
+            return ""
+        }
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -460,6 +518,10 @@ extension RequestServiceViewController: UIPickerViewDelegate {
         case PickerViewType.deliveryPicker.rawValue:
             deliveryDayHourTextfield.text = pickupAndDeliveryCases[row].displayString
             selectedDeliveryCase = pickupAndDeliveryCases[row]
+        case PickerViewType.valorAseguradoPicker.rawValue:
+            valorAseguradoTextField.text = valorAseguradoCases[row].displayString
+            selectedValorAseguradoCase = valorAseguradoCases[row]
+            getServicePrice()
         default:
             break
         }
@@ -499,6 +561,12 @@ extension RequestServiceViewController: UITextFieldDelegate {
             deliveryDayHourTextfield.text = pickupAndDeliveryCases[0].displayString
             selectedDeliveryCase = pickupAndDeliveryCases[0]
             firstTimeDeliveryTextFieldAppears = true
+        
+        } else if textField.tag == TextfieldName.valorAseguradoTextField.rawValue && !firstTimeValorAseguradoTextFieldAppears {
+            valorAseguradoTextField.text = valorAseguradoCases[0].displayString
+            selectedValorAseguradoCase = valorAseguradoCases[0]
+            firstTimeValorAseguradoTextFieldAppears = true
+            getServicePrice()
         }
     }
 }

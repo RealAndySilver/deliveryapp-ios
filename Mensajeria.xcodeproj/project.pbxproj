@@ -116,6 +116,7 @@
 		8BEA65BC1A82B1E100C20D5B /* MensajeriaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65BB1A82B1E100C20D5B /* MensajeriaTests.swift */; };
 		8BEA65C71A82B98500C20D5B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65C61A82B98500C20D5B /* LoginViewController.swift */; };
 		8BEA65D01A82C6EB00C20D5B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65CF1A82C6EB00C20D5B /* MBProgressHUD.m */; };
+		8BFE96FB1BDFE63500CE7A82 /* WrapperAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */; };
 		A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */; };
 		A0AFE1481A83D31F0025CACF /* TermsConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */; };
 		A0AFE14A1A83D6410025CACF /* RequestServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */; };
@@ -286,6 +287,7 @@
 		8BEA65CE1A82C6EB00C20D5B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		8BEA65CF1A82C6EB00C20D5B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		8BEA65DB1A82CA0A00C20D5B /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WrapperAlamofire.swift; path = Model/WrapperAlamofire.swift; sourceTree = "<group>"; };
 		A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountViewController.swift; path = Controllers/CreateAccountViewController.swift; sourceTree = "<group>"; };
 		A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TermsConditionsViewController.swift; path = Controllers/TermsConditionsViewController.swift; sourceTree = "<group>"; };
 		A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestServiceViewController.swift; path = Controllers/RequestServiceViewController.swift; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 				8B2F05C41A856B26007C462B /* User.swift */,
 				8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */,
 				8B713BBF1A94E03500800798 /* AppInfo.swift */,
+				8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -900,6 +903,7 @@
 				8B7B03FD1BDFBFC1002D4AF7 /* DesignableImageView.swift in Sources */,
 				8B7B042F1BDFC148002D4AF7 /* ParameterEncoding.swift in Sources */,
 				8B7B03FB1BDFBFC1002D4AF7 /* BlurView.swift in Sources */,
+				8BFE96FB1BDFE63500CE7A82 /* WrapperAlamofire.swift in Sources */,
 				8B7B04291BDFC148002D4AF7 /* Alamofire.swift in Sources */,
 				8BC2C89F1AA0C42500E25204 /* UIImage+GIF.m in Sources */,
 				8B7B04051BDFBFC1002D4AF7 /* KeyboardLayoutConstraint.swift in Sources */,
