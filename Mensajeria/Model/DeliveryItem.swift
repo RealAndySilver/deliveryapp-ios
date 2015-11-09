@@ -9,6 +9,7 @@
 import UIKit
 class DeliveryItem: NSObject {
     
+    var insuranceValue: Int?
     var sendImage: Bool?
     var timeToPick: String
     var timeToDeliver: String
@@ -85,6 +86,7 @@ class DeliveryItem: NSObject {
             deadline = ""
         }*/
         
+        insuranceValue = deliveryItemJSON["insurancevalue"].int
         name = deliveryItemJSON["item_name"].stringValue
         status = deliveryItemJSON["status"].stringValue
         priority = deliveryItemJSON["priority"].intValue

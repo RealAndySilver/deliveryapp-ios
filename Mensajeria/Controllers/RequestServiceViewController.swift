@@ -399,7 +399,12 @@ class RequestServiceViewController: UIViewController {
         dayHourTextfield.text = ""
         shipmentValueTextfield.text = ""
         instructionsTextView.text = ""
-
+        destinationLocationDic = [:]
+        pickupLocationDic = [:]
+        asegurarSwitch.on = false
+        sendImageSwitch.on = false
+        selectedValorAseguradoCase = nil
+        valorAseguradoTextField.text = ""
     }
     
     func updatePickupAddress(address: String, location: CLLocationCoordinate2D, selectedPickupLocation: Bool) {

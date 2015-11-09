@@ -33,6 +33,7 @@ class ServiceAcceptedViewController: UIViewController {
     //var frameToOpenDetailFrom: CGRect!
     
     var noDriverLabel: UILabel!
+    @IBOutlet weak var insuranceValueLabel: UILabel!
     @IBOutlet weak var noPhotosLabel: UILabel!
     @IBOutlet weak var updateButtonItem: UIBarButtonItem!
     @IBOutlet weak var serviceNameLabel: UILabel!
@@ -132,6 +133,12 @@ class ServiceAcceptedViewController: UIViewController {
     func fillUIWithDeliveryItemInfo() {
         ////////////////////////////////////////////////////////////////////////
         //Set service info in the UI
+        if let insuranceValue = deliveryItem.insuranceValue {
+            insuranceValueLabel.text = "COP $\(insuranceValue)"
+        } else {
+            insuranceValueLabel.text = "No Asegurado"
+        }
+        
         sendImageSwitch.on = deliveryItem.sendImage ?? false
         serviceNameLabel.text = deliveryItem.name
         pickupLabel.text = deliveryItem.pickupObject.address
