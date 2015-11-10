@@ -19,6 +19,7 @@
 		8B3158541A8915F0005F43E4 /* grayStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3158521A8915F0005F43E4 /* grayStar.png */; };
 		8B3158561A89201B005F43E4 /* RateDriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3158551A89201B005F43E4 /* RateDriverViewController.swift */; };
 		8B33E7281B9A403900BC4417 /* PendingRateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B33E7271B9A403900BC4417 /* PendingRateViewController.swift */; };
+		8B560D811BF217DC004F1F95 /* InitialMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B560D801BF217DC004F1F95 /* InitialMapViewController.swift */; };
 		8B713BC01A94E03500800798 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B713BBF1A94E03500800798 /* AppInfo.swift */; };
 		8B713BC31A95068B00800798 /* ShadowedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B713BC21A95068B00800798 /* ShadowedView.swift */; };
 		8B770CD21ABCAF6E00486FBE /* AbortedServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B770CD11ABCAF6E00486FBE /* AbortedServicesViewController.swift */; };
@@ -162,6 +163,7 @@
 		8B3158521A8915F0005F43E4 /* grayStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayStar.png; sourceTree = "<group>"; };
 		8B3158551A89201B005F43E4 /* RateDriverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RateDriverViewController.swift; path = Controllers/RateDriverViewController.swift; sourceTree = "<group>"; };
 		8B33E7271B9A403900BC4417 /* PendingRateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PendingRateViewController.swift; path = Controllers/PendingRateViewController.swift; sourceTree = "<group>"; };
+		8B560D801BF217DC004F1F95 /* InitialMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InitialMapViewController.swift; path = Controllers/InitialMapViewController.swift; sourceTree = "<group>"; };
 		8B713BBF1A94E03500800798 /* AppInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppInfo.swift; path = Model/AppInfo.swift; sourceTree = "<group>"; };
 		8B713BC21A95068B00800798 /* ShadowedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShadowedView.swift; path = "Custom Views/ShadowedView.swift"; sourceTree = "<group>"; };
 		8B770CD11ABCAF6E00486FBE /* AbortedServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbortedServicesViewController.swift; path = Controllers/AbortedServicesViewController.swift; sourceTree = "<group>"; };
@@ -636,6 +638,7 @@
 				8BEA65C61A82B98500C20D5B /* LoginViewController.swift */,
 				A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */,
 				A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */,
+				8B560D801BF217DC004F1F95 /* InitialMapViewController.swift */,
 				A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */,
 				A0AFE1681A84008A0025CACF /* MapViewController.swift */,
 				8B1E05C21B90CD48007EECA0 /* SearchAddressViewController.swift */,
@@ -902,6 +905,7 @@
 				8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */,
 				8B7B03FD1BDFBFC1002D4AF7 /* DesignableImageView.swift in Sources */,
 				8B7B042F1BDFC148002D4AF7 /* ParameterEncoding.swift in Sources */,
+				8B560D811BF217DC004F1F95 /* InitialMapViewController.swift in Sources */,
 				8B7B03FB1BDFBFC1002D4AF7 /* BlurView.swift in Sources */,
 				8BFE96FB1BDFE63500CE7A82 /* WrapperAlamofire.swift in Sources */,
 				8B7B04291BDFC148002D4AF7 /* Alamofire.swift in Sources */,

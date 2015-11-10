@@ -9,9 +9,7 @@
 import UIKit
 
 class RequestServiceViewController: UIViewController {
-    
-    @IBOutlet weak var revealButtonItem: UIBarButtonItem!
-    
+        
     enum TextfieldName: Int {
         case pickupTextfield = 1, finalTextfield, dayHourTextfield, deliveryTextField, valorDeclaradoTextfield, valorAseguradoTextField
     }
@@ -35,6 +33,7 @@ class RequestServiceViewController: UIViewController {
     var pickupPicker: UIPickerView!
     var deliveryPicker: UIPickerView!
     var valorAseguradoPicker: UIPickerView!
+    @IBOutlet weak var signatureSwitch: UISwitch!
     @IBOutlet weak var valorAseguradoTextField: UITextField!
     @IBOutlet weak var asegurarSwitch: UISwitch!
     @IBOutlet weak var deliveryAddressLabel: UILabel!
@@ -119,12 +118,6 @@ class RequestServiceViewController: UIViewController {
         dayHourTextfield.inputAccessoryView = toolBar
         deliveryDayHourTextfield.inputAccessoryView = toolBar
         shipmentValueTextfield.inputAccessoryView = toolBar
-        
-        //Reveal button
-        if revealViewController() != nil {
-            revealButtonItem.target = revealViewController()
-            revealButtonItem.action = "revealToggle:"
-        }
         
         if !asegurarSwitch.on {
             valorAseguradoTextField.enabled = false
@@ -248,7 +241,7 @@ class RequestServiceViewController: UIViewController {
             insuranceValueString = selectedInsurance.serverString
         }
         
-        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "declared_value" : shipmentValueTextfield.text!, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValueString]
+        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "declared_value" : shipmentValueTextfield.text!, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValueString, "send_signature" : signatureSwitch.on]
         
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.requestMensajeroServiceURL, methodType: "POST", theParameters: urlParameters)
         
@@ -390,7 +383,7 @@ class RequestServiceViewController: UIViewController {
     //MARK: Custom Stuff
     
     func cleanUIFields() {
-        servicePriceLabel.text = nil
+        servicePriceLabel.text = "COP $0"
         serviceNameTextfield.text = nil
         deliveryDayHourTextfield.text = ""
         pickupAddressTextfield.text = ""
@@ -405,6 +398,8 @@ class RequestServiceViewController: UIViewController {
         sendImageSwitch.on = false
         selectedValorAseguradoCase = nil
         valorAseguradoTextField.text = ""
+        signatureSwitch.on = false
+        insurancePriceLabel.text = "COP $0"
     }
     
     func updatePickupAddress(address: String, location: CLLocationCoordinate2D, selectedPickupLocation: Bool) {

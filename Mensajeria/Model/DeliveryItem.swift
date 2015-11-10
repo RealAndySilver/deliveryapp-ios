@@ -9,6 +9,7 @@
 import UIKit
 class DeliveryItem: NSObject {
     
+    var sendSignature: Bool?
     var insuranceValue: Int?
     var sendImage: Bool?
     var timeToPick: String
@@ -62,6 +63,7 @@ class DeliveryItem: NSObject {
         timeToPick = deliveryItemJSON["time_to_pick"].stringValue
         timeToDeliver = deliveryItemJSON["time_to_deliver"].stringValue
         sendImage = deliveryItemJSON["send_image"].bool
+        sendSignature = deliveryItemJSON["send_signature"].bool
         
         estimatedString = deliveryItemJSON["estimated"].string
         if let theEstimatedString = estimatedString {
