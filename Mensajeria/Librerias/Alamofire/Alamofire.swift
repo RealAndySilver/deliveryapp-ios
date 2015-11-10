@@ -45,6 +45,7 @@ struct Alamofire {
     static let removeFavoriteServiceURL = "\(currentEndPoint)/User/UnFav"
     static let abortedItemsServiceURL = "\(currentEndPoint)/DeliveryItem/UserAborted"
     static let restartItemServiceURL = "\(currentEndPoint)/DeliveryItem/Restart"
+    static let closeToMeServiceUrl = "\(currentEndPoint)/CloseToMe"
 }
 
 // MARK: - URLStringConvertible

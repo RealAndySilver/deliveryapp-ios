@@ -38,9 +38,45 @@ class InitialMapViewController: UIViewController {
         }
     }
     
+    //MARK: Server Stuff
+    
+    func getRandomLocationsFromServerBasedOnLocation(location: CLLocation) {
+        Alamofire.manager.request(.GET, "\(Alamofire.closeToMeServiceUrl)/\(location.coordinate.latitude)/\(location.coordinate.longitude)").responseJSON { (response) -> Void in
+            
+            switch response.result {
+            case .Success(let value):
+                let jsonResponse = JSON(value)
+                print("Succesfull response of the close to me: \(jsonResponse)")
+                
+                if let locationsArray = jsonResponse["locations"].object as? [[String : Double]] {
+                    self.drawRandomLocationsUsingArray(locationsArray)
+                }
+                
+            case .Failure:
+                print("Error in the close to me")
+            }
+        }
+    }
+    
     //MARK: Custom Stuff
     
-    func generateRandomLocationsBasedOnCurrentLocation(location: CLLocation) {
+    func drawRandomLocationsUsingArray(locationsArray: [[String : Double]]) {
+        for i in 0..<locationsArray.count {
+            guard let latitude = locationsArray[i]["lat"], let longitude = locationsArray[i]["lon"] else {
+                print("Error en los valores de latitud y longitud")
+                return
+            }
+            
+            let randomLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            print("Random location: \(randomLocation)")
+            
+            let marker = GMSMarker(position: randomLocation)
+            marker.icon = UIImage(named: "MotorcycleMarker")
+            marker.map = mapView
+        }
+    }
+    
+    /*func generateRandomLocationsBasedOnCurrentLocation(location: CLLocation) {
         for _ in 0...10 {
             let randomLatitude = Double(-10672 + Double(Int(arc4random_uniform(10672*2)))) / Double(1_000_000)
             let randomLongitude = Double(-6824.0 + Double(Int(arc4random_uniform(6824*2)))) / Double(1_000_000)
@@ -53,7 +89,7 @@ class InitialMapViewController: UIViewController {
             marker.icon = UIImage(named: "MotorcycleMarker")
             marker.map = mapView
         }
-    }
+    }*/
 }
 
 //MARK: CLLocationManagerDelegate
@@ -69,7 +105,8 @@ extension InitialMapViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first  {
             if !updateLocationsForTheFirstTime {
-                generateRandomLocationsBasedOnCurrentLocation(location)
+                //generateRandomLocationsBasedOnCurrentLocation(location)
+                getRandomLocationsFromServerBasedOnLocation(location)
             }
             mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
             updateLocationsForTheFirstTime = true
