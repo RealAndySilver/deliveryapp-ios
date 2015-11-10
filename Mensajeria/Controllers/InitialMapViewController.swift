@@ -47,9 +47,10 @@ class InitialMapViewController: UIViewController {
             case .Success(let value):
                 let jsonResponse = JSON(value)
                 print("Succesfull response of the close to me: \(jsonResponse)")
-                
-                if let locationsArray = jsonResponse["locations"].object as? [[String : Double]] {
-                    self.drawRandomLocationsUsingArray(locationsArray)
+                if jsonResponse["status"].boolValue {
+                    if let locationsArray = jsonResponse["response"]["locations"].object as? [[String : Double]] {
+                        self.drawRandomLocationsUsingArray(locationsArray)
+                    }
                 }
                 
             case .Failure:
