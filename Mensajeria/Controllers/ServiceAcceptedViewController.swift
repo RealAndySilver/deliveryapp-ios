@@ -33,6 +33,7 @@ class ServiceAcceptedViewController: UIViewController {
     //var frameToOpenDetailFrom: CGRect!
     
     var noDriverLabel: UILabel!
+    @IBOutlet weak var signatureImageView: UIImageView!
     @IBOutlet weak var insuranceValueLabel: UILabel!
     @IBOutlet weak var noPhotosLabel: UILabel!
     @IBOutlet weak var updateButtonItem: UIBarButtonItem!
@@ -133,6 +134,23 @@ class ServiceAcceptedViewController: UIViewController {
     func fillUIWithDeliveryItemInfo() {
         ////////////////////////////////////////////////////////////////////////
         //Set service info in the UI
+        if let signatureEncodedString = deliveryItem.signatureEncodedString {
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), { () -> Void in
+                if let decodedData = NSData(base64EncodedString: signatureEncodedString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters) {
+                    if let image = UIImage(data: decodedData) {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.signatureImageView.image = image
+                        })
+                    } else {
+                        print("No pude sacar la imagennnnn")
+                    }
+                    
+                } else {
+                    print("no puede sacar la decoded data")
+                }
+            })
+        }
+        
         if let insuranceValue = deliveryItem.insuranceValue {
             insuranceValueLabel.text = "COP $\(insuranceValue)"
         } else {

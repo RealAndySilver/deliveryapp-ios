@@ -9,6 +9,7 @@
 import UIKit
 class DeliveryItem: NSObject {
     
+    var signatureEncodedString: String?
     var sendSignature: Bool?
     var insuranceValue: Int?
     var sendImage: Bool?
@@ -88,6 +89,7 @@ class DeliveryItem: NSObject {
             deadline = ""
         }*/
         
+        signatureEncodedString = deliveryItemJSON["signature_object"]["signatureB64"].string
         insuranceValue = deliveryItemJSON["insurancevalue"].int
         name = deliveryItemJSON["item_name"].stringValue
         status = deliveryItemJSON["status"].stringValue
