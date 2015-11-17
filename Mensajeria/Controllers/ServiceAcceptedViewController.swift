@@ -28,11 +28,12 @@ class ServiceAcceptedViewController: UIViewController {
     //////////////////////////////////////////////////////
     weak var delegate: ServiceAcceptedDelegate?
     var loadingView = MONActivityIndicatorView()
-    //let zoomTransitioningDelegate = ZoomTransitionDelegate()
-    //let zoomAnimationController = ZoomFromCellAnimator()
-    //var frameToOpenDetailFrom: CGRect!
+    private let kServicePhotosExpandedHeight: CGFloat = 254.0
+    private let kServicePhotosContractedeHeight: CGFloat = 145.0
     
     var noDriverLabel: UILabel!
+    @IBOutlet weak var signatureLabel: UILabel!
+    @IBOutlet weak var servicePhotosHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var signatureImageView: UIImageView!
     @IBOutlet weak var insuranceValueLabel: UILabel!
     @IBOutlet weak var noPhotosLabel: UILabel!
@@ -134,21 +135,28 @@ class ServiceAcceptedViewController: UIViewController {
     func fillUIWithDeliveryItemInfo() {
         ////////////////////////////////////////////////////////////////////////
         //Set service info in the UI
+        
+        //Check if there's a signature
         if let signatureEncodedString = deliveryItem.signatureEncodedString {
             dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), { () -> Void in
                 if let decodedData = NSData(base64EncodedString: signatureEncodedString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters) {
                     if let image = UIImage(data: decodedData) {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.modifyServicePhotosConstraintToExpandedHeight(true)
                             self.signatureImageView.image = image
                         })
                     } else {
+                        self.modifyServicePhotosConstraintToExpandedHeight(false)
                         print("No pude sacar la imagennnnn")
                     }
                     
                 } else {
                     print("no puede sacar la decoded data")
+                    self.modifyServicePhotosConstraintToExpandedHeight(false)
                 }
             })
+        } else {
+            modifyServicePhotosConstraintToExpandedHeight(false)
         }
         
         if let insuranceValue = deliveryItem.insuranceValue {
@@ -341,6 +349,22 @@ class ServiceAcceptedViewController: UIViewController {
     
     @IBAction func cancelServicePressed() {
         cancelServiceInServer()
+    }
+    
+    //MARK: Animation & Layout 
+    
+    func modifyServicePhotosConstraintToExpandedHeight(expanded: Bool) {
+        if expanded {
+            servicePhotosHeightConstraint.constant = kServicePhotosExpandedHeight
+            signatureLabel.hidden = false
+            signatureImageView.hidden = false
+        
+        } else {
+            servicePhotosHeightConstraint.constant = kServicePhotosContractedeHeight
+            signatureLabel.hidden = true
+            signatureImageView.hidden = true
+        }
+        view.setNeedsUpdateConstraints()
     }
     
     //MARK: Navigation
