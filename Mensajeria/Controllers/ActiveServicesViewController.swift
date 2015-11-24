@@ -30,7 +30,7 @@ class ActiveServicesViewController: UIViewController {
     }
     
     func setupUI() {
-        tableView.rowHeight = 185.0
+        tableView.rowHeight = 236.0
         tableView.tableFooterView = UIView(frame: CGRectZero)
         
         //Reveal button
@@ -107,9 +107,9 @@ extension ActiveServicesViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Servicios Sin Aceptar"
+            return "Servicios por asignar (\(requestedItems.count))"
         } else {
-            return "Servicios Aceptados"
+            return "Servicios asignados a mensajero (\(acceptedItems.count))"
         }
     }
     
@@ -128,10 +128,12 @@ extension ActiveServicesViewController: UITableViewDataSource {
             cell.serviceNameLabel.text = requestedItems[indexPath.row].name
             cell.deliveryAddressLabel.text = requestedItems[indexPath.row].deliveryObject.address
             cell.pickupAdressLabel.text = requestedItems[indexPath.row].pickupObject.address
+            cell.dateCreatedLabel.text = requestedItems[indexPath.row].dateCreatedString
         } else {
             cell.serviceNameLabel.text = acceptedItems[indexPath.row].name
             cell.deliveryAddressLabel.text = acceptedItems[indexPath.row].deliveryObject.address
             cell.pickupAdressLabel.text = acceptedItems[indexPath.row].pickupObject.address
+            cell.dateCreatedLabel.text = acceptedItems[indexPath.row].dateCreatedString
         }
         return cell
     }

@@ -32,6 +32,8 @@ class ServiceAcceptedViewController: UIViewController {
     private let kServicePhotosContractedeHeight: CGFloat = 145.0
     
     var noDriverLabel: UILabel!
+    @IBOutlet weak var signatureSwitch: UISwitch!
+    @IBOutlet weak var idaYVueltaSwitch: UISwitch!
     @IBOutlet weak var signatureLabel: UILabel!
     @IBOutlet weak var servicePhotosHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var signatureImageView: UIImageView!
@@ -135,6 +137,9 @@ class ServiceAcceptedViewController: UIViewController {
     func fillUIWithDeliveryItemInfo() {
         ////////////////////////////////////////////////////////////////////////
         //Set service info in the UI
+        
+        idaYVueltaSwitch.on = deliveryItem.roundtrip
+        signatureSwitch.on = deliveryItem.sendSignature ?? false
         
         //Check if there's a signature
         if let signatureEncodedString = deliveryItem.signatureEncodedString {

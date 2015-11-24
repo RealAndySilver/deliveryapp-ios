@@ -26,7 +26,7 @@ class FinishedServicesViewController: UIViewController {
     //MARK: Custom Initialization Stuff
     
     func setupUI() {
-        tableView.rowHeight = 185.0
+        tableView.rowHeight = 236.0
         tableView.tableFooterView = UIView(frame: CGRectZero)
         
         //Reveal button
@@ -94,6 +94,7 @@ extension FinishedServicesViewController: UITableViewDataSource {
         cell.serviceNameLabel.text = finishedItems[indexPath.row].name
         cell.pickupAdressLabel.text = finishedItems[indexPath.row].pickupObject.address
         cell.deliveryAddressLabel.text = finishedItems[indexPath.row].deliveryObject.address
+        cell.dateCreatedLabel.text = finishedItems[indexPath.row].dateCreatedString
         return cell
     }
 }

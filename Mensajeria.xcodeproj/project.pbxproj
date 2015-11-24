@@ -110,6 +110,7 @@
 		8BCC7B791AB9E0980085EDF5 /* ZoomTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCC7B781AB9E0980085EDF5 /* ZoomTransitionDelegate.swift */; };
 		8BCE59361A922C89000C0C1A /* FinishedServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCE59351A922C89000C0C1A /* FinishedServicesViewController.swift */; };
 		8BCE59391A924EF6000C0C1A /* IntriqueScript_PersonalUse.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BCE59381A924EF6000C0C1A /* IntriqueScript_PersonalUse.ttf */; };
+		8BDB039D1C04FD0200D495D8 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDB039C1C04FD0200D495D8 /* Formatters.swift */; };
 		8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */; };
 		8BEA65AB1A82B1E100C20D5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65A91A82B1E100C20D5B /* Main.storyboard */; };
 		8BEA65AD1A82B1E100C20D5B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BEA65AC1A82B1E100C20D5B /* Images.xcassets */; };
@@ -276,6 +277,7 @@
 		8BCC7B781AB9E0980085EDF5 /* ZoomTransitionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZoomTransitionDelegate.swift; path = "Animation Controllers/ZoomTransitionDelegate.swift"; sourceTree = "<group>"; };
 		8BCE59351A922C89000C0C1A /* FinishedServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FinishedServicesViewController.swift; path = Controllers/FinishedServicesViewController.swift; sourceTree = "<group>"; };
 		8BCE59381A924EF6000C0C1A /* IntriqueScript_PersonalUse.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = IntriqueScript_PersonalUse.ttf; sourceTree = "<group>"; };
+		8BDB039C1C04FD0200D495D8 /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Formatters.swift; path = Utils/Formatters.swift; sourceTree = "<group>"; };
 		8BEA65A01A82B1E000C20D5B /* Mensajeria.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mensajeria.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BEA65A41A82B1E000C20D5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BEA65A51A82B1E000C20D5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 				8B8427B71A9B9E0E003D1354 /* Utils.h */,
 				8B8427B81A9B9E0E003D1354 /* Utils.m */,
 				8BA62C221AA497C8000F9C84 /* RegexValidator.swift */,
+				8BDB039C1C04FD0200D495D8 /* Formatters.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -865,6 +868,7 @@
 				8B7C0C911A89090500470D15 /* ServiceAcceptedViewController.swift in Sources */,
 				8B7B04331BDFC148002D4AF7 /* Result.swift in Sources */,
 				8B7B042E1BDFC148002D4AF7 /* MultipartFormData.swift in Sources */,
+				8BDB039D1C04FD0200D495D8 /* Formatters.swift in Sources */,
 				8BC2C8A11AA0C42500E25204 /* UIImage+WebP.m in Sources */,
 				8BC2C89A1AA0C42500E25204 /* SDWebImageDownloader.m in Sources */,
 				8B7B04131BDFBFC1002D4AF7 /* TransitionZoom.swift in Sources */,

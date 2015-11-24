@@ -25,7 +25,7 @@ class AbortedServicesViewController: UIViewController {
     }
     
     func setupUI() {
-        tableView.rowHeight = 185.0
+        tableView.rowHeight = 236.0
         tableView.tableFooterView = UIView(frame: CGRectZero)
         
         //Reveal button
@@ -143,6 +143,7 @@ extension AbortedServicesViewController: UITableViewDataSource {
         cell.pickupAdressLabel.text = abortedServices[indexPath.row].pickupObject.address
         cell.deliveryAddressLabel.text = abortedServices[indexPath.row].deliveryObject.address
         cell.serviceNameLabel.text = abortedServices[indexPath.row].name
+        cell.dateCreatedLabel.text = abortedServices[indexPath.row].dateCreatedString
         return cell
     }
 }

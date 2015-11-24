@@ -13,6 +13,7 @@ class ActiveServiceCell: UITableViewCell {
     @IBOutlet weak var serviceNameLabel: UILabel!
     @IBOutlet weak var pickupAdressLabel: UILabel!
     @IBOutlet weak var deliveryAddressLabel: UILabel!
+    @IBOutlet weak var dateCreatedLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

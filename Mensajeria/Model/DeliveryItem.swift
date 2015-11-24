@@ -9,6 +9,7 @@
 import UIKit
 class DeliveryItem: NSObject {
     
+    var dateCreatedString: String?
     var signatureEncodedString: String?
     var sendSignature: Bool?
     var insuranceValue: Int?
@@ -60,6 +61,11 @@ class DeliveryItem: NSObject {
     
     init(deliveryItemJSON: JSON) {
         //pickupStringTest = deliveryItemJSON["pickup_time"].stringValue
+        
+        let unparsedDateCreatedString = deliveryItemJSON["date_created"].stringValue
+        if let dateCreated = Formatters.sharedInstance.stringToDateFormatter.dateFromString(unparsedDateCreatedString) {
+            dateCreatedString = Formatters.sharedInstance.dateToStringFormatter.stringFromDate(dateCreated)
+        }
         
         timeToPick = deliveryItemJSON["time_to_pick"].stringValue
         timeToDeliver = deliveryItemJSON["time_to_deliver"].stringValue
