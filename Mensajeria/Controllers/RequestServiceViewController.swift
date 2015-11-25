@@ -400,6 +400,10 @@ class RequestServiceViewController: UIViewController {
         valorAseguradoTextField.text = ""
         signatureSwitch.on = false
         insurancePriceLabel.text = "COP $0"
+        
+        firstTimeDeliveryTextFieldAppears = false
+        firstTimePickupTextFieldAppears = false
+        firstTimeValorAseguradoTextFieldAppears = false
     }
     
     func updatePickupAddress(address: String, location: CLLocationCoordinate2D, selectedPickupLocation: Bool) {

@@ -1065,7 +1065,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2b7abd3e-cbb0-414c-bae1-f2c3ff0b7a75";
+				PROVISIONING_PROFILE = "ff7e4a67-5a8f-412c-9767-cca47a9828ec";
 				SWIFT_OBJC_BRIDGING_HEADER = ./Mensajeria/BridgingHeader.h;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1075,7 +1075,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1086,7 +1086,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2b7abd3e-cbb0-414c-bae1-f2c3ff0b7a75";
+				PROVISIONING_PROFILE = "ff7e4a67-5a8f-412c-9767-cca47a9828ec";
 				SWIFT_OBJC_BRIDGING_HEADER = ./Mensajeria/BridgingHeader.h;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -109,7 +109,7 @@ extension InitialMapViewController: CLLocationManagerDelegate {
                 //generateRandomLocationsBasedOnCurrentLocation(location)
                 getRandomLocationsFromServerBasedOnLocation(location)
             }
-            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 12, bearing: 0, viewingAngle: 0)
             updateLocationsForTheFirstTime = true
         }
         locationManager.stopUpdatingLocation()
