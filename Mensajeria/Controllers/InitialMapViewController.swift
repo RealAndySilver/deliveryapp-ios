@@ -13,6 +13,11 @@ class InitialMapViewController: UIViewController {
     //Outlets
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var revealButtonItem: UIBarButtonItem!
+    @IBOutlet weak var optionsScrollView: UIScrollView!
+    @IBOutlet var optionsContainerView: UIView!
+    
+    @IBOutlet weak var serviceNameLabel: JVFloatLabeledTextField!
+    
     
     //Variables
     let locationManager = CLLocationManager()
@@ -36,6 +41,19 @@ class InitialMapViewController: UIViewController {
             revealButtonItem.target = revealViewController()
             revealButtonItem.action = "revealToggle:"
         }
+        
+        //SetupUI
+        setupUI()
+    }
+    
+    func setupUI() {
+        optionsContainerView.frame = CGRect(x: 0.0, y: 0.0, width: view.bounds.size.width * 3.0, height: optionsScrollView.bounds.size.height)
+        optionsScrollView.addSubview(optionsContainerView)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        optionsScrollView.contentSize = optionsContainerView.bounds.size
     }
     
     //MARK: Server Stuff
@@ -121,6 +139,15 @@ extension InitialMapViewController: CLLocationManagerDelegate {
 extension InitialMapViewController: GMSMapViewDelegate {
     func mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!) {
         print("position: \(position.target.latitude, position.target.longitude)")
+    }
+}
+
+//MARK: UITextFieldDelegate
+
+extension InitialMapViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 

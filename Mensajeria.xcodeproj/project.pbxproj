@@ -12,6 +12,9 @@
 		8B1204481A93B7C8000B2020 /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1204471A93B7C8000B2020 /* AddressCell.swift */; };
 		8B12044A1A93D39B000B2020 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1204491A93D39B000B2020 /* MenuCell.swift */; };
 		8B1E05C31B90CD48007EECA0 /* SearchAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E05C21B90CD48007EECA0 /* SearchAddressViewController.swift */; };
+		8B25B6711C16001D00810A84 /* JVFloatLabeledTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B25B66C1C16001D00810A84 /* JVFloatLabeledTextField.m */; };
+		8B25B6721C16001D00810A84 /* JVFloatLabeledTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B25B66E1C16001D00810A84 /* JVFloatLabeledTextView.m */; };
+		8B25B6731C16001D00810A84 /* NSString+TextDirectionality.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B25B6701C16001D00810A84 /* NSString+TextDirectionality.m */; };
 		8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */; };
 		8B2F05C51A856B26007C462B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2F05C41A856B26007C462B /* User.swift */; };
 		8B31584E1A8910BF005F43E4 /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B31584D1A8910BF005F43E4 /* RatingView.m */; };
@@ -156,6 +159,12 @@
 		8B1204471A93B7C8000B2020 /* AddressCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressCell.swift; path = "Custom Cells/AddressCell.swift"; sourceTree = "<group>"; };
 		8B1204491A93D39B000B2020 /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuCell.swift; path = "Custom Cells/MenuCell.swift"; sourceTree = "<group>"; };
 		8B1E05C21B90CD48007EECA0 /* SearchAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchAddressViewController.swift; path = Controllers/SearchAddressViewController.swift; sourceTree = "<group>"; };
+		8B25B66B1C16001D00810A84 /* JVFloatLabeledTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JVFloatLabeledTextField.h; sourceTree = "<group>"; };
+		8B25B66C1C16001D00810A84 /* JVFloatLabeledTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JVFloatLabeledTextField.m; sourceTree = "<group>"; };
+		8B25B66D1C16001D00810A84 /* JVFloatLabeledTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JVFloatLabeledTextView.h; sourceTree = "<group>"; };
+		8B25B66E1C16001D00810A84 /* JVFloatLabeledTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JVFloatLabeledTextView.m; sourceTree = "<group>"; };
+		8B25B66F1C16001D00810A84 /* NSString+TextDirectionality.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TextDirectionality.h"; sourceTree = "<group>"; };
+		8B25B6701C16001D00810A84 /* NSString+TextDirectionality.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TextDirectionality.m"; sourceTree = "<group>"; };
 		8B2F05C11A8521E9007C462B /* AddressHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressHistoryViewController.swift; path = Controllers/AddressHistoryViewController.swift; sourceTree = "<group>"; };
 		8B2F05C41A856B26007C462B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		8B31584C1A8910BF005F43E4 /* RatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingView.h; sourceTree = "<group>"; };
@@ -350,6 +359,19 @@
 				8B0D80CF1A961ACC0058A6F4 /* MONActivityIndicatorView.m */,
 			);
 			path = MONActivityIndicatorView;
+			sourceTree = "<group>";
+		};
+		8B25B66A1C16001D00810A84 /* JVFloatLabeledTextField */ = {
+			isa = PBXGroup;
+			children = (
+				8B25B66B1C16001D00810A84 /* JVFloatLabeledTextField.h */,
+				8B25B66C1C16001D00810A84 /* JVFloatLabeledTextField.m */,
+				8B25B66D1C16001D00810A84 /* JVFloatLabeledTextView.h */,
+				8B25B66E1C16001D00810A84 /* JVFloatLabeledTextView.m */,
+				8B25B66F1C16001D00810A84 /* NSString+TextDirectionality.h */,
+				8B25B6701C16001D00810A84 /* NSString+TextDirectionality.m */,
+			);
+			path = JVFloatLabeledTextField;
 			sourceTree = "<group>";
 		};
 		8B2F05C31A856B13007C462B /* Model */ = {
@@ -666,6 +688,7 @@
 		8BEA65C81A82C29900C20D5B /* Librerias */ = {
 			isa = PBXGroup;
 			children = (
+				8B25B66A1C16001D00810A84 /* JVFloatLabeledTextField */,
 				8B7B04181BDFC148002D4AF7 /* Alamofire */,
 				8B7B04151BDFC03C002D4AF7 /* SwiftyJSON */,
 				8B7B03D91BDFBFC1002D4AF7 /* Spring */,
@@ -830,6 +853,7 @@
 				8B7B03FF1BDFBFC1002D4AF7 /* DesignableTabBarController.swift in Sources */,
 				8BB9BE1B1A892BEF005EC694 /* ForgotPasswordViewController.swift in Sources */,
 				8B7B042A1BDFC148002D4AF7 /* Download.swift in Sources */,
+				8B25B6711C16001D00810A84 /* JVFloatLabeledTextField.m in Sources */,
 				8B770CD21ABCAF6E00486FBE /* AbortedServicesViewController.swift in Sources */,
 				8B7B040D1BDFBFC1002D4AF7 /* SpringImageView.swift in Sources */,
 				8B7B04301BDFC148002D4AF7 /* Request.swift in Sources */,
@@ -839,6 +863,7 @@
 				8B2F05C21A8521E9007C462B /* AddressHistoryViewController.swift in Sources */,
 				8BA5A80E1A8E979A00379651 /* ActiveServiceCell.swift in Sources */,
 				8B7B04101BDFBFC1002D4AF7 /* SpringTextView.swift in Sources */,
+				8B25B6731C16001D00810A84 /* NSString+TextDirectionality.m in Sources */,
 				8B33E7281B9A403900BC4417 /* PendingRateViewController.swift in Sources */,
 				A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */,
 				8B7B04061BDFBFC1002D4AF7 /* LoadingView.swift in Sources */,
@@ -908,6 +933,7 @@
 				8BCC7B791AB9E0980085EDF5 /* ZoomTransitionDelegate.swift in Sources */,
 				8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */,
 				8B7B03FD1BDFBFC1002D4AF7 /* DesignableImageView.swift in Sources */,
+				8B25B6721C16001D00810A84 /* JVFloatLabeledTextView.m in Sources */,
 				8B7B042F1BDFC148002D4AF7 /* ParameterEncoding.swift in Sources */,
 				8B560D811BF217DC004F1F95 /* InitialMapViewController.swift in Sources */,
 				8B7B03FB1BDFBFC1002D4AF7 /* BlurView.swift in Sources */,
