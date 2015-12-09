@@ -125,15 +125,26 @@ extension AddressHistoryViewController: UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if buttonIndex == 2 {
             //Direccion de entrega button pressed
-            delegate?.addressSelected(selectedAddressDic, forPickupLocation: false)
+            //delegate?.addressSelected(selectedAddressDic, forPickupLocation: false)
             //delegate?.addressSelected(selectedAddress, forPickupLocation: false)
-            navigationController?.popViewControllerAnimated(true)
+            //navigationController?.popViewControllerAnimated(true)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("addressSelectedNotification", object: nil, userInfo: ["addressDic": selectedAddressDic, "pickupLocation": false])
             
         } else if buttonIndex == 1 {
             //Direccion de recogida button pressed
-            delegate?.addressSelected(selectedAddressDic, forPickupLocation: true)
+            //delegate?.addressSelected(selectedAddressDic, forPickupLocation: true)
             //delegate?.addressSelected(selectedAddress, forPickupLocation: true)
-            navigationController?.popViewControllerAnimated(true)
+            //navigationController?.popViewControllerAnimated(true)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("addressSelectedNotification", object: nil, userInfo: ["addressDic": selectedAddressDic, "pickupLocation": true])
+        }
+        
+        for viewController in navigationController!.viewControllers {
+            if viewController.isKindOfClass(RequestServiceViewController.self) {
+                navigationController!.popToViewController(viewController, animated: true)
+                return
+            }
         }
     }
 }

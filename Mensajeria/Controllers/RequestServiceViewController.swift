@@ -9,7 +9,13 @@
 import UIKit
 
 class RequestServiceViewController: UIViewController {
-        
+    
+    //Information passed from InitialMapVC
+    var selectedPickupCase: (serverString: String, displayString: String)!
+    var selectedDeliveryCase: (serverString: String, displayString: String)!
+    var locationsToDraw: [[String: Double]]?
+    
+    //Enums
     enum TextfieldName: Int {
         case pickupTextfield = 1, finalTextfield, dayHourTextfield, deliveryTextField, valorDeclaradoTextfield, valorAseguradoTextField
     }
@@ -25,27 +31,25 @@ class RequestServiceViewController: UIViewController {
     var firstTimeValorAseguradoTextFieldAppears = false
     let valorAseguradoCases: [(serverString: String, displayString: String)] = [("500000", "Hasta $500.000"), ("1000000", "Hasta $1000.000"), ("2000000", "Hasta $2.000.000")]
     let pickupAndDeliveryCases: [(serverString: String, displayString: String)] = [("now", "Inmediato"), ("later", "Durante el día")]
-    var selectedPickupCase: (serverString: String, displayString: String)!
-    var selectedDeliveryCase: (serverString: String, displayString: String)!
     var selectedValorAseguradoCase: (serverString: String, displayString: String)?
     @IBOutlet weak var servicePriceLabel: UILabel!
     @IBOutlet weak var insurancePriceLabel: UILabel!
     var pickupPicker: UIPickerView!
     var deliveryPicker: UIPickerView!
     var valorAseguradoPicker: UIPickerView!
+    @IBOutlet weak var pickupDetailsTextField: UITextField!
+    @IBOutlet weak var deliveryDetailsTextField: UITextField!
     @IBOutlet weak var signatureSwitch: UISwitch!
     @IBOutlet weak var valorAseguradoTextField: UITextField!
     @IBOutlet weak var asegurarSwitch: UISwitch!
     @IBOutlet weak var deliveryAddressLabel: UILabel!
     @IBOutlet weak var serviceNameTextfield: UITextField!
-    @IBOutlet weak var deliveryDayHourTextfield: UITextField!
     @IBOutlet weak var pickupAddressTextfield: UITextField!
     @IBOutlet weak var finalAddressTextfield: UITextField!
     @IBOutlet weak var idaYVueltaSwitch: UISwitch!
-    @IBOutlet weak var dayHourTextfield: UITextField!
-    @IBOutlet weak var shipmentValueTextfield: UITextField!
     @IBOutlet weak var instructionsTextView: UITextView!
     @IBOutlet weak var sendImageSwitch: UISwitch!
+    @IBOutlet weak var mapView: GMSMapView!
     private var activeTextfield: UITextField?
     var pickupLocationDic = [String : AnyObject]()
     var destinationLocationDic = [String : AnyObject]()
@@ -59,6 +63,7 @@ class RequestServiceViewController: UIViewController {
     }()
     
     //Constants
+    let locationManager = CLLocationManager()
     let savedPickupAdressesKey = "pickupAddresses"
     let savedDestinationAdressesKey = "destinationAddresses"
     let maxAllowedSavedAddresses = 10
@@ -68,13 +73,29 @@ class RequestServiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("entre acaaaa")
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addressSelectedNotificationReceived:", name: "addressSelectedNotification", object: nil)
+        
         view.addGestureRecognizer(revealViewController().panGestureRecognizer())
+        
+        mapView.delegate = self
+        locationManager.delegate = self
+        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+            mapView.myLocationEnabled = true
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
+
         setupUI()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         print("aparecereeee")
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
  
     //MARK: UI Setup
@@ -92,7 +113,7 @@ class RequestServiceViewController: UIViewController {
         deliveryDatePicker.addTarget(self, action: "deliveryDateChanged:", forControlEvents: .ValueChanged)
         deliveryDayHourTextfield.inputView = deliveryDatePicker*/
         
-        pickupPicker = UIPickerView()
+        /*pickupPicker = UIPickerView()
         pickupPicker.delegate = self
         pickupPicker.dataSource = self
         pickupPicker.tag = PickerViewType.pickupPicker.rawValue
@@ -102,7 +123,7 @@ class RequestServiceViewController: UIViewController {
         deliveryPicker.delegate = self
         deliveryPicker.tag = PickerViewType.deliveryPicker.rawValue
         deliveryPicker.dataSource = self
-        deliveryDayHourTextfield.inputView = deliveryPicker
+        deliveryDayHourTextfield.inputView = deliveryPicker*/
         
         valorAseguradoPicker = UIPickerView()
         valorAseguradoPicker.delegate = self
@@ -115,12 +136,16 @@ class RequestServiceViewController: UIViewController {
         let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "dismissPickers")
         toolBar.setItems([doneButton], animated: false)
         
-        dayHourTextfield.inputAccessoryView = toolBar
-        deliveryDayHourTextfield.inputAccessoryView = toolBar
-        shipmentValueTextfield.inputAccessoryView = toolBar
+        //dayHourTextfield.inputAccessoryView = toolBar
+        //deliveryDayHourTextfield.inputAccessoryView = toolBar
+        //shipmentValueTextfield.inputAccessoryView = toolBar
         
         if !asegurarSwitch.on {
             valorAseguradoTextField.enabled = false
+        }
+        
+        if let locationsToDraw = locationsToDraw {
+            drawRandomLocationsUsingArray(locationsToDraw)
         }
     }
     
@@ -166,19 +191,19 @@ class RequestServiceViewController: UIViewController {
         }
     }
     
-    func dateChanged(datePicker: UIDatePicker) {
+    /*func dateChanged(datePicker: UIDatePicker) {
         dayHourTextfield.text = dateFormatter.stringFromDate(datePicker.date)
         print(datePicker.date)
     }
     
     func deliveryDateChanged(datePicker: UIDatePicker) {
         deliveryDayHourTextfield.text = dateFormatter.stringFromDate(datePicker.date)
-    }
+    }*/
     
     func dismissPickers() {
-        dayHourTextfield.resignFirstResponder()
-        deliveryDayHourTextfield.resignFirstResponder()
-        shipmentValueTextfield.resignFirstResponder()
+        //dayHourTextfield.resignFirstResponder()
+        //deliveryDayHourTextfield.resignFirstResponder()
+        //shipmentValueTextfield.resignFirstResponder()
     }
     
     //MARK: Server Stuff
@@ -241,7 +266,7 @@ class RequestServiceViewController: UIViewController {
             insuranceValueString = selectedInsurance.serverString
         }
         
-        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "declared_value" : shipmentValueTextfield.text!, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValueString, "send_signature" : signatureSwitch.on]
+        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValueString, "send_signature" : signatureSwitch.on, "pickup_details": pickupDetailsTextField.text!, "delivery_details": deliveryDetailsTextField.text!]
         
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.requestMensajeroServiceURL, methodType: "POST", theParameters: urlParameters)
         
@@ -284,9 +309,9 @@ class RequestServiceViewController: UIViewController {
         var serviceNameIsCorrect = false
         var pickupAddressIsCorrect = false
         var finalAddressIsCorrect = false
-        var dayAndHourIsCorrect = false
+        //var dayAndHourIsCorrect = false
         var instructionsAreCorrect = false
-        var deliveryDayHourIsCorrect = false
+        //var deliveryDayHourIsCorrect = false
         
         if serviceNameTextfield.text!.characters.count > 0 {
             serviceNameIsCorrect = true
@@ -312,7 +337,7 @@ class RequestServiceViewController: UIViewController {
             finalAddressTextfield.layer.borderWidth = 1.0
         }
         
-        if dayHourTextfield.text!.characters.count > 0 {
+        /*if dayHourTextfield.text!.characters.count > 0 {
             dayAndHourIsCorrect = true
             dayHourTextfield.layer.borderWidth = 0.0
         } else {
@@ -326,7 +351,7 @@ class RequestServiceViewController: UIViewController {
         } else {
             deliveryDayHourTextfield.layer.borderWidth = 1.0
             deliveryDayHourTextfield.layer.borderColor = UIColor.redColor().CGColor
-        }
+        }*/
         
         if instructionsTextView.text.characters.count > 0 {
             instructionsAreCorrect = true
@@ -335,12 +360,12 @@ class RequestServiceViewController: UIViewController {
             instructionsTextView.layer.borderColor = UIColor.redColor().CGColor
         }
         
-        let shipmentVal = Int(shipmentValueTextfield.text!) ?? 0
+        /*let shipmentVal = Int(shipmentValueTextfield.text!) ?? 0
         if shipmentVal < 2000 || shipmentVal > 2_000_000 {
             return false
-        }
+        }*/
         
-        return serviceNameIsCorrect && pickupAddressIsCorrect && finalAddressIsCorrect && dayAndHourIsCorrect && instructionsAreCorrect && deliveryDayHourIsCorrect ? true : false
+        return serviceNameIsCorrect && pickupAddressIsCorrect && finalAddressIsCorrect && instructionsAreCorrect ? true : false
     }
     
     //MARK: Navigation
@@ -382,15 +407,31 @@ class RequestServiceViewController: UIViewController {
     
     //MARK: Custom Stuff
     
+    func drawRandomLocationsUsingArray(locationsArray: [[String : Double]]) {
+        for i in 0..<locationsArray.count {
+            guard let latitude = locationsArray[i]["lat"], let longitude = locationsArray[i]["lon"] else {
+                print("Error en los valores de latitud y longitud")
+                return
+            }
+            
+            let randomLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            print("Random location: \(randomLocation)")
+            
+            let marker = GMSMarker(position: randomLocation)
+            marker.icon = UIImage(named: "MotorcycleMarker")
+            marker.map = mapView
+        }
+    }
+    
     func cleanUIFields() {
+        deliveryDetailsTextField.text = ""
+        pickupDetailsTextField.text = ""
         servicePriceLabel.text = "COP $0"
         serviceNameTextfield.text = nil
-        deliveryDayHourTextfield.text = ""
         pickupAddressTextfield.text = ""
         finalAddressTextfield.text = ""
         idaYVueltaSwitch.on = false
-        dayHourTextfield.text = ""
-        shipmentValueTextfield.text = ""
+        //shipmentValueTextfield.text = ""
         instructionsTextView.text = ""
         destinationLocationDic = [:]
         pickupLocationDic = [:]
@@ -469,12 +510,28 @@ class RequestServiceViewController: UIViewController {
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    //MARK: Notification Handlers 
+    
+    func addressSelectedNotificationReceived(notification: NSNotification) {
+        let notificationDic = notification.userInfo!
+        let forPickupLocation = notificationDic["pickupLocation"] as! Bool
+        let addressDic = notificationDic["addressDic"] as! [String: AnyObject]
+        if forPickupLocation {
+            pickupLocationDic = addressDic
+            pickupAddressTextfield.text = pickupLocationDic["address"] as? String
+        } else {
+            destinationLocationDic = addressDic
+            finalAddressTextfield.text = destinationLocationDic["address"] as? String
+        }
+        getServicePrice()
+    }
+    
+    /*override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "AddressHistorySegue" {
             let addressHistoryVC = segue.destinationViewController as! AddressHistoryViewController
             addressHistoryVC.delegate = self
         }
-    }
+    }*/
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -517,10 +574,10 @@ extension RequestServiceViewController: UIPickerViewDelegate {
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView.tag {
         case PickerViewType.pickupPicker.rawValue:
-            dayHourTextfield.text = pickupAndDeliveryCases[row].displayString
+            //dayHourTextfield.text = pickupAndDeliveryCases[row].displayString
             selectedPickupCase = pickupAndDeliveryCases[row]
         case PickerViewType.deliveryPicker.rawValue:
-            deliveryDayHourTextfield.text = pickupAndDeliveryCases[row].displayString
+            //deliveryDayHourTextfield.text = pickupAndDeliveryCases[row].displayString
             selectedDeliveryCase = pickupAndDeliveryCases[row]
         case PickerViewType.valorAseguradoPicker.rawValue:
             valorAseguradoTextField.text = valorAseguradoCases[row].displayString
@@ -557,12 +614,12 @@ extension RequestServiceViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(textField: UITextField) {
         if textField.tag == TextfieldName.dayHourTextfield.rawValue && !firstTimePickupTextFieldAppears {
-            dayHourTextfield.text = pickupAndDeliveryCases[0].displayString
+            //dayHourTextfield.text = pickupAndDeliveryCases[0].displayString
             selectedPickupCase = pickupAndDeliveryCases[0]
             firstTimePickupTextFieldAppears = true
         
         } else if textField.tag == TextfieldName.deliveryTextField.rawValue && !firstTimeDeliveryTextFieldAppears {
-            deliveryDayHourTextfield.text = pickupAndDeliveryCases[0].displayString
+            //deliveryDayHourTextfield.text = pickupAndDeliveryCases[0].displayString
             selectedDeliveryCase = pickupAndDeliveryCases[0]
             firstTimeDeliveryTextFieldAppears = true
         
@@ -589,7 +646,7 @@ extension RequestServiceViewController: UITextViewDelegate {
 
 //MARK: AddressHistoryDelegate
 
-extension RequestServiceViewController: AddressHistoryDelegate {
+/*extension RequestServiceViewController: AddressHistoryDelegate {
     func addressSelected(adressDic: [String : AnyObject], forPickupLocation: Bool) {
         if forPickupLocation {
             pickupLocationDic = adressDic
@@ -600,6 +657,31 @@ extension RequestServiceViewController: AddressHistoryDelegate {
         }
         getServicePrice()
     }
+}*/
+
+//MARK: CLLocationManagerDelegate
+
+extension RequestServiceViewController: CLLocationManagerDelegate {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == CLAuthorizationStatus.AuthorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+            mapView.myLocationEnabled = true
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first  {
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 14, bearing: 0, viewingAngle: 0)
+        }
+        locationManager.stopUpdatingLocation()
+    }
 }
 
+//MARK: GMSMapViewDelegate
+
+extension RequestServiceViewController: GMSMapViewDelegate {
+    func mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!) {
+        print("position: \(position.target.latitude, position.target.longitude)")
+    }
+}
 

@@ -56,6 +56,12 @@ class MapViewController: UIViewController {
     
     //MARK: Actions 
     
+    @IBAction func recentLocationsButtonPressed() {
+        let addressHistoryVC = storyboard!.instantiateViewControllerWithIdentifier("AddressHistory") as! AddressHistoryViewController
+        addressHistoryVC.delegate = self
+        navigationController!.pushViewController(addressHistoryVC, animated: true)
+    }
+    
     @IBAction func locationChoosed(sender: AnyObject) {
         sendAddressToPreviousVC(addressTextfield.text!, location: currentLocationCoordinate, selectingPickupLocation: wasSelectingPickupLocation)
         navigationController?.popViewControllerAnimated(true)
@@ -115,6 +121,21 @@ extension MapViewController: CLLocationManagerDelegate {
             }
             locationManager.stopUpdatingLocation()
         }
+    }
+}
+
+//MARK: AddressHistoryViewControllerDelegate
+
+extension MapViewController: AddressHistoryDelegate {
+    func addressSelected(adressDic: [String : AnyObject], forPickupLocation: Bool) {
+        /*if forPickupLocation {
+            pickupLocationDic = adressDic
+            pickupAddressTextfield.text = pickupLocationDic["address"] as? String
+        } else {
+            destinationLocationDic = adressDic
+            finalAddressTextfield.text = destinationLocationDic["address"] as? String
+        }
+        getServicePrice()*/
     }
 }
 

@@ -10,18 +10,23 @@ import UIKit
 
 class InitialMapViewController: UIViewController {
 
+    //Enums 
+    enum PickupMoment: Int {
+        case Now
+        case Later
+    }
+    
     //Outlets
+    @IBOutlet weak var deliveryMomentSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var pickupMomentSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var requestServiceButton: ShadowedButton!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var revealButtonItem: UIBarButtonItem!
-    @IBOutlet weak var optionsScrollView: UIScrollView!
-    @IBOutlet var optionsContainerView: UIView!
-    
-    @IBOutlet weak var serviceNameLabel: JVFloatLabeledTextField!
-    
     
     //Variables
     let locationManager = CLLocationManager()
     var updateLocationsForTheFirstTime = false
+    var locationsArray: [[String: Double]]?
     
     //////////////////////////////////////////////////////////
     //MARK: View lifecycle
@@ -42,20 +47,11 @@ class InitialMapViewController: UIViewController {
             revealButtonItem.action = "revealToggle:"
         }
         
-        //SetupUI
-        setupUI()
+        requestServiceButton.layer.cornerRadius = 15.0
+        requestServiceButton.layer.borderWidth = 2.0
+        requestServiceButton.layer.borderColor = UIColor.blackColor().CGColor
     }
-    
-    func setupUI() {
-        optionsContainerView.frame = CGRect(x: 0.0, y: 0.0, width: view.bounds.size.width * 3.0, height: optionsScrollView.bounds.size.height)
-        optionsScrollView.addSubview(optionsContainerView)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        optionsScrollView.contentSize = optionsContainerView.bounds.size
-    }
-    
+ 
     //MARK: Server Stuff
     
     func getRandomLocationsFromServerBasedOnLocation(location: CLLocation) {
@@ -68,6 +64,7 @@ class InitialMapViewController: UIViewController {
                 if jsonResponse["status"].boolValue {
                     if let locationsArray = jsonResponse["response"]["locations"].object as? [[String : Double]] {
                         self.drawRandomLocationsUsingArray(locationsArray)
+                        self.locationsArray = locationsArray
                     }
                 }
                 
@@ -109,6 +106,33 @@ class InitialMapViewController: UIViewController {
             marker.map = mapView
         }
     }*/
+    
+    //MARK: Navigation
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ToRequestService" {
+            let requestServiceVC = segue.destinationViewController as! RequestServiceViewController
+            switch pickupMomentSegmentedControl.selectedSegmentIndex {
+            case PickupMoment.Now.rawValue:
+                requestServiceVC.selectedPickupCase = ("now", "Inmediato")
+            case PickupMoment.Later.rawValue:
+                requestServiceVC.selectedPickupCase = ("later", "Durante el Día")
+            default:
+                requestServiceVC.selectedPickupCase = ("now", "Inmediato")
+            }
+            
+            switch deliveryMomentSegmentedControl.selectedSegmentIndex {
+            case PickupMoment.Now.rawValue:
+                requestServiceVC.selectedDeliveryCase = ("now", "Inmediato")
+            case PickupMoment.Later.rawValue:
+                requestServiceVC.selectedDeliveryCase = ("later", "Durante el Día")
+            default:
+                requestServiceVC.selectedDeliveryCase = ("now", "Inmediato")
+            }
+            
+            requestServiceVC.locationsToDraw = locationsArray
+        }
+    }
 }
 
 //MARK: CLLocationManagerDelegate
@@ -127,7 +151,7 @@ extension InitialMapViewController: CLLocationManagerDelegate {
                 //generateRandomLocationsBasedOnCurrentLocation(location)
                 getRandomLocationsFromServerBasedOnLocation(location)
             }
-            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 12, bearing: 0, viewingAngle: 0)
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 14, bearing: 0, viewingAngle: 0)
             updateLocationsForTheFirstTime = true
         }
         locationManager.stopUpdatingLocation()
