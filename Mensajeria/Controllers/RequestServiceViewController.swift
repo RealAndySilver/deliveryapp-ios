@@ -20,12 +20,18 @@ class RequestServiceViewController: UIViewController {
         case pickupTextfield = 1, finalTextfield, dayHourTextfield, deliveryTextField, valorDeclaradoTextfield, valorAseguradoTextField
     }
     
+    enum PaymentType: String {
+        case CreditCard = "credit"
+        case Cash = "cash"
+    }
+    
     enum PickerViewType: Int {
         case pickupPicker = 1
         case deliveryPicker = 2
         case valorAseguradoPicker = 3
     }
     
+    var paymentType = PaymentType.CreditCard
     var firstTimePickupTextFieldAppears = false
     var firstTimeDeliveryTextFieldAppears = false
     var firstTimeValorAseguradoTextFieldAppears = false
@@ -151,11 +157,26 @@ class RequestServiceViewController: UIViewController {
     
     //MARK: Actions
     
+    
+    @IBAction func segmentedControlChanged(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            paymentType = .CreditCard
+        case 1:
+            paymentType = .Cash
+        default:
+            paymentType = .CreditCard
+        }
+    }
+    
     @IBAction func asegurarSwitchPressed(sender: UISwitch) {
         if sender.on {
             valorAseguradoTextField.enabled = true
         } else {
             valorAseguradoTextField.enabled = false
+            valorAseguradoTextField.text = nil
+            firstTimeValorAseguradoTextFieldAppears = false
+            valorAseguradoPicker.selectRow(0, inComponent: 0, animated: false)
         }
     }
     
@@ -266,7 +287,7 @@ class RequestServiceViewController: UIViewController {
             insuranceValueString = selectedInsurance.serverString
         }
         
-        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValueString, "send_signature" : signatureSwitch.on, "pickup_details": pickupDetailsTextField.text!, "delivery_details": deliveryDetailsTextField.text!]
+        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValueString, "send_signature" : signatureSwitch.on, "pickup_details": pickupDetailsTextField.text!, "delivery_details": deliveryDetailsTextField.text!, "payment_method": paymentType.rawValue]
         
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.requestMensajeroServiceURL, methodType: "POST", theParameters: urlParameters)
         
