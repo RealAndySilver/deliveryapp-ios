@@ -48,7 +48,7 @@ class FinishedServicesViewController: UIViewController {
     func getFinishedServices() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
         
-        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.finishedItemsServiceURL)/\(User.sharedInstance.identifier)", methodType: "GET")
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.finishedItemsServiceURL)/\(User.sharedInstance.identifier)/{\"name\":\"-date_created\"}", methodType: "GET")
         if request == nil { return }
         
         Alamofire.manager.request(request!).responseJSON { (response) -> Void in
@@ -62,7 +62,7 @@ class FinishedServicesViewController: UIViewController {
                 //Successfull response
                 let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    print("Respuesta true del get finished items: \(jsonResponse)")
+                    //print("Respuesta true del get finished items: \(jsonResponse)")
                     let deliveryItems = jsonResponse["response"]
                     var tempArray = [DeliveryItem]()
                     for i in 0..<deliveryItems.count {

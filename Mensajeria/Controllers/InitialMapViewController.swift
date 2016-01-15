@@ -45,11 +45,10 @@ class InitialMapViewController: UIViewController {
         if revealViewController() != nil {
             revealButtonItem.target = revealViewController()
             revealButtonItem.action = "revealToggle:"
+            view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         }
         
         requestServiceButton.layer.cornerRadius = 15.0
-        requestServiceButton.layer.borderWidth = 2.0
-        requestServiceButton.layer.borderColor = UIColor.blackColor().CGColor
     }
  
     //MARK: Server Stuff

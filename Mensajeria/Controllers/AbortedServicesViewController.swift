@@ -90,14 +90,13 @@ class AbortedServicesViewController: UIViewController {
                     UIAlertView(title: "Oops!", message: "El pedido no pudo ser eliminado", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
-            
         }
     }
     
     func getAbortedServices() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         
-        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.abortedItemsServiceURL)/\(User.sharedInstance.identifier)", methodType: "GET")
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.abortedItemsServiceURL)/\(User.sharedInstance.identifier)/{\"name\":\"-date_created\"}", methodType: "GET")
         if request == nil { return }
         
         Alamofire.manager.request(request!).responseJSON { (response) -> Void in
@@ -112,7 +111,7 @@ class AbortedServicesViewController: UIViewController {
                 //Success
                 let jsonResponse = JSON(response.result.value!)
                 if jsonResponse["status"].boolValue {
-                    print("Resputa true del aborted: \(jsonResponse)")
+                    //print("Resputa true del aborted: \(jsonResponse)")
                     let tempDeliveryItems = jsonResponse["response"]
                     var tempAbortedService = [DeliveryItem]()
                     for i in 0..<tempDeliveryItems.count {

@@ -23,21 +23,33 @@ class WrapperAlamofire {
     
     static let sharedManager = WrapperAlamofire()
     
-    func request(httpMethod: WrapperAlamofireHTTPMethod, url: URLStringConvertible, parameterEncoding: WrapperAlamofireParameterEncoding, parameters: [String : AnyObject]? = .None, completionHandler: (resultObject: AnyObject?, error: NSError?) -> Void) {
+    private init() {}
+    
+    func request(httpMethod: WrapperAlamofireHTTPMethod, url: URLStringConvertible, parameterEncoding: WrapperAlamofireParameterEncoding, parameters: [String : AnyObject]? = nil, completionHandler: (resultObject: Result<AnyObject, NSError>) -> Void) {
         
-        var encoding = ParameterEncoding.JSON
-        if parameterEncoding == WrapperAlamofireParameterEncoding.URL { encoding = ParameterEncoding.URL }
+        //var encoding = ParameterEncoding.JSON
+        //if parameterEncoding == WrapperAlamofireParameterEncoding.URL { encoding = ParameterEncoding.URL }
+        
+        let encoding: ParameterEncoding
+        switch parameterEncoding {
+        case .URL:
+            encoding = .URL
+        case .JSON:
+            encoding = .JSON
+        }
         
         let method = Method(rawValue: httpMethod.rawValue)!
-        Alamofire.manager.request(method, url, parameters: parameters, encoding: encoding, headers: nil).responseJSON { (response) -> Void in
+        Alamofire.manager.request(method, url, parameters: parameters, encoding: encoding).responseJSON { (response) -> Void in
             
-            switch response.result {
+            completionHandler(resultObject: response.result)
+    
+            /*switch response.result {
             case .Failure(let error):
                 completionHandler(resultObject: .None, error: error)
                 
             case .Success(let value):
                 completionHandler(resultObject: value, error: .None)
-            }
+            }*/
         }
     }
 }

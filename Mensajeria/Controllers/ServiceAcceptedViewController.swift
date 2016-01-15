@@ -32,8 +32,6 @@ class ServiceAcceptedViewController: UIViewController {
     private let kServicePhotosContractedeHeight: CGFloat = 145.0
     
     var noDriverLabel: UILabel!
-    @IBOutlet weak var signatureSwitch: UISwitch!
-    @IBOutlet weak var idaYVueltaSwitch: UISwitch!
     @IBOutlet weak var signatureLabel: UILabel!
     @IBOutlet weak var servicePhotosHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var signatureImageView: UIImageView!
@@ -47,9 +45,7 @@ class ServiceAcceptedViewController: UIViewController {
     @IBOutlet var buttonsCollection: [UIButton]!
     @IBOutlet weak var backToHomeButton: UIButton!
     @IBOutlet weak var cellphoneButton: UIButton!
-    @IBOutlet weak var sendImageSwitch: UISwitch!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var costLabel: UILabel!
     @IBOutlet weak var shipmentDayLabel: UILabel!
     @IBOutlet weak var deliveryLabel: UILabel!
     @IBOutlet weak var pickupLabel: UILabel!
@@ -58,6 +54,15 @@ class ServiceAcceptedViewController: UIViewController {
     @IBOutlet weak var etaLabel: UILabel!
     @IBOutlet weak var platesLabel: UILabel!
     @IBOutlet weak var codeLabel: UILabel!
+    @IBOutlet weak var totalServiceCostLabel: UILabel!
+    @IBOutlet weak var paymentMethodLabel: UILabel!
+    @IBOutlet weak var fotoObligatoriaLabel: UILabel!
+    @IBOutlet weak var idaYVueltaLabel: UILabel!
+    @IBOutlet weak var firmaObligatoriaLabel: UILabel!
+    @IBOutlet weak var serviceInfoTopContainerView: UIView!
+    var fotoObligatoriaCheckbox: M13Checkbox!
+    var firmaObligatoriaCheckbox: M13Checkbox!
+    var idaYVueltaCheckbox: M13Checkbox!
     
     //MARK: View Life cycle
     
@@ -120,6 +125,15 @@ class ServiceAcceptedViewController: UIViewController {
         }*/
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        fotoObligatoriaCheckbox.center = CGPointApplyAffineTransform(fotoObligatoriaLabel.center, CGAffineTransformMakeTranslation(fotoObligatoriaLabel.frame.width/2.0, 0.0))
+        
+        firmaObligatoriaCheckbox.center = CGPointApplyAffineTransform(firmaObligatoriaLabel.center, CGAffineTransformMakeTranslation(firmaObligatoriaLabel.frame.width/2.0, 0.0))
+        
+        idaYVueltaCheckbox.center = CGPointApplyAffineTransform(idaYVueltaLabel.center, CGAffineTransformMakeTranslation(idaYVueltaLabel.frame.width/2.0, 0.0))
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -137,10 +151,7 @@ class ServiceAcceptedViewController: UIViewController {
     func fillUIWithDeliveryItemInfo() {
         ////////////////////////////////////////////////////////////////////////
         //Set service info in the UI
-        
-        idaYVueltaSwitch.on = deliveryItem.roundtrip
-        signatureSwitch.on = deliveryItem.sendSignature ?? false
-        
+     
         //Check if there's a signature
         if let signatureEncodedString = deliveryItem.signatureEncodedString {
             dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), { () -> Void in
@@ -170,7 +181,6 @@ class ServiceAcceptedViewController: UIViewController {
             insuranceValueLabel.text = "No Asegurado"
         }
         
-        sendImageSwitch.on = deliveryItem.sendImage ?? false
         serviceNameLabel.text = deliveryItem.name
         pickupLabel.text = deliveryItem.pickupObject.address
         deliveryLabel.text = deliveryItem.deliveryObject.address
@@ -179,7 +189,6 @@ class ServiceAcceptedViewController: UIViewController {
         } else {
             shipmentDayLabel.text = "Durante el día"
         }
-        costLabel.text = "$\(deliveryItem.declaredValue)"
         if let theMessengerInfo = deliveryItem.messengerInfo {
             nameLabel.text = "\(theMessengerInfo.name) \(theMessengerInfo.lastName)"
             photoImageView.sd_setImageWithURL(NSURL(string: theMessengerInfo.profilePicString), placeholderImage: UIImage(named: "ProfilePlaceholder"))
@@ -250,12 +259,6 @@ class ServiceAcceptedViewController: UIViewController {
             button.layer.rasterizationScale = UIScreen.mainScreen().scale
         }
         
-        //////////////////////////////////////////////////////////////////////
-        //Create RatingView
-        /*let ratingView = RatingView(frame: CGRect(x: photoImageView.frame.origin.x + photoImageView.frame.size.width + 10.0, y: photoImageView.frame.origin.y + photoImageView.frame.size.height - 20.0, width: photoImageView.frame.size.width, height: 20.0), selectedImageName: "blueStar.png", unSelectedImage: "grayStar.png", minValue: 0, maxValue: 5, intervalValue: 0.5, stepByStep: false)
-        ratingView.userInteractionEnabled = false
-        driverContainerView.addSubview(ratingView)*/
-        
         /////////////////////////////////////////////////////////////////////
         //Create "No hay mensajero asignado aún" label
         noDriverLabel = UILabel(frame: CGRect(x: 35.0, y: 0.0, width: view.bounds.size.width - 100.0, height: driverInfoTopContainer.frame.size.height - 40.0))
@@ -266,6 +269,46 @@ class ServiceAcceptedViewController: UIViewController {
         noDriverLabel.textColor = UIColor.lightGrayColor()
         driverInfoTopContainer.addSubview(noDriverLabel)
         
+        totalServiceCostLabel.text = "$\(deliveryItem.priceToPay)"
+        switch deliveryItem.paymentType {
+        case .Cash:
+            paymentMethodLabel.text = "Efectivo"
+        case .CreditCard:
+            paymentMethodLabel.text = "Tarjeta de Crédito"
+        }
+        
+        //Checkboxes
+        fotoObligatoriaCheckbox = M13Checkbox()
+        fotoObligatoriaCheckbox.strokeColor = UIColor.getSecondaryAppColor()
+        fotoObligatoriaCheckbox.checkColor = UIColor.getSecondaryAppColor()
+        fotoObligatoriaCheckbox.userInteractionEnabled = false
+        if let sendImage = deliveryItem.sendImage where sendImage == true {
+            fotoObligatoriaCheckbox.checkState = .Checked
+        } else {
+            fotoObligatoriaCheckbox.checkState = .Unchecked
+        }
+        
+        firmaObligatoriaCheckbox = M13Checkbox()
+        firmaObligatoriaCheckbox.strokeColor = UIColor.getSecondaryAppColor()
+        firmaObligatoriaCheckbox.checkColor = UIColor.getSecondaryAppColor()
+        firmaObligatoriaCheckbox.userInteractionEnabled = false
+        if let sendSignature = deliveryItem.sendSignature where sendSignature == true {
+            firmaObligatoriaCheckbox.checkState = .Checked
+        } else {
+            firmaObligatoriaCheckbox.checkState = .Unchecked
+        }
+        
+        idaYVueltaCheckbox = M13Checkbox()
+        idaYVueltaCheckbox.strokeColor = UIColor.getSecondaryAppColor()
+        idaYVueltaCheckbox.checkColor = UIColor.getSecondaryAppColor()
+        idaYVueltaCheckbox.userInteractionEnabled = false
+        idaYVueltaCheckbox.checkState = deliveryItem.roundtrip ? .Checked : .Unchecked
+        
+        serviceInfoTopContainerView.addSubview(fotoObligatoriaCheckbox)
+        serviceInfoTopContainerView.addSubview(firmaObligatoriaCheckbox)
+        serviceInfoTopContainerView.addSubview(idaYVueltaCheckbox)
+        
+        /////////////////////////
         //Setup searching indicator view
         loadingView.delegate = self
         driverInfoTopContainer.addSubview(loadingView)

@@ -57,6 +57,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("No existe un rating dic de mensajero")
         }
         
+        /////////////////////////////////////////////////////////////////
+        //Get the list of insurance values 
+        getInsurancesValues()
+        
         return true
     }
 
@@ -168,6 +172,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     //MARK: Server 
+    
+    func getInsurancesValues() {
+        ServerRequests.getInsurancesValues { result in
+            switch result {
+            case .Failure(let error):
+                print("Error in the get insurances values: \(error.localizedDescription)")
+            case .Success(let value):
+                let jsonResponse = JSON(value)
+                print("Success in the get insurances value: \(jsonResponse)")
+                if jsonResponse["status"].boolValue {
+                    if let insurancesValues = jsonResponse["response"].object as? [Int] {
+                        AppInfo.sharedInstance.insurancesValues = insurancesValues
+                    }
+                }
+            }
+        }
+    }
     
     func getDeliveryItemId() {
         

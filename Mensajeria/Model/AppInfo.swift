@@ -8,15 +8,20 @@
 
 import UIKit
 
-class AppInfo: NSObject {
+class AppInfo {
     
     //Singleton
-    class var sharedInstance: AppInfo {
+    /*static var sharedInstance: AppInfo {
         struct Static {
             static let instance: AppInfo = AppInfo()
         }
         return Static.instance
-    }
+    }*/
+    static let sharedInstance = AppInfo()
+    
+    private init() { }
+    
+    var insurancesValues: [Int]?
     
     var deliveryItemStatusList = ["available", "accepted", "in-transit", "returning", "returned", "delivered"]
     lazy var stringToDateFormatter: NSDateFormatter = {
@@ -33,4 +38,6 @@ class AppInfo: NSObject {
         formatter.locale = NSLocale.currentLocale()
         return formatter
     }()
+    
+    
 }

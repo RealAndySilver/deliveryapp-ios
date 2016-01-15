@@ -51,7 +51,7 @@ class ActiveServicesViewController: UIViewController {
     
     func getActiveDeliveryItems() {
         MBProgressHUD.showHUDAddedTo(navigationController?.view, animated: true)
-        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.activeItemsServiceURL)/\(User.sharedInstance.identifier)", methodType: "GET")
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.activeItemsServiceURL)/\(User.sharedInstance.identifier)/{\"name\":\"-date_created\"}", methodType: "GET")
         if request == nil { return }
         
         Alamofire.manager.request(request!).responseJSON { (response) -> Void in

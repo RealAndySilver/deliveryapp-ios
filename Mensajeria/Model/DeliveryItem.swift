@@ -7,8 +7,15 @@
 //
 
 import UIKit
+
+enum PaymentType: String {
+    case CreditCard = "credit"
+    case Cash = "cash"
+}
+
 class DeliveryItem: NSObject {
     
+    var paymentType: PaymentType
     var dateCreatedString: String?
     var signatureEncodedString: String?
     var sendSignature: Bool?
@@ -60,13 +67,14 @@ class DeliveryItem: NSObject {
     }
     
     init(deliveryItemJSON: JSON) {
-        //pickupStringTest = deliveryItemJSON["pickup_time"].stringValue
         
         let unparsedDateCreatedString = deliveryItemJSON["date_created"].stringValue
         if let dateCreated = Formatters.sharedInstance.stringToDateFormatter.dateFromString(unparsedDateCreatedString) {
             dateCreatedString = Formatters.sharedInstance.dateToStringFormatter.stringFromDate(dateCreated)
         }
         
+        let paymentTypeString = deliveryItemJSON["payment_method"].stringValue
+        paymentType = PaymentType(rawValue: paymentTypeString)!
         timeToPick = deliveryItemJSON["time_to_pick"].stringValue
         timeToDeliver = deliveryItemJSON["time_to_deliver"].stringValue
         sendImage = deliveryItemJSON["send_image"].bool
@@ -81,20 +89,6 @@ class DeliveryItem: NSObject {
             }
         }
     
-        
-        /*let deliveryItemPickup = deliveryItemJSON["pickup_time"].stringValue
-        if let pickupDate = AppInfo.sharedInstance.stringToDateFormatter.dateFromString(deliveryItemJSON["pickup_time"].stringValue) {
-            pickupTimeString = AppInfo.sharedInstance.dateToStringFormatter.stringFromDate(pickupDate)
-        } else {
-            pickupTimeString = ""
-        }
-        
-        if let deliveryDate = AppInfo.sharedInstance.stringToDateFormatter.dateFromString(deliveryItemJSON["deadline"].stringValue) {
-            deadline = AppInfo.sharedInstance.dateToStringFormatter.stringFromDate(deliveryDate)
-        } else {
-            deadline = ""
-        }*/
-        
         signatureEncodedString = deliveryItemJSON["signature_object"]["signatureB64"].string
         insuranceValue = deliveryItemJSON["insurancevalue"].int
         name = deliveryItemJSON["item_name"].stringValue
