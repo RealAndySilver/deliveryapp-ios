@@ -1717,6 +1717,7 @@
                         <outlet property="mapView" destination="zNf-1g-KyJ" id="GCS-cU-Hzp"/>
                         <outlet property="pickupAddressTextfield" destination="zAW-qK-IJt" id="f0L-qX-d1d"/>
                         <outlet property="pickupDetailsTextField" destination="hZt-5n-tCs" id="rZh-9e-dgZ"/>
+                        <outlet property="scrollView" destination="CqA-5H-IWA" id="Tq7-xd-4op"/>
                         <outlet property="sendImageSwitch" destination="QEA-S4-IGj" id="2Qw-MR-hoX"/>
                         <outlet property="serviceNameTextfield" destination="YHf-10-jTC" id="bzs-Op-ZKh"/>
                         <outlet property="servicePriceLabel" destination="TgB-BI-dBk" id="FA4-bG-bzK"/>

@@ -40,6 +40,8 @@ class RequestServiceViewController: UIViewController {
     var pickupPicker: UIPickerView!
     var deliveryPicker: UIPickerView!
     var valorAseguradoPicker: UIPickerView!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pickupDetailsTextField: UITextField!
     @IBOutlet weak var deliveryDetailsTextField: UITextField!
     @IBOutlet weak var signatureSwitch: UISwitch!
@@ -84,7 +86,6 @@ class RequestServiceViewController: UIViewController {
         super.viewDidLoad()
         print("entre acaaaa")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addressSelectedNotificationReceived:", name: "addressSelectedNotification", object: nil)
-                
         mapView.delegate = self
         mapView.userInteractionEnabled = false
         locationManager.delegate = self
@@ -107,7 +108,15 @@ class RequestServiceViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         print("aparecereeee")
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
     }
     
     deinit {
@@ -561,6 +570,21 @@ class RequestServiceViewController: UIViewController {
     }
     
     //MARK: Notification Handlers 
+    
+    func keyboardWillShow(notification: NSNotification) {
+        adjustInsetsForKeyboardSHow(true, notification: notification)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        adjustInsetsForKeyboardSHow(false, notification: notification)
+    }
+    
+    func adjustInsetsForKeyboardSHow(show: Bool, notification: NSNotification) {
+        let userInfo = notification.userInfo ?? [:]
+        let keyboardFrame = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        let adjustmentHeight = (CGRectGetHeight(keyboardFrame) + 20.0) * (show ? 1 : -1)
+        scrollView.contentInset.bottom += adjustmentHeight
+    }
     
     func addressSelectedNotificationReceived(notification: NSNotification) {
         let notificationDic = notification.userInfo!
