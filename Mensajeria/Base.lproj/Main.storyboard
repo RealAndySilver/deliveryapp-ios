@@ -778,7 +778,7 @@
             </objects>
             <point key="canvasLocation" x="833" y="-322"/>
         </scene>
-        <!--Solicitar Servicio-->
+        <!--Request Service View Controller-->
         <scene sceneID="CZS-Rv-Im4">
             <objects>
                 <viewController storyboardIdentifier="RequestService" automaticallyAdjustsScrollViewInsets="NO" id="kXa-HQ-oMs" customClass="RequestServiceViewController" customModule="Mensajeria" customModuleProvider="target" sceneMemberID="viewController">
@@ -1703,7 +1703,7 @@
                             <constraint firstItem="4MV-sl-pUZ" firstAttribute="top" secondItem="CqA-5H-IWA" secondAttribute="bottom" id="tfU-4O-NQ5"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Solicitar Servicio" id="iOu-T5-t9F"/>
+                    <navigationItem key="navigationItem" id="iOu-T5-t9F"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="1700"/>
                     <connections>
@@ -5190,7 +5190,7 @@
             </objects>
             <point key="canvasLocation" x="-748" y="3440"/>
         </scene>
-        <!--Principal-->
+        <!--Solicitar Servicio-->
         <scene sceneID="vq5-dF-yqJ">
             <objects>
                 <viewController storyboardIdentifier="InitialMap" id="LgX-yP-iXK" customClass="InitialMapViewController" customModule="Mensajeria" customModuleProvider="target" sceneMemberID="viewController">
@@ -5307,7 +5307,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Principal" id="l8V-ax-8RG">
+                    <navigationItem key="navigationItem" title="Solicitar Servicio" id="l8V-ax-8RG">
                         <barButtonItem key="leftBarButtonItem" image="SideIcon" id="pMZ-YW-sQr"/>
                     </navigationItem>
                     <connections>

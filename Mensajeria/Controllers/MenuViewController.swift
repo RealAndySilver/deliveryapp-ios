@@ -25,7 +25,7 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var selectedMenu = 0
     let menuImagesNamesArray = ["ActiveServiceIcon", "RequestServiceIcon", "UserIcon", "FinishedServiceIcon", "AbortedServicesIcon", "TermsConditionsIcon", "CloseSessionIcon"]
-    let menuArray = ["Principal", "Mis Servicios Activos", "Mi Perfil", "Servicios Terminados", "Abortados por mensajero", "Términos y Condiciones", "Cerrar Sesión"]
+    let menuArray = ["Solicitar Servicio", "Mis Servicios Activos", "Mi Perfil", "Servicios Terminados", "Abortados por mensajero", "Términos y Condiciones", "Cerrar Sesión"]
     
     //MARK: View life cycle
     
