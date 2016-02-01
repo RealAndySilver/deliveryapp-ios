@@ -71,7 +71,12 @@ class ServiceAcceptedViewController: UIViewController {
         
         if presentedFromFindingServiceVC == true {
             navigationItem.hidesBackButton = true
-            backToHomeButton.hidden = false
+            backToHomeButton.hidden = true
+            
+            //Create a uibarbutton to dismiss the screen 
+            let dismissBarButtonItem = UIBarButtonItem(title: "Cerrar", style: .Plain, target: self, action: "backToHomePressed")
+            navigationItem.leftBarButtonItem = dismissBarButtonItem
+            
         } else if presentedFromFinishedServicesVC == true {
             backToHomeButton.hidden = true
             navigationItem.hidesBackButton = false

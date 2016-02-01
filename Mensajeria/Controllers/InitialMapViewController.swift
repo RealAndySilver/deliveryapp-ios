@@ -50,6 +50,12 @@ class InitialMapViewController: UIViewController {
         
         requestServiceButton.layer.cornerRadius = 15.0
     }
+    
+    //MARK: Actions 
+    
+    @IBAction func tapGestureDetected(sender: AnyObject) {
+        performSegueWithIdentifier("ToRequestService", sender: nil)
+    }
  
     //MARK: Server Stuff
     
@@ -150,7 +156,7 @@ extension InitialMapViewController: CLLocationManagerDelegate {
                 //generateRandomLocationsBasedOnCurrentLocation(location)
                 getRandomLocationsFromServerBasedOnLocation(location)
             }
-            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 14, bearing: 0, viewingAngle: 0)
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
             updateLocationsForTheFirstTime = true
         }
         locationManager.stopUpdatingLocation()

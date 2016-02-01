@@ -27,6 +27,7 @@ class RequestServiceViewController: UIViewController {
     }
     
     var paymentType = PaymentType.CreditCard
+    var keyboardIsVisible = false
     var firstTimePickupTextFieldAppears = false
     var firstTimeDeliveryTextFieldAppears = false
     var firstTimeValorAseguradoTextFieldAppears = false
@@ -572,10 +573,14 @@ class RequestServiceViewController: UIViewController {
     //MARK: Notification Handlers 
     
     func keyboardWillShow(notification: NSNotification) {
-        adjustInsetsForKeyboardSHow(true, notification: notification)
+        if !keyboardIsVisible {
+            adjustInsetsForKeyboardSHow(true, notification: notification)
+            keyboardIsVisible = true
+        }
     }
     
     func keyboardWillHide(notification: NSNotification) {
+        keyboardIsVisible = false
         adjustInsetsForKeyboardSHow(false, notification: notification)
     }
     
@@ -750,7 +755,7 @@ extension RequestServiceViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first  {
-            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 14, bearing: 0, viewingAngle: 0)
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
         }
         locationManager.stopUpdatingLocation()
     }
