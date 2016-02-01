@@ -16,25 +16,112 @@ class MapViewController: UIViewController {
     var onAddressAvailable: ((theAddress: String, locationCoordinates: CLLocationCoordinate2D, selectingPickupLocation: Bool) -> ())?
     
     //Private Interface
+    @IBOutlet weak var confirmAddressTextfield: UITextField!
+    @IBOutlet var alertConfirmView: UIView!
+    @IBOutlet weak var addressTextFieldContainer: UIView!
+    @IBOutlet weak var adressTableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addressTextfield: UITextField!
     private let locationManager = CLLocationManager()
+    private var timer: NSTimer!
+    private let kTimerWaitingTime = 3 //Seconds
     private var currentLocationCoordinate: CLLocationCoordinate2D!
-    
+    private let kCellId = "AddressCell"
+    private var addressResults: [[String: AnyObject]] = []
+    private let kNorthEastLatitude = 4.80140167730285
+    private let kNorthEastLongitude = -74.0019284561276
+    private let kSouthWeastLatitude = 4.50541610527197
+    private let kSouthWeastLongitude = -74.206731878221
     //MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Entré al mapaaaaa")
         mapView.delegate = self
+        mapView.userInteractionEnabled = false
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+        
+        adressTableView.hidden = true
+        adressTableView.tableFooterView = UIView(frame: CGRect.zero)
+        view.addSubview(adressTableView)
+        
+        addressTextfield.addTarget(self, action: "addressDidChange:", forControlEvents: UIControlEvents.EditingChanged)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        adressTableView.frame = CGRect(x: 0.0, y: addressTextFieldContainer.frame.origin.y + addressTextFieldContainer.frame.size.height, width: view.bounds.size.width, height: 132.0)
+    }
+    
     //MARK: Map Stuff
+    
+    func searchAddressUsingGeocoding() {
+        Alamofire.manager.request(.GET, "https://maps.googleapis.com/maps/api/geocode/json", parameters: ["address" : addressTextfield.text!, "region" : "co", "bounds" : "\(kSouthWeastLatitude),\(kSouthWeastLongitude)|\(kNorthEastLatitude),\(kNorthEastLongitude)"], encoding: ParameterEncoding.URL).responseJSON { (response) -> Void in
+            
+            self.activityIndicator.stopAnimating()
+            if case .Failure(let error) = response.result {
+                print("Hubo un error obteniendo las direcciones en Google: \(error.localizedDescription)")
+            } else {
+                let jsonResponse = JSON(response.result.value!)
+                print("Respuesta correcta del get address: \(jsonResponse)")
+                
+                let statusString = jsonResponse["status"].stringValue
+                let geocodingStatusCode = GeocodingStatusCode(rawValue: statusString)
+                if let geocodingStatusCode = geocodingStatusCode {
+                    switch geocodingStatusCode {
+                    case .Ok:
+                        print("Everything went ok")
+                        self.addressResults = jsonResponse["results"].object as! [Dictionary<String , AnyObject>]
+                        
+                        /*if !self.addressResults.isEmpty {
+                            //Add a harcoded result in the first position with the exact adress that the user wrote
+                            var firstResultCopy = self.addressResults[0]
+                            firstResultCopy["formatted_address"] = self.addressTextfield.text!
+                            self.addressResults.insert(firstResultCopy, atIndex: 0)
+                        }*/
+                        
+                        //self.adressTableView.hidden = false
+                        self.animateAddressTableView(show: true)
+                        self.adressTableView.reloadData()
+                        
+                    case .ZeroResults:
+                        print("No results")
+                        self.addressResults = []
+                        //self.adressTableView.hidden = true
+                        self.animateAddressTableView(show: false)
+                        self.adressTableView.reloadData()
+                        
+                        let alert = UIAlertController(title: "Oops!", message: "No se encontró ninguna dirección con esa información, por favor intenta con otra dirección", preferredStyle: .Alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                        
+                    default:
+                        print("Hubo un error la petición al Geocoding")
+                    }
+                }
+            }
+        }
+    }
+    
+    func animateAddressTableView(show show: Bool) {
+        if show {
+            UIView.transitionWithView(adressTableView, duration: 0.5, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                self.adressTableView.hidden = false
+                }, completion: nil)
+        
+        } else {
+            UIView.transitionWithView(adressTableView, duration: 0.5, options: UIViewAnimationOptions.TransitionCurlUp, animations: { () -> Void in
+                self.adressTableView.hidden = true
+                }, completion: nil)
+        }
+    }
     
     func reverseGeocodeCoordinate(coordinate: CLLocationCoordinate2D) {
         currentLocationCoordinate = coordinate
@@ -56,6 +143,43 @@ class MapViewController: UIViewController {
     
     //MARK: Actions 
     
+    @IBAction func opacityButtonPressed() {
+        UIView.animateWithDuration(0.5,
+            animations: { () -> Void in
+                self.alertConfirmView.alpha = 0.0
+            }) { succeded -> Void in
+                self.alertConfirmView.removeFromSuperview()
+        }
+    }
+    
+    @IBAction func confirmAddressButtonPressed() {
+        alertConfirmView.endEditing(true)
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.alertConfirmView.alpha = 0.0
+            }) { succeded -> Void in
+                self.alertConfirmView.removeFromSuperview()
+                self.sendAddressToPreviousVC(self.confirmAddressTextfield.text!, location: self.currentLocationCoordinate, selectingPickupLocation: self.wasSelectingPickupLocation)
+                self.navigationController?.popViewControllerAnimated(true)
+        }
+    }
+    
+    func addressDidChange(textField: UITextField) {
+        print("cambie el texto del textfieldddd: \(textField.text!)")
+        
+        if timer != nil {
+            timer.invalidate()
+            timer = nil
+        }
+        
+        if !textField.text!.isEmpty {
+            activityIndicator.startAnimating()
+             timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(kTimerWaitingTime), target: self, selector: "searchAddressUsingGeocoding", userInfo: nil, repeats: false)
+        } else {
+            activityIndicator.stopAnimating()
+        }
+    }
+    
     @IBAction func recentLocationsButtonPressed() {
         let addressHistoryVC = storyboard!.instantiateViewControllerWithIdentifier("AddressHistory") as! AddressHistoryViewController
         addressHistoryVC.delegate = self
@@ -63,10 +187,9 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func locationChoosed(sender: AnyObject) {
-        sendAddressToPreviousVC(addressTextfield.text!, location: currentLocationCoordinate, selectingPickupLocation: wasSelectingPickupLocation)
-        navigationController?.popViewControllerAnimated(true)
+        /*sendAddressToPreviousVC(addressTextfield.text!, location: currentLocationCoordinate, selectingPickupLocation: wasSelectingPickupLocation)
+        navigationController?.popViewControllerAnimated(true)*/
     }
-    
     
     //MARK: Custom Stuff
     
@@ -92,6 +215,52 @@ class MapViewController: UIViewController {
     }
 }
 
+//MARK: UITableViewDataSource
+
+extension MapViewController: UITableViewDataSource {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return addressResults.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(kCellId, forIndexPath: indexPath)
+        cell.textLabel?.text = addressResults[indexPath.row]["formatted_address"] as? String
+        return cell
+    }
+}
+
+//MARK: UITableViewDelegate 
+
+extension MapViewController: UITableViewDelegate {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let latitude = ((addressResults[indexPath.row]["geometry"] as! NSDictionary)["location"] as! NSDictionary)["lat"] as! CLLocationDegrees
+        let longitude = ((addressResults[indexPath.row]["geometry"] as! NSDictionary)["location"] as! NSDictionary)["lng"] as! CLLocationDegrees
+        let locationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let locationName = addressResults[indexPath.row]["formatted_address"] as! String
+        
+        addressTextfield.text = locationName
+        currentLocationCoordinate = locationCoordinate
+        let cameraPosition = GMSCameraPosition(target: currentLocationCoordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+        mapView.camera = cameraPosition
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        animateAddressTableView(show: false)
+        
+        alertConfirmView.alpha = 0.0
+        alertConfirmView.frame = navigationController!.view.bounds
+        confirmAddressTextfield.text = addressTextfield.text
+        navigationController!.view.addSubview(alertConfirmView)
+        
+        delay(1.0) { () -> () in
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.alertConfirmView.alpha = 1.0
+                }, completion: { succeded -> Void in
+                    self.confirmAddressTextfield.becomeFirstResponder()
+            })
+        }
+    }
+}
+
 //MARK: UITextfieldDelegate
 
 extension MapViewController: UITextFieldDelegate {
@@ -99,6 +268,19 @@ extension MapViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
+    /*func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        print("should change with replacement string: \(string)")
+        activityIndicator.startAnimating()
+        
+        if timer != nil {
+            timer.invalidate()
+            timer = nil
+        }
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(kTimerWaitingTime), target: self, selector: "searchAddressUsingGeocoding", userInfo: nil, repeats: false)
+        return true
+    }*/
 }
 
 //MARK: CLLocationManagerDelegate
@@ -143,7 +325,7 @@ extension MapViewController: AddressHistoryDelegate {
 
 extension MapViewController: GMSMapViewDelegate {
     func mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!) {
-        reverseGeocodeCoordinate(position.target)
+        //reverseGeocodeCoordinate(position.target)
     }
 }
 

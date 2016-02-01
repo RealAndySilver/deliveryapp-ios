@@ -8,21 +8,21 @@
 
 import UIKit
 
+//Enums
+enum GeocodingStatusCode: String {
+    case Ok = "OK"
+    case ZeroResults = "ZERO_RESULTS"
+    case OverQueryLimit = "OVER_QUERY_LIMIT"
+    case RequestDenied = "REQUEST_DENIED"
+    case InvalidRequest = "INVALID_REQUEST"
+    case UnknownError = "UNKNOWN_ERROR"
+}
+
 protocol SearchAddressViewControllerDelegate: class {
     func addressSelectedWithName(name: String, coordinates: CLLocationCoordinate2D)
 }
 
 class SearchAddressViewController: UIViewController {
-    
-    //Enums 
-    enum GeocodingStatusCode: String {
-        case Ok = "OK"
-        case ZeroResults = "ZERO_RESULTS"
-        case OverQueryLimit = "OVER_QUERY_LIMIT"
-        case RequestDenied = "REQUEST_DENIED"
-        case InvalidRequest = "INVALID_REQUEST"
-        case UnknownError = "UNKNOWN_ERROR"
-    }
     
     //Outlets
     @IBOutlet weak var searchAddressView: DesignableView!
