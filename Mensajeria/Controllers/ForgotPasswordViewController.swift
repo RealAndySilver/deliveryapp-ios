@@ -35,7 +35,8 @@ class ForgotPasswordViewController: UIViewController {
     
     func sendRecoverPetitionToServer() {
         MBProgressHUD.showHUDAddedTo(view, animated: true)
-        Alamofire.manager.request(.GET, "\(Alamofire.recoverPassServiceURL)/\(emailTextfield.text)").responseJSON { (response) -> Void in
+        print("url de la peticioooonnnnnn: \(Alamofire.recoverPassServiceURL)/\(emailTextfield.text)")
+        Alamofire.manager.request(.GET, "\(Alamofire.recoverPassServiceURL)/\(emailTextfield.text!)").responseJSON { (response) -> Void in
             
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             if case .Failure(let error) = response.result {

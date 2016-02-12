@@ -2267,15 +2267,27 @@
                                     <constraint firstAttribute="centerY" secondItem="smp-B2-aVO" secondAttribute="centerY" constant="20" id="Ji2-kB-dhn"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Mt-xK-d8S">
-                                <rect key="frame" x="0.0" y="104" width="600" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="8Mt-xK-d8S">
+                                <rect key="frame" x="88" y="537" width="424" height="52"/>
                                 <color key="backgroundColor" red="0.90980392694473267" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="52" id="B0u-H3-ymi"/>
                                     <constraint firstAttribute="height" constant="40" id="XqK-9C-7gd"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <state key="normal" title="Direcciones Recientes">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="24"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="XqK-9C-7gd"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <action selector="recentLocationsButtonPressed" destination="caH-bi-NfA" eventType="touchUpInside" id="dhm-wp-moE"/>
                                 </connections>
@@ -2283,21 +2295,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="8Mt-xK-d8S" secondAttribute="trailing" id="4r3-u1-7hR"/>
                             <constraint firstItem="WAB-XI-jG8" firstAttribute="leading" secondItem="Rig-vj-Q2I" secondAttribute="leading" id="7CI-M0-IoB"/>
                             <constraint firstItem="SXx-5G-MwG" firstAttribute="top" secondItem="chZ-gX-buE" secondAttribute="bottom" id="93H-lc-V14"/>
-                            <constraint firstItem="8Mt-xK-d8S" firstAttribute="top" secondItem="chZ-gX-buE" secondAttribute="bottom" id="CT4-Yf-D8y"/>
                             <constraint firstItem="chZ-gX-buE" firstAttribute="leading" secondItem="Rig-vj-Q2I" secondAttribute="leading" id="EoG-Vb-UvE"/>
                             <constraint firstItem="WAB-XI-jG8" firstAttribute="top" secondItem="chZ-gX-buE" secondAttribute="bottom" id="GfF-ea-F0k"/>
+                            <constraint firstItem="8Mt-xK-d8S" firstAttribute="leading" secondItem="Rig-vj-Q2I" secondAttribute="leading" constant="88" id="Kf0-Ea-Hhy"/>
+                            <constraint firstItem="uZP-bf-yuh" firstAttribute="top" secondItem="8Mt-xK-d8S" secondAttribute="bottom" constant="11" id="POn-eT-va0"/>
                             <constraint firstAttribute="trailing" secondItem="WAB-XI-jG8" secondAttribute="trailing" id="Ruz-4e-I4d"/>
                             <constraint firstItem="chZ-gX-buE" firstAttribute="top" secondItem="B6E-l0-7ZM" secondAttribute="bottom" id="cG0-7c-W9f"/>
                             <constraint firstItem="uZP-bf-yuh" firstAttribute="top" secondItem="SXx-5G-MwG" secondAttribute="bottom" id="cJg-ok-ogJ"/>
                             <constraint firstAttribute="trailing" secondItem="chZ-gX-buE" secondAttribute="trailing" id="iNR-PM-QqL"/>
                             <constraint firstAttribute="trailing" secondItem="SXx-5G-MwG" secondAttribute="trailing" id="qeZ-iG-NWK"/>
+                            <constraint firstAttribute="trailing" secondItem="8Mt-xK-d8S" secondAttribute="trailing" constant="88" id="tAJ-LL-7IB"/>
                             <constraint firstItem="uZP-bf-yuh" firstAttribute="top" secondItem="WAB-XI-jG8" secondAttribute="bottom" id="tej-VC-WYa"/>
                             <constraint firstItem="SXx-5G-MwG" firstAttribute="leading" secondItem="Rig-vj-Q2I" secondAttribute="leading" id="usH-y2-FNz"/>
                             <constraint firstItem="chZ-gX-buE" firstAttribute="top" secondItem="B6E-l0-7ZM" secondAttribute="bottom" id="wCG-j5-QCJ"/>
-                            <constraint firstItem="8Mt-xK-d8S" firstAttribute="leading" secondItem="Rig-vj-Q2I" secondAttribute="leading" id="yO4-IA-dMi"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -2322,7 +2334,7 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Pgb-B7-eVk">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="1" alpha="0.70449892241379308" colorSpace="calibratedWhite"/>
                     <prototypes>
                         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddressCell" textLabel="Swu-jk-6SP" style="IBUITableViewCellStyleDefault" id="x2W-SV-JwW">
                             <rect key="frame" x="0.0" y="28" width="240" height="44"/>

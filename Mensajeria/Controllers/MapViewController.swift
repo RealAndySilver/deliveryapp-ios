@@ -34,13 +34,13 @@ class MapViewController: UIViewController {
     private let kNorthEastLongitude = -74.0019284561276
     private let kSouthWeastLatitude = 4.50541610527197
     private let kSouthWeastLongitude = -74.206731878221
+    private var selectedLocationFromResultsTableView = false
     //MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Entré al mapaaaaa")
         mapView.delegate = self
-        mapView.userInteractionEnabled = false
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
@@ -48,6 +48,7 @@ class MapViewController: UIViewController {
         adressTableView.tableFooterView = UIView(frame: CGRect.zero)
         view.addSubview(adressTableView)
         
+        addressTextfield.tag = 1
         addressTextfield.addTarget(self, action: "addressDidChange:", forControlEvents: UIControlEvents.EditingChanged)
     }
     
@@ -112,14 +113,18 @@ class MapViewController: UIViewController {
     
     func animateAddressTableView(show show: Bool) {
         if show {
-            UIView.transitionWithView(adressTableView, duration: 0.5, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
-                self.adressTableView.hidden = false
-                }, completion: nil)
+            if adressTableView.hidden {
+                UIView.transitionWithView(adressTableView, duration: 0.5, options: UIViewAnimationOptions.TransitionCurlDown, animations: { () -> Void in
+                    self.adressTableView.hidden = false
+                    }, completion: nil)
+            }
         
         } else {
-            UIView.transitionWithView(adressTableView, duration: 0.5, options: UIViewAnimationOptions.TransitionCurlUp, animations: { () -> Void in
-                self.adressTableView.hidden = true
-                }, completion: nil)
+            if !addressTextfield.hidden {
+                UIView.transitionWithView(adressTableView, duration: 0.5, options: UIViewAnimationOptions.TransitionCurlUp, animations: { () -> Void in
+                    self.adressTableView.hidden = true
+                    }, completion: nil)
+            }
         }
     }
     
@@ -127,6 +132,7 @@ class MapViewController: UIViewController {
         currentLocationCoordinate = coordinate
         let geocoder = GMSGeocoder()
         geocoder.reverseGeocodeCoordinate(coordinate) { (response, error) in
+            print("Numero de resultadooos: \(response.results())")
             if let address = response?.firstResult() {
                 if address.lines != nil {
                     let lines = address.lines as! [String]
@@ -134,6 +140,7 @@ class MapViewController: UIViewController {
                     let addressComponents = fullAddress.componentsSeparatedByString(" a ")
                     if let streetName = addressComponents.first {
                         self.addressTextfield.text = "\(streetName)"
+                        self.addressDidChange(self.addressTextfield)
                     }
                     //self.addressTextfield.text = join("-", lines)
                 }
@@ -144,6 +151,9 @@ class MapViewController: UIViewController {
     //MARK: Actions 
     
     @IBAction func opacityButtonPressed() {
+        mapView.userInteractionEnabled = true
+        selectedLocationFromResultsTableView = false
+        
         UIView.animateWithDuration(0.5,
             animations: { () -> Void in
                 self.alertConfirmView.alpha = 0.0
@@ -193,6 +203,12 @@ class MapViewController: UIViewController {
     
     //MARK: Custom Stuff
     
+    func formatAddress(address: String) -> String {
+        let lowercaseAddress = address.lowercaseString
+        let shortAddress = lowercaseAddress.stringByReplacingOccurrencesOfString(", bogotá, bogotá, colombia", withString: "")
+        return shortAddress.stringByReplacingOccurrencesOfString(", bogota, bogota, colombia", withString: "")
+    }
+    
     func sendAddressToPreviousVC(address: String, location: CLLocationCoordinate2D, selectingPickupLocation: Bool) {
         //Implement the closure to send the address back to the previous VC
         self.onAddressAvailable?(theAddress: address, locationCoordinates: location, selectingPickupLocation: selectingPickupLocation)
@@ -224,7 +240,10 @@ extension MapViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(kCellId, forIndexPath: indexPath)
-        cell.textLabel?.text = addressResults[indexPath.row]["formatted_address"] as? String
+        
+        if let formattedAddress = addressResults[indexPath.row]["formatted_address"] as? String {
+            cell.textLabel?.text = formatAddress(formattedAddress)
+        }
         return cell
     }
 }
@@ -233,12 +252,15 @@ extension MapViewController: UITableViewDataSource {
 
 extension MapViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        selectedLocationFromResultsTableView = true
+        mapView.userInteractionEnabled = false
+        
         let latitude = ((addressResults[indexPath.row]["geometry"] as! NSDictionary)["location"] as! NSDictionary)["lat"] as! CLLocationDegrees
         let longitude = ((addressResults[indexPath.row]["geometry"] as! NSDictionary)["location"] as! NSDictionary)["lng"] as! CLLocationDegrees
         let locationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let locationName = addressResults[indexPath.row]["formatted_address"] as! String
         
-        addressTextfield.text = locationName
+        addressTextfield.text = formatAddress(locationName)
         currentLocationCoordinate = locationCoordinate
         let cameraPosition = GMSCameraPosition(target: currentLocationCoordinate, zoom: 15, bearing: 0, viewingAngle: 0)
         mapView.camera = cameraPosition
@@ -269,6 +291,14 @@ extension MapViewController: UITextFieldDelegate {
         return true
     }
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        if textField.tag == 1 {
+            //Main Address textfield
+            print("Entre al begin editinggggggggg")
+            addressDidChange(addressTextfield)
+        }
+    }
+    
     /*func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         print("should change with replacement string: \(string)")
         activityIndicator.startAnimating()
@@ -297,8 +327,11 @@ extension MapViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first  {
             if let locationDic = locationDic {
+                print("Entre al update de cuando si hay locacionnnn")
                 mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude: locationDic["lat"] as! CLLocationDegrees, longitude: locationDic["lon"] as! CLLocationDegrees), zoom: 15, bearing: 0, viewingAngle: 0)
+                addressTextfield.text = locationDic["address"] as? String
             } else {
+                print("Entre al update de cuando no hay locacionnnnnnn")
                 mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
             }
             locationManager.stopUpdatingLocation()
@@ -325,7 +358,9 @@ extension MapViewController: AddressHistoryDelegate {
 
 extension MapViewController: GMSMapViewDelegate {
     func mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!) {
-        //reverseGeocodeCoordinate(position.target)
+        if !selectedLocationFromResultsTableView {
+            reverseGeocodeCoordinate(position.target)
+        }
     }
 }
 

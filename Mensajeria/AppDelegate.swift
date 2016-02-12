@@ -145,7 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 } else {
                     //The user was in the service screen when the notification arrived, so update the service
                     NSNotificationCenter.defaultCenter().postNotificationName("ServiceUpdatedNotification", object: nil)
-                    UIAlertView(title: "Servicio Actualizado", message: "Se ha actualizado el estado de tu servicio", delegate: nil, cancelButtonTitle: "Ok").show()
+                    UIAlertView(title: "Servicio Actualizado", message: "\(message)", delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
         }
