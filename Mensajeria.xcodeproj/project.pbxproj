@@ -794,7 +794,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "iAm Studio";
 				TargetAttributes = {
 					8BEA659F1A82B1E000C20D5B = {
@@ -1030,6 +1030,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1108,6 +1109,7 @@
 				INFOPLIST_FILE = Mensajeria/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iamstudio.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "ff7e4a67-5a8f-412c-9767-cca47a9828ec";
 				SWIFT_OBJC_BRIDGING_HEADER = ./Mensajeria/BridgingHeader.h;
@@ -1129,6 +1131,7 @@
 				INFOPLIST_FILE = Mensajeria/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iamstudio.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "ff7e4a67-5a8f-412c-9767-cca47a9828ec";
 				SWIFT_OBJC_BRIDGING_HEADER = ./Mensajeria/BridgingHeader.h;
@@ -1150,6 +1153,7 @@
 				);
 				INFOPLIST_FILE = MensajeriaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iamstudio.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mensajeria.app/Mensajeria";
 			};
@@ -1165,6 +1169,7 @@
 				);
 				INFOPLIST_FILE = MensajeriaTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iamstudio.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mensajeria.app/Mensajeria";
 			};
