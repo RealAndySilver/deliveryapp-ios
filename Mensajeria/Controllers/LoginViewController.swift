@@ -189,8 +189,10 @@ class LoginViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "CreateAccountSegue" {
-            let createAccountVC = segue.destinationViewController as! CreateAccountViewController
-            createAccountVC.transitioningDelegate = self
+            let createAccountNavController = segue.destinationViewController as! UINavigationController
+            createAccountNavController.transitioningDelegate = self
+            
+            let createAccountVC = createAccountNavController.viewControllers[0] as! CreateAccountViewController
             createAccountVC.delegate = self
         }
     }

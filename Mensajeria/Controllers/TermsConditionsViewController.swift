@@ -15,9 +15,4 @@ class TermsConditionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
-    //MARK: Actions
-    @IBAction func backButtonPressed() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
 }

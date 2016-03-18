@@ -16,6 +16,7 @@ class MenuViewController: UIViewController {
         case SolicitarOption = 0,
         MisServiciosOption,
         MiPerfilOption,
+        PaymentsOption,
         HistorialDeServiciosOptions,
         AbortedServicesOption,
         TermsAndConditionsOptions,
@@ -24,8 +25,8 @@ class MenuViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     var selectedMenu = 0
-    let menuImagesNamesArray = ["ActiveServiceIcon", "RequestServiceIcon", "UserIcon", "FinishedServiceIcon", "AbortedServicesIcon", "TermsConditionsIcon", "CloseSessionIcon"]
-    let menuArray = ["Solicitar Servicio", "Mis Servicios Activos", "Mi Perfil", "Servicios Terminados", "Abortados por mensajero", "Términos y Condiciones", "Cerrar Sesión"]
+    let menuImagesNamesArray = ["ActiveServiceIcon", "RequestServiceIcon", "UserIcon", "UserIcon", "FinishedServiceIcon", "AbortedServicesIcon", "TermsConditionsIcon", "CloseSessionIcon"]
+    let menuArray = ["Solicitar Servicio", "Mis Servicios Activos", "Mi Perfil", "Pagos", "Servicios Terminados", "Abortados por mensajero", "Términos y Condiciones", "Cerrar Sesión"]
     
     //MARK: View life cycle
     
@@ -104,6 +105,11 @@ extension MenuViewController: UITableViewDelegate {
                 selectedMenu = indexPath.row
                 let abortedServicesNavController = storyboard?.instantiateViewControllerWithIdentifier("AbortedServicesNavController") as! UINavigationController
                 revealViewController().pushFrontViewController(abortedServicesNavController, animated: true)
+            
+            } else if indexPath.row == SelectedMenuOption.PaymentsOption.rawValue {
+                selectedMenu = indexPath.row
+                let creditCardsListNavController = storyboard?.instantiateViewControllerWithIdentifier("CreditCardsListNav") as! UINavigationController
+                revealViewController().pushFrontViewController(creditCardsListNavController, animated: true)
             }
             /*else if indexPath.row == SelectedMenuOption.MisFavoritosOption.rawValue {
                 selectedMenu = indexPath.row

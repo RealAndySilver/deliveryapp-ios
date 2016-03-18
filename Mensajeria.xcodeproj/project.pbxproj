@@ -125,6 +125,10 @@
 		8BFC63A21C49199400E5385F /* M13Checkbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BFC63A11C49199400E5385F /* M13Checkbox.m */; };
 		8BFE96FB1BDFE63500CE7A82 /* WrapperAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */; };
 		A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */; };
+		A07543B61C9C3D850049380B /* CreditCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07543B51C9C3D850049380B /* CreditCard.swift */; };
+		A07543B81C9C4FBE0049380B /* CreditCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07543B71C9C4FBE0049380B /* CreditCardTableViewCell.swift */; };
+		A07543BA1C9C53C00049380B /* UIImage+CreditCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07543B91C9C53C00049380B /* UIImage+CreditCard.swift */; };
+		A08E9FDD1C9839760090B3F4 /* CreditCardInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E9FDC1C9839760090B3F4 /* CreditCardInfoViewController.swift */; };
 		A0AFE1481A83D31F0025CACF /* TermsConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */; };
 		A0AFE14A1A83D6410025CACF /* RequestServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */; };
 		A0AFE14C1A83E9090025CACF /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0AFE14B1A83E9090025CACF /* GoogleMaps.framework */; };
@@ -142,6 +146,7 @@
 		A0AFE1641A83EB5B0025CACF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0AFE1631A83EB5B0025CACF /* QuartzCore.framework */; };
 		A0AFE1661A83EB640025CACF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0AFE1651A83EB640025CACF /* SystemConfiguration.framework */; };
 		A0AFE1691A84008A0025CACF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFE1681A84008A0025CACF /* MapViewController.swift */; };
+		A0B222E91C9986DA00623BA4 /* CreditCardsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B222E81C9986DA00623BA4 /* CreditCardsListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -307,6 +312,10 @@
 		8BFC63A11C49199400E5385F /* M13Checkbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13Checkbox.m; sourceTree = "<group>"; };
 		8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WrapperAlamofire.swift; path = Model/WrapperAlamofire.swift; sourceTree = "<group>"; };
 		A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountViewController.swift; path = Controllers/CreateAccountViewController.swift; sourceTree = "<group>"; };
+		A07543B51C9C3D850049380B /* CreditCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCard.swift; path = Model/CreditCard.swift; sourceTree = "<group>"; };
+		A07543B71C9C4FBE0049380B /* CreditCardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCardTableViewCell.swift; path = "Custom Cells/CreditCardTableViewCell.swift"; sourceTree = "<group>"; };
+		A07543B91C9C53C00049380B /* UIImage+CreditCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+CreditCard.swift"; path = "Extensions/UIImage+CreditCard.swift"; sourceTree = "<group>"; };
+		A08E9FDC1C9839760090B3F4 /* CreditCardInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCardInfoViewController.swift; path = Controllers/CreditCardInfoViewController.swift; sourceTree = "<group>"; };
 		A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TermsConditionsViewController.swift; path = Controllers/TermsConditionsViewController.swift; sourceTree = "<group>"; };
 		A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestServiceViewController.swift; path = Controllers/RequestServiceViewController.swift; sourceTree = "<group>"; };
 		A0AFE14B1A83E9090025CACF /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
@@ -324,6 +333,7 @@
 		A0AFE1631A83EB5B0025CACF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A0AFE1651A83EB640025CACF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A0AFE1681A84008A0025CACF /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Controllers/MapViewController.swift; sourceTree = "<group>"; };
+		A0B222E81C9986DA00623BA4 /* CreditCardsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCardsListViewController.swift; path = Controllers/CreditCardsListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -386,6 +396,7 @@
 				8B8C364D1A8BF89100373EA2 /* DeliveryItem.swift */,
 				8B713BBF1A94E03500800798 /* AppInfo.swift */,
 				8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */,
+				A07543B51C9C3D850049380B /* CreditCard.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -531,6 +542,7 @@
 		8BA5A80C1A8E977900379651 /* Custom Cells */ = {
 			isa = PBXGroup;
 			children = (
+				A07543B71C9C4FBE0049380B /* CreditCardTableViewCell.swift */,
 				8BA5A80D1A8E979A00379651 /* ActiveServiceCell.swift */,
 				8B1204471A93B7C8000B2020 /* AddressCell.swift */,
 				8B1204491A93D39B000B2020 /* MenuCell.swift */,
@@ -585,6 +597,7 @@
 			children = (
 				8BA158851B4ADF25005D6248 /* NSMutableURLRequest+Header.swift */,
 				8BC3ED841A938A3D0009C54A /* UIColor+AppColors.swift */,
+				A07543B91C9C53C00049380B /* UIImage+CreditCard.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -668,6 +681,7 @@
 			children = (
 				8BEA65C61A82B98500C20D5B /* LoginViewController.swift */,
 				A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */,
+				A08E9FDC1C9839760090B3F4 /* CreditCardInfoViewController.swift */,
 				A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */,
 				8B560D801BF217DC004F1F95 /* InitialMapViewController.swift */,
 				A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */,
@@ -687,6 +701,7 @@
 				8B9997E51A9E63C800C8BC75 /* FavouriteMessengersViewController.swift */,
 				8B9866D81AB728550091431B /* ImageViewController.swift */,
 				8B33E7271B9A403900BC4417 /* PendingRateViewController.swift */,
+				A0B222E81C9986DA00623BA4 /* CreditCardsListViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -881,9 +896,11 @@
 				8BA5A80E1A8E979A00379651 /* ActiveServiceCell.swift in Sources */,
 				8B7B04101BDFBFC1002D4AF7 /* SpringTextView.swift in Sources */,
 				8B25B6731C16001D00810A84 /* NSString+TextDirectionality.m in Sources */,
+				A07543B61C9C3D850049380B /* CreditCard.swift in Sources */,
 				8B33E7281B9A403900BC4417 /* PendingRateViewController.swift in Sources */,
 				A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */,
 				8B7B04061BDFBFC1002D4AF7 /* LoadingView.swift in Sources */,
+				A0B222E91C9986DA00623BA4 /* CreditCardsListViewController.swift in Sources */,
 				8B7B040E1BDFBFC1002D4AF7 /* SpringLabel.swift in Sources */,
 				8BC3ED851A938A3D0009C54A /* UIColor+AppColors.swift in Sources */,
 				8B7B042D1BDFC148002D4AF7 /* Manager.swift in Sources */,
@@ -895,6 +912,7 @@
 				8B713BC31A95068B00800798 /* ShadowedView.swift in Sources */,
 				8B713BC01A94E03500800798 /* AppInfo.swift in Sources */,
 				8BC2C8951AA0C42500E25204 /* MKAnnotationView+WebCache.m in Sources */,
+				A07543BA1C9C53C00049380B /* UIImage+CreditCard.swift in Sources */,
 				8B7B04031BDFBFC1002D4AF7 /* ImageLoader.swift in Sources */,
 				8BC2C8961AA0C42500E25204 /* NSData+ImageContentType.m in Sources */,
 				8B8427B51A9B7551003D1354 /* ChangePasswordViewController.swift in Sources */,
@@ -934,6 +952,7 @@
 				8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */,
 				A0AFE14A1A83D6410025CACF /* RequestServiceViewController.swift in Sources */,
 				8BC2C89E1AA0C42500E25204 /* UIButton+WebCache.m in Sources */,
+				A08E9FDD1C9839760090B3F4 /* CreditCardInfoViewController.swift in Sources */,
 				8B7B04361BDFC148002D4AF7 /* Upload.swift in Sources */,
 				8B8C364E1A8BF89100373EA2 /* DeliveryItem.swift in Sources */,
 				8B7B03F81BDFBFC1002D4AF7 /* AsyncButton.swift in Sources */,
@@ -946,6 +965,7 @@
 				8B9997E61A9E63C800C8BC75 /* FavouriteMessengersViewController.swift in Sources */,
 				8B7B04351BDFC148002D4AF7 /* Stream.swift in Sources */,
 				8B7B04141BDFBFC1002D4AF7 /* UnwindSegue.swift in Sources */,
+				A07543B81C9C4FBE0049380B /* CreditCardTableViewCell.swift in Sources */,
 				8BCE59361A922C89000C0C1A /* FinishedServicesViewController.swift in Sources */,
 				8B7B040B1BDFBFC1002D4AF7 /* SpringAnimation.swift in Sources */,
 				8BCC7B791AB9E0980085EDF5 /* ZoomTransitionDelegate.swift in Sources */,

@@ -24,7 +24,7 @@ import Foundation
 
 struct Alamofire {
     static let manager = Manager.sharedInstance
-    static let currentEndPoint = "http://192.241.187.135:2000/api_1.0"
+    static let currentEndPoint = "http://192.241.187.135:8080/api_1.0"
     //static let currentEndPoint = "http://andres.local:2000/api_1.0"
     
     static let loginWebServiceURL = "\(currentEndPoint)/User/Login"
@@ -47,6 +47,9 @@ struct Alamofire {
     static let restartItemServiceURL = "\(currentEndPoint)/DeliveryItem/Restart"
     static let closeToMeServiceUrl = "\(currentEndPoint)/CloseToMe"
     static let getInsurancesValues = "\(currentEndPoint)/getInsuranceIntervals"
+    static let getPaymentMethods = "\(currentEndPoint)/Payments/PaymentMethods"
+    static let createPaymentMethod = "\(currentEndPoint)/Payments/CreatePaymentMethod"
+    static let getFranchiseByBin = "\(currentEndPoint)/Payments/GetFranchiseByBIN"
 }
 
 // MARK: - URLStringConvertible

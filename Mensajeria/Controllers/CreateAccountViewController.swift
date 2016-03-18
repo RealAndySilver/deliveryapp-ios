@@ -17,7 +17,6 @@ protocol CreateAccountViewControllerDelegate: class {
 class CreateAccountViewController: UIViewController {
     weak var delegate: CreateAccountViewControllerDelegate?
     
-    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var nameTextfield: UITextField!
     @IBOutlet weak var lastNameTextfield: UITextField!
@@ -42,11 +41,6 @@ class CreateAccountViewController: UIViewController {
         registerButton.layer.shadowOffset = CGSizeMake(1.0, 1.0)
         registerButton.layer.shadowRadius = 1.0
         registerButton.layer.shadowOpacity = 0.4
-        
-        cancelButton.layer.shadowColor = UIColor.blackColor().CGColor
-        cancelButton.layer.shadowOffset = CGSizeMake(1.0, 1.0)
-        cancelButton.layer.shadowRadius = 1.0
-        cancelButton.layer.shadowOpacity = 0.4
     }
     
     func fillFormInfo() {
@@ -97,11 +91,7 @@ class CreateAccountViewController: UIViewController {
     
     @IBAction func cancelButtonPressed() {
         saveFormInfo()
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    @IBAction func termsConditionsPressed() {
-    
+        navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     //MARK: Server Stuff 
@@ -215,15 +205,6 @@ class CreateAccountViewController: UIViewController {
         let formInfo = ["name" : nameTextfield.text!, "lastName" : lastNameTextfield.text!, "email" : emailTextfield.text!, "phone" : cellphoneTextfield.text!]
         NSUserDefaults.standardUserDefaults().setObject(formInfo, forKey: "formDic")
         NSUserDefaults.standardUserDefaults().synchronize()
-    }
-    
-    //MARK: Navigation 
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "TermsConditionsSegue" {
-            let termsConditionsVC = segue.destinationViewController 
-            termsConditionsVC.transitioningDelegate = self
-        }
     }
 }
 
