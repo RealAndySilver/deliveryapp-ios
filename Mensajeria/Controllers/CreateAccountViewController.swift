@@ -96,7 +96,72 @@ class CreateAccountViewController: UIViewController {
     
     //MARK: Server Stuff 
     
+    func loginUserInServer() {
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        
+        //App token
+        var token = ""
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if let theToken = appDelegate.appToken {
+            token = theToken
+        }
+        
+        //Encode password
+        let encodedPassword = passwordTextfield.text!.dataUsingEncoding(NSUTF8StringEncoding)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
+        
+        //Make the login request to the server
+        Alamofire.manager.request(.PUT, Alamofire.loginWebServiceURL, parameters: ["email" : emailTextfield.text!, "password" : encodedPassword!, "device_info" : ["type" : UIDevice.currentDevice().model, "os" : "iOS", "token" : token, "name" : UIDevice.currentDevice().name]], encoding: ParameterEncoding.URL).responseJSON { (response) -> Void in
+            
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            if case .Failure(let error) = response.result  {
+                //Something wrong happened
+                print("Error en el login: \(error.localizedDescription)")
+                UIAlertView(title: "Oops!", message: "Ocurrió un error al intentar iniciar sesión. Por favor intenta de nuevo", delegate: nil, cancelButtonTitle: "Ok").show()
+                /*NSUserDefaults.standardUserDefaults().removeObjectForKey("UserInfo")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("UserPass")
+                NSUserDefaults.standardUserDefaults().synchronize()*/
+                
+            } else {
+                //Success
+                let jsonResponse = JSON(response.result.value!)
+                if jsonResponse["status"].boolValue == true {
+                    print("success en el login: \(jsonResponse)")
+                    User.sharedInstance.updateUserWithJSON(jsonResponse["response"])
+                    User.sharedInstance.password = self.passwordTextfield.text!
+                    NSUserDefaults.standardUserDefaults().setObject(self.passwordTextfield.text!, forKey: "UserPass")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                    
+                    let alert = UIAlertView(title: "", message: "Tu usuario se ha creado exitosamente.", delegate: self, cancelButtonTitle: "Ok")
+                    alert.tag = 1
+                    alert.show()
+                    /*NSUserDefaults.standardUserDefaults().setObject(password, forKey: "UserPass")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                    self.goToRequestServiceVC()*/
+                    
+                } else {
+                    /*NSUserDefaults.standardUserDefaults().removeObjectForKey("UserInfo")
+                    NSUserDefaults.standardUserDefaults().removeObjectForKey("UserPass")
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                    
+                    print("respuesta false en el login: \(jsonResponse)")
+                    if jsonResponse["error_id"].intValue == 0 {
+                        //Usuario no encontrado
+                        UIAlertView(title: "Oops!", message: "Usuario no encontrado", delegate: nil, cancelButtonTitle: "Ok").show()
+                    } else if jsonResponse["error_id"].intValue == 1 {
+                        //Usuario no confirmado
+                        UIAlertView(title: "Oops!", message: "Tu cuenta no ha sido confirmada. Por favor revisa el correo que te fue enviado al momento de crear tu cuenta", delegate: nil, cancelButtonTitle: "Ok").show()
+                    }*/
+                }
+            }
+        }
+    }
+    
     func createAccountInServer() {
+        /*let alert = UIAlertView(title: "", message: "Tu usuario se ha creado exitosamente.", delegate: self, cancelButtonTitle: "Ok")
+        alert.tag = 1
+        alert.show()
+        return;*/
+        
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         
         //Encode password
@@ -116,9 +181,7 @@ class CreateAccountViewController: UIViewController {
                 if jsonResponse["status"].boolValue == true {
                     print("Respuesta true del create: \(jsonResponse)")
                     //Show confirmation email alert
-                    let alert = UIAlertView(title: "", message: "Tu usuario se ha creado exitosamente.", delegate: self, cancelButtonTitle: "Ok")
-                    alert.tag = 1
-                    alert.show()
+                    self.loginUserInServer()
                    
                 } else {
                     if jsonResponse["err"]["code"].intValue == 11000 {
@@ -235,10 +298,14 @@ extension CreateAccountViewController: UIViewControllerTransitioningDelegate {
 extension CreateAccountViewController: UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if alertView.tag == 1 {
+            let creditCardInfoVC = storyboard?.instantiateViewControllerWithIdentifier("CreditCardInfo") as! CreditCardInfoViewController
+            creditCardInfoVC.username = emailTextfield.text
+            creditCardInfoVC.password = passwordTextfield.text
+            navigationController?.pushViewController(creditCardInfoVC, animated: true)
             //Account created successfully alert
-            dismissViewControllerAnimated(true, completion: { () -> Void in
+            /*dismissViewControllerAnimated(true, completion: { () -> Void in
                 self.delegate?.accountCreatedSuccessfullyWithUsername(self.emailTextfield.text!, password: self.passwordTextfield.text!)
-            })
+            })*/
         }
     }
 }

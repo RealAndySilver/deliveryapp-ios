@@ -72,6 +72,44 @@ class CreditCardsListViewController: UIViewController {
         }
     }
     
+    func deleteCardWithId(cardId: String) {
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        
+        let request = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.deleteCard)/\(cardId)", methodType: "DELETE")
+        if request == nil {
+            print("Nil request in the delete card method")
+            return
+        }
+        
+        Alamofire.manager.request(request!).responseJSON { response in
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            
+            switch response.result {
+            case .Success(let value):
+                let jsonResponse = JSON(value)
+                print("Successfull response in the delete card: \(jsonResponse)")
+                if jsonResponse["status"].boolValue == true {
+                    //Remove card from the list 
+                    let filteredCreditCards = self.creditCards.filter { $0.identifier != cardId }
+                    self.creditCards.removeAll()
+                    self.creditCards = filteredCreditCards
+                    self.tableView.reloadData()
+                
+                } else {
+                    let alert = UIAlertController(title: "Oops!", message: "Parece que hubo un error al eliminar tu tarjeta. Por favor intenta de nuevo", preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+                
+            case .Failure(let error):
+                print("Error in the delete card: \(error.localizedDescription)")
+                let alert = UIAlertController(title: "Oops!", message: "Hubo un error en la conexión. Por favor revisa que estés conectado a internet e intenta de nuevo", preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
     ////////////////////////////////////
     //MARK: Actions 
     
@@ -98,6 +136,19 @@ extension CreditCardsListViewController: UITableViewDataSource {
             cell.creditCardImageView.image = nil
         }
         return cell
+    }
+}
+
+extension CreditCardsListViewController: UITableViewDelegate {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedCreditCard = creditCards[indexPath.row]
+        let alert = UIAlertController(title: "", message: "Que deseas hacer para la tarjeta terminada en \(selectedCreditCard.lastFourNumbers)", preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Eliminar", style: .Destructive, handler: { _ in
+            self.deleteCardWithId(selectedCreditCard.identifier)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .Cancel, handler: nil))
+        presentViewController(alert, animated: true, completion: nil)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }
 

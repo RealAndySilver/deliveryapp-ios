@@ -16,6 +16,8 @@ extension NSMutableURLRequest {
             let request = NSMutableURLRequest(URL: url)
             request.HTTPMethod = methodType
             
+            //User.sharedInstance.email = "diego@test1.com"
+            //User.sharedInstance.password = "aaaaaa"
             let encodedPassword = User.sharedInstance.password.dataUsingEncoding(NSUTF8StringEncoding)!.base64EncodedStringWithOptions([])
             let authField = "\(User.sharedInstance.email):\(encodedPassword)"
             let encodedAuthField = authField.dataUsingEncoding(NSUTF8StringEncoding)!.base64EncodedStringWithOptions([])

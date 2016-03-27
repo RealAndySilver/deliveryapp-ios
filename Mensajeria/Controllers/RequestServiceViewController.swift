@@ -26,6 +26,7 @@ class RequestServiceViewController: UIViewController {
         case valorAseguradoPicker = 3
     }
     
+    var creditCards: [CreditCard] = []
     var paymentType = PaymentType.CreditCard
     var keyboardIsVisible = false
     var firstTimePickupTextFieldAppears = false
@@ -86,6 +87,7 @@ class RequestServiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("entre acaaaa")
+        getUserCreditCards()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addressSelectedNotificationReceived:", name: "addressSelectedNotification", object: nil)
         mapView.delegate = self
         mapView.userInteractionEnabled = false
@@ -224,8 +226,15 @@ class RequestServiceViewController: UIViewController {
         //goToFindingServiceWithServiceID("")
         if formIsCorrect() {
             saveAddressInUserDefaults()
-            sendServiceRequestToServer()
-            //goToFindingServiceWithServiceID("")
+            if creditCards.isEmpty && paymentType == .CreditCard {
+                //Go to the add credit card screen
+                let creditCardVC = storyboard?.instantiateViewControllerWithIdentifier("CreditCardInfo") as! CreditCardInfoViewController
+                creditCardVC.delegate = self
+                navigationController?.pushViewController(creditCardVC, animated: true)
+                
+            } else {
+                sendServiceRequestToServer()
+            }
             
         } else {
             UIAlertView(title: "Oops!", message: "No has completado todos los campos", delegate: nil, cancelButtonTitle: "Ok").show()
@@ -247,7 +256,36 @@ class RequestServiceViewController: UIViewController {
         //shipmentValueTextfield.resignFirstResponder()
     }
     
+    ///////////////////////////////////////////////////////////////////////////////////////////
     //MARK: Server Stuff
+    
+    func getUserCreditCards() {
+        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.getPaymentMethods)/\(User.sharedInstance.identifier)", methodType: "GET")
+        
+        if mutableURLRequest == nil {
+            print("Error creando el request, está en nil")
+            return
+        }
+        
+        Alamofire.manager.request(mutableURLRequest!).responseJSON { response in
+            
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            switch response.result {
+            case .Success(let value):
+                let jsonResponse = JSON(value)
+                print("\(self.dynamicType) : Successfull response of the get payments: \(jsonResponse)")
+                if jsonResponse["status"].boolValue == true {
+                    if let unparsedCardsArray = jsonResponse["response"].object as? [[String: AnyObject]] {
+                        self.creditCards = unparsedCardsArray.map { return CreditCard(creditCardJson: JSON($0)) }
+                    }
+                }
+                
+            case .Failure(let error):
+                print("\(self.dynamicType) : Error in the get payments: \(error.localizedDescription)")
+            }
+        }
+    }
     
     func getInsurancesValues() {
         ServerRequests.getInsurancesValues { result in
@@ -766,6 +804,14 @@ extension RequestServiceViewController: CLLocationManagerDelegate {
 extension RequestServiceViewController: GMSMapViewDelegate {
     func mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!) {
         print("position: \(position.target.latitude, position.target.longitude)")
+    }
+}
+
+//MARK: CreditCardInfoViewControllerDelegate
+
+extension RequestServiceViewController: CreditCardInfoViewControllerDelegate {
+    func creditCardCreated(creditCard: CreditCard) {
+        creditCards.append(creditCard)
     }
 }
 

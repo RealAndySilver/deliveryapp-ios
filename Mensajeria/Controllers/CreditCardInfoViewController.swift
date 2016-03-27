@@ -15,6 +15,8 @@ protocol CreditCardInfoViewControllerDelegate: class {
 class CreditCardInfoViewController: UIViewController {
 
     weak var delegate: CreditCardInfoViewControllerDelegate?
+    var username: String?
+    var password: String?
     
     //Outlets
     @IBOutlet weak var creditCardTextField: UITextField!
@@ -56,9 +58,20 @@ class CreditCardInfoViewController: UIViewController {
     }
     
     @IBAction func addLaterButtonPressed() {
+        if let username = self.username, password = self.password {
+            //We came from the CreateAccountVC
+            navigationController?.dismissViewControllerAnimated(true) {
+                NSNotificationCenter.defaultCenter().postNotificationName("AddCardLaterNotification", object: nil, userInfo: ["username": username, "password": password])
+            }
+        
+        } else {
+            //We came from the Payment hamburguer menu 
+            navigationController?.popViewControllerAnimated(true)
+        }
     }
     
     @IBAction func addCreditCardButtonPressed() {
+        view.endEditing(true)
         addCreditCardToServer()
     }
     
@@ -105,11 +118,30 @@ class CreditCardInfoViewController: UIViewController {
             switch response.result {
             case .Success(let value):
                 let jsonResponse = JSON(value)
-                print("\(self.dynamicType): Successfull reponse of the create payment method: \(jsonResponse)")
-                let creditCard = CreditCard(creditCardJson: jsonResponse["response"])
-                self.delegate?.creditCardCreated(creditCard)
+                if jsonResponse["status"].boolValue == true {
+                    print("\(self.dynamicType): Successfull reponse of the create payment method: \(jsonResponse)")
+                    let creditCard = CreditCard(creditCardJson: jsonResponse["response"])
+                    self.delegate?.creditCardCreated(creditCard)
+                    
+                    if let username = self.username, password = self.password {
+                        //We came from the CreateAccountVC
+                        self.navigationController?.dismissViewControllerAnimated(true) {
+                            NSNotificationCenter.defaultCenter().postNotificationName("AddCardLaterNotification", object: nil, userInfo: ["username": username, "password": password])
+                        }
+                    } else {
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
                 
+                } else {
+                    let alert = UIAlertController(title: "Oops!", message: "Hubo un error al agregar tu tarjeta. Por favor revisa que los datos sean correctos e intenta de nuevo", preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            
             case .Failure(let error):
+                let alert = UIAlertController(title: "Oops!", message: "Hubo un problema de conexión al agregar tu tarjeta. Por favor revisa que estés conectado a internet e intenta de nuevo", preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
                 print("\(self.dynamicType): Error in the create payment method: \(error.localizedDescription)")
             }
         }

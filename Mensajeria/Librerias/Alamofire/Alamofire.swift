@@ -50,6 +50,7 @@ struct Alamofire {
     static let getPaymentMethods = "\(currentEndPoint)/Payments/PaymentMethods"
     static let createPaymentMethod = "\(currentEndPoint)/Payments/CreatePaymentMethod"
     static let getFranchiseByBin = "\(currentEndPoint)/Payments/GetFranchiseByBIN"
+    static let deleteCard = "\(currentEndPoint)/Payments/DeletePaymentMethod"
 }
 
 // MARK: - URLStringConvertible

@@ -9,18 +9,21 @@
 import Foundation
 
 class CreditCard {
+    let identifier: String
     let lastFourNumbers: String
     let franchise: String
     let token: String
-    init(lastFourNumbers: String, franchise: String, token: String) {
+    init(lastFourNumbers: String, franchise: String, token: String, identifier: String) {
         self.lastFourNumbers = lastFourNumbers
         self.franchise = franchise
         self.token = token
+        self.identifier = identifier
     }
     
     init(creditCardJson: JSON) {
         self.franchise = creditCardJson["franchise"].stringValue
         self.lastFourNumbers = creditCardJson["card_last4"].stringValue
         self.token = creditCardJson["token"].stringValue
+        self.identifier = creditCardJson["_id"].string!
     }
 }

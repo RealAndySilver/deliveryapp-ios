@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="zZe-kc-yWT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="zZe-kc-yWT">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -5444,7 +5444,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Aa-BH-a5O">
-                                                    <rect key="frame" x="8" y="8" width="40" height="26"/>
+                                                    <rect key="frame" x="23" y="8" width="40" height="26"/>
                                                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="40" id="MwF-rK-rg1"/>
@@ -5456,7 +5456,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytl-RO-lcS">
-                                                    <rect key="frame" x="56" y="11" width="536" height="21"/>
+                                                    <rect key="frame" x="69" y="11" width="523" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -5464,11 +5464,11 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="0Aa-BH-a5O" firstAttribute="top" secondItem="Adz-IK-OZc" secondAttribute="top" constant="8" id="1mW-7z-k6w"/>
-                                                <constraint firstItem="ytl-RO-lcS" firstAttribute="leading" secondItem="0Aa-BH-a5O" secondAttribute="trailing" constant="8" id="26M-eC-mBa"/>
+                                                <constraint firstItem="ytl-RO-lcS" firstAttribute="leading" secondItem="0Aa-BH-a5O" secondAttribute="trailing" constant="6" id="26M-eC-mBa"/>
                                                 <constraint firstAttribute="trailing" secondItem="ytl-RO-lcS" secondAttribute="trailing" constant="8" id="9Mj-rd-9m1"/>
                                                 <constraint firstAttribute="bottom" secondItem="0Aa-BH-a5O" secondAttribute="bottom" constant="9" id="9sz-6L-G8c"/>
                                                 <constraint firstAttribute="bottom" secondItem="ytl-RO-lcS" secondAttribute="bottom" constant="11" id="Wli-0r-fdK"/>
-                                                <constraint firstItem="0Aa-BH-a5O" firstAttribute="leading" secondItem="Adz-IK-OZc" secondAttribute="leading" constant="8" id="d7p-az-y45"/>
+                                                <constraint firstItem="0Aa-BH-a5O" firstAttribute="leading" secondItem="Adz-IK-OZc" secondAttribute="leading" constant="23" id="d7p-az-y45"/>
                                                 <constraint firstItem="ytl-RO-lcS" firstAttribute="top" secondItem="Adz-IK-OZc" secondAttribute="top" constant="11" id="hZg-dU-ZxZ"/>
                                             </constraints>
                                         </tableViewCellContentView>

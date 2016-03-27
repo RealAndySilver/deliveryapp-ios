@@ -42,7 +42,7 @@ class LoginViewController: UIViewController {
             firstTimeViewAppears = false
         }
     }
-    
+   
     func checkIfUserIsLoggedIn() {
         if let userObject = NSUserDefaults.standardUserDefaults().objectForKey("UserInfo") as? [String : String] {
             //Save user object in our user singleton
@@ -56,8 +56,9 @@ class LoginViewController: UIViewController {
     }
     
     func setupNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide), name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userCreated), name: "AddCardLaterNotification", object: nil)
     }
     
     func setupUI() {
@@ -198,6 +199,16 @@ class LoginViewController: UIViewController {
     }
     
     //MARK: Notification Handlers 
+    
+    func userCreated(notification: NSNotification) {
+        if let userInfo = notification.userInfo as? [String: AnyObject] {
+            let username = userInfo["username"] as! String
+            let password = userInfo["password"] as! String
+            userTextfield.text = username
+            passwordTextfield.text = password
+            loginUserInServer()
+        }
+    }
     
     func keyboardWillShow() {
         //Move textfields up
