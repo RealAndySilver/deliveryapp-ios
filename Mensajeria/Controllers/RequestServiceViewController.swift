@@ -43,6 +43,7 @@ class RequestServiceViewController: UIViewController {
     var deliveryPicker: UIPickerView!
     var valorAseguradoPicker: UIPickerView!
     
+    @IBOutlet weak var paymentMethodSegmentedControl: UISegmentedControl!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pickupDetailsTextField: UITextField!
     @IBOutlet weak var deliveryDetailsTextField: UITextField!
@@ -227,10 +228,18 @@ class RequestServiceViewController: UIViewController {
         if formIsCorrect() {
             saveAddressInUserDefaults()
             if creditCards.isEmpty && paymentType == .CreditCard {
-                //Go to the add credit card screen
-                let creditCardVC = storyboard?.instantiateViewControllerWithIdentifier("CreditCardInfo") as! CreditCardInfoViewController
-                creditCardVC.delegate = self
-                navigationController?.pushViewController(creditCardVC, animated: true)
+                let alert = UIAlertController(title: "", message: "No tienes ninguna tarjeta de crédito asociada. ¿Deseas agregar una?", preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: "Agregar Tarjeta", style: .Default, handler: { _ in
+                    //Go to the add credit card screen
+                    let creditCardVC = self.storyboard?.instantiateViewControllerWithIdentifier("CreditCardInfo") as! CreditCardInfoViewController
+                    creditCardVC.delegate = self
+                    self.navigationController?.pushViewController(creditCardVC, animated: true)
+                }))
+                alert.addAction(UIAlertAction(title: "Pagar en Efectivo", style: .Default, handler: { _ in
+                    self.paymentMethodSegmentedControl.selectedSegmentIndex = 1
+                    self.paymentType = .Cash
+                }))
+                presentViewController(alert, animated: true, completion: nil)
                 
             } else {
                 sendServiceRequestToServer()

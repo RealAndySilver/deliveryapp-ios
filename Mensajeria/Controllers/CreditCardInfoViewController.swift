@@ -34,6 +34,10 @@ class CreditCardInfoViewController: UIViewController {
         super.viewDidLoad()
         creditCardTextField.addTarget(self, action: "creditCardNumberChanged:", forControlEvents: .EditingChanged)
         expirationDateTextField.addTarget(self, action: "expirationDateChanged:", forControlEvents: UIControlEvents.EditingChanged)
+        
+        if let _ = username, _ = password {
+            self.navigationItem.hidesBackButton = true;
+        }
     }
     
     //MARK: Actions 
@@ -58,6 +62,7 @@ class CreditCardInfoViewController: UIViewController {
     }
     
     @IBAction func addLaterButtonPressed() {
+        view.endEditing(true)
         if let username = self.username, password = self.password {
             //We came from the CreateAccountVC
             navigationController?.dismissViewControllerAnimated(true) {
