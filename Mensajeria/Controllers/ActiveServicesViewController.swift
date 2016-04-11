@@ -107,9 +107,9 @@ extension ActiveServicesViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Servicios por asignar (\(requestedItems.count))"
+            return "Servicios por Asignar (\(requestedItems.count))"
         } else {
-            return "Servicios asignados a mensajero (\(acceptedItems.count))"
+            return "Servicios Asignados a Mensajero (\(acceptedItems.count))"
         }
     }
     

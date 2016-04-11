@@ -55,7 +55,7 @@ class FindingServiceViewController: UIViewController {
         loadingView.delegate = self
         containerView.addSubview(loadingView)
         loadingView.startAnimating()
-        loadingView.center = CGPoint(x: containerView.bounds.size.width/2.0, y: containerView.bounds.size.height - 90.0)
+        loadingView.center = CGPoint(x: containerView.bounds.size.width/2.0, y: containerView.bounds.size.height - 80.0)
     }
     
     //MARK: Actions

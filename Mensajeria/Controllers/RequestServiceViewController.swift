@@ -269,7 +269,7 @@ class RequestServiceViewController: UIViewController {
     //MARK: Server Stuff
     
     func getUserCreditCards() {
-        MBProgressHUD.showHUDAddedTo(view, animated: true)
+        //MBProgressHUD.showHUDAddedTo(view, animated: true)
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.getPaymentMethods)/\(User.sharedInstance.identifier)", methodType: "GET")
         
         if mutableURLRequest == nil {
@@ -279,7 +279,7 @@ class RequestServiceViewController: UIViewController {
         
         Alamofire.manager.request(mutableURLRequest!).responseJSON { response in
             
-            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            //MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             switch response.result {
             case .Success(let value):
                 let jsonResponse = JSON(value)

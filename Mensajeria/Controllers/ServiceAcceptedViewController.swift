@@ -206,20 +206,20 @@ class ServiceAcceptedViewController: UIViewController {
         if presentedFromAbortedService == nil {
             switch deliveryItem.status {
             case "available":
-                serviceStatusLabel.text = "BUSCANDO MENSAJERO"
+                serviceStatusLabel.text = "Buscando Mensajero"
             case "accepted":
-                serviceStatusLabel.text = "ACEPTADO"
+                serviceStatusLabel.text = "Aceptado"
             case "in-transit":
-                serviceStatusLabel.text = "EN CAMINO"
+                serviceStatusLabel.text = "En Camino"
                 cancelServiceButton.hidden = true
             case "returning":
-                serviceStatusLabel.text = "REGRESANDO"
+                serviceStatusLabel.text = "Regresando"
                 cancelServiceButton.hidden = true
             case "returned":
-                serviceStatusLabel.text = "SERVICIO FINALIZADO"
+                serviceStatusLabel.text = "Servicio Finalizado"
                 cancelServiceButton.hidden = true
             case "delivered":
-                serviceStatusLabel.text = "SERVICIO FINALIZADO"
+                serviceStatusLabel.text = "Servicio Finalizado"
                 cancelServiceButton.hidden = true
             default:
                 break
@@ -267,7 +267,7 @@ class ServiceAcceptedViewController: UIViewController {
         /////////////////////////////////////////////////////////////////////
         //Create "No hay mensajero asignado aún" label
         noDriverLabel = UILabel(frame: CGRect(x: 35.0, y: 0.0, width: view.bounds.size.width - 100.0, height: driverInfoTopContainer.frame.size.height - 40.0))
-        noDriverLabel.text = "BUSCANDO MENSAJERO"
+        noDriverLabel.text = "Buscando Mensajero"
         noDriverLabel.font = UIFont.boldSystemFontOfSize(15.0)
         noDriverLabel.numberOfLines = 0
         noDriverLabel.textAlignment = .Center

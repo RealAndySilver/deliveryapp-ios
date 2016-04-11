@@ -28,10 +28,11 @@ class CreditCardsListViewController: UIViewController {
         tableView.tableFooterView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.mainScreen().bounds.size.width, height: 100.0))
         tableView.backgroundColor = UIColor.whiteColor()
         
-        let addCardButton = ShadowedButton(frame: CGRect(x: 20.0, y: 20.0, width: UIScreen.mainScreen().bounds.size.width - 40.0, height: 40.0))
+        let addCardButton = UIButton(frame: CGRect(x: 20.0, y: 20.0, width: UIScreen.mainScreen().bounds.size.width - 40.0, height: 40.0))
         addCardButton.setTitle("Agregar Tarjeta", forState: .Normal)
         addCardButton.titleLabel?.font = UIFont.boldSystemFontOfSize(13.0)
-        addCardButton.backgroundColor = UIColor.getSecondaryAppColor()
+        addCardButton.backgroundColor = UIColor.getPrimaryAppColor()
+        addCardButton.layer.cornerRadius = 5.0
         addCardButton.addTarget(self, action: "addTargetButtonPressed", forControlEvents: .TouchUpInside)
         tableView.tableFooterView!.addSubview(addCardButton)
         
@@ -142,7 +143,7 @@ extension CreditCardsListViewController: UITableViewDataSource {
 extension CreditCardsListViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedCreditCard = creditCards[indexPath.row]
-        let alert = UIAlertController(title: "", message: "Que deseas hacer para la tarjeta terminada en \(selectedCreditCard.lastFourNumbers)", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "", message: "¿Que deseas hacer para la tarjeta terminada en \(selectedCreditCard.lastFourNumbers)?", preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "Eliminar", style: .Destructive, handler: { _ in
             self.deleteCardWithId(selectedCreditCard.identifier)
         }))

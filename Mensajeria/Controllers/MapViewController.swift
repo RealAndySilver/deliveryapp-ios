@@ -132,6 +132,11 @@ class MapViewController: UIViewController {
         currentLocationCoordinate = coordinate
         let geocoder = GMSGeocoder()
         geocoder.reverseGeocodeCoordinate(coordinate) { (response, error) in
+            if error != nil || response == nil {
+                print("Error in the reverse geocoding: \(error?.localizedDescription)")
+                return
+            }
+            
             print("Numero de resultadooos: \(response.results())")
             if let address = response?.firstResult() {
                 if address.lines != nil {

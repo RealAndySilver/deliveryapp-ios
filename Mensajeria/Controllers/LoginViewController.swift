@@ -68,12 +68,12 @@ class LoginViewController: UIViewController {
         mensajeriaLabel.layer.shouldRasterize = true
         mensajeriaLabel.layer.rasterizationScale = UIScreen.mainScreen().scale
         
-        enterButton.layer.shadowColor = UIColor.blackColor().CGColor
+        /*enterButton.layer.shadowColor = UIColor.blackColor().CGColor
         enterButton.layer.shadowOffset = CGSizeMake(0.0, 1.0)
         enterButton.layer.shadowOpacity = 0.5
         enterButton.layer.shadowRadius = 1.0
         enterButton.layer.shouldRasterize = true
-        enterButton.layer.rasterizationScale = UIScreen.mainScreen().scale
+        enterButton.layer.rasterizationScale = UIScreen.mainScreen().scale*/
     }
     
     //MARK: Actions

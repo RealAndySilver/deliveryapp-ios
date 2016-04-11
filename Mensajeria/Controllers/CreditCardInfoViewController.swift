@@ -59,6 +59,11 @@ class CreditCardInfoViewController: UIViewController {
                 textField.text = text + "/"
             }
         }
+        
+        else if let text = textField.text where text.characters.count == 5 {
+            //User ended writing the expiration date, make the CVV textfield the first responder 
+            securityCodeTextField.becomeFirstResponder()
+        }
     }
     
     @IBAction func addLaterButtonPressed() {
@@ -163,6 +168,8 @@ extension CreditCardInfoViewController: UITextFieldDelegate {
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         if textField.tag == TextFieldType.ExpirationDate.rawValue {
+            print("Replacement string: \(string)")
+            
             if textField.text!.length == 5 && !string.isEmpty {
                 return false
             }
