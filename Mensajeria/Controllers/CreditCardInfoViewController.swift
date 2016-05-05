@@ -128,6 +128,7 @@ class CreditCardInfoViewController: UIViewController {
             switch response.result {
             case .Success(let value):
                 let jsonResponse = JSON(value)
+                print("Response of the add card: \(jsonResponse)")
                 if jsonResponse["status"].boolValue == true {
                     print("\(self.dynamicType): Successfull reponse of the create payment method: \(jsonResponse)")
                     let creditCard = CreditCard(creditCardJson: jsonResponse["response"])

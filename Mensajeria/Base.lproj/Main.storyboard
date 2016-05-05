@@ -672,7 +672,7 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0CI-iG-uFs">
-                                                <rect key="frame" x="217" y="348" width="166" height="30"/>
+                                                <rect key="frame" x="19" y="348" width="166" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="166" id="1hv-bt-F1U"/>
                                                     <constraint firstAttribute="width" constant="166" id="4XO-Mk-MJ9"/>
@@ -772,6 +772,7 @@
                                             <constraint firstItem="zdB-b6-Jco" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="iPP-z2-Pwc"/>
                                             <constraint firstAttribute="trailing" secondItem="1ft-Mh-02R" secondAttribute="trailing" constant="19" id="jpR-DQ-T5c"/>
                                             <constraint firstItem="oTA-Ey-LWl" firstAttribute="top" secondItem="2L3-EL-pko" secondAttribute="bottom" constant="1" id="kPL-gg-l1O"/>
+                                            <constraint firstItem="0CI-iG-uFs" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="kRd-xE-ewR"/>
                                             <constraint firstAttribute="bottom" secondItem="0CI-iG-uFs" secondAttribute="bottom" constant="58" id="lZQ-8k-R9C"/>
                                             <constraint firstItem="lqU-x9-sxE" firstAttribute="top" secondItem="YhT-pw-g9T" secondAttribute="bottom" constant="6" id="oWG-oy-DMs"/>
                                             <constraint firstItem="jj0-gt-P1U" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="pEb-5Y-VP3"/>
@@ -839,6 +840,7 @@
                                                 <exclude reference="PRR-9o-Nag"/>
                                                 <exclude reference="409-BT-AxK"/>
                                                 <exclude reference="lZQ-8k-R9C"/>
+                                                <exclude reference="sab-o1-Kxu"/>
                                             </mask>
                                         </variation>
                                         <connections>
@@ -914,6 +916,7 @@
                         <outlet property="nameTextfield" destination="35d-u5-h7r" id="WUX-JQ-6ea"/>
                         <outlet property="passwordTextfield" destination="2L3-EL-pko" id="2kJ-uJ-EwU"/>
                         <outlet property="registerButton" destination="zdB-b6-Jco" id="oGT-7h-PKJ"/>
+                        <outlet property="termsAndConditionsButton" destination="0CI-iG-uFs" id="2ez-ft-qWq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I86-Pr-Pai" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5602,24 +5605,23 @@ dmljaW8gZGVzZGUgZWwgbWVuw7ogIlNlcnZpY2lvcyBBY3Rpdm9zIg
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wmf-hY-90J">
-                                <rect key="frame" x="42" y="84" width="517" height="496"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kZQ-Vj-1Fe">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Wmf-hY-90J" firstAttribute="top" secondItem="y4m-yf-PSH" secondAttribute="bottom" constant="20" id="1mI-E4-EUM"/>
-                            <constraint firstItem="Fbf-VA-Uig" firstAttribute="top" secondItem="Wmf-hY-90J" secondAttribute="bottom" constant="20" id="KhY-S3-L6V"/>
-                            <constraint firstItem="Wmf-hY-90J" firstAttribute="leading" secondItem="iBa-jT-iNq" secondAttribute="leadingMargin" constant="22" id="izH-uZ-xx5"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Wmf-hY-90J" secondAttribute="trailing" constant="21" id="y3d-fa-bvF"/>
+                            <constraint firstItem="kZQ-Vj-1Fe" firstAttribute="top" secondItem="y4m-yf-PSH" secondAttribute="bottom" id="5he-nv-dn2"/>
+                            <constraint firstItem="Fbf-VA-Uig" firstAttribute="top" secondItem="kZQ-Vj-1Fe" secondAttribute="bottom" id="Exx-03-oLK"/>
+                            <constraint firstItem="kZQ-Vj-1Fe" firstAttribute="leading" secondItem="iBa-jT-iNq" secondAttribute="leading" id="P1B-at-plb"/>
+                            <constraint firstAttribute="trailing" secondItem="kZQ-Vj-1Fe" secondAttribute="trailing" id="a3X-QZ-ffk"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Términos y Condiciones" id="2Nk-SP-AI2"/>
+                    <connections>
+                        <outlet property="webView" destination="kZQ-Vj-1Fe" id="gKo-tt-8L2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qig-6w-Mbx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -5770,38 +5772,6 @@ dmljaW8gZGVzZGUgZWwgbWVuw7ogIlNlcnZpY2lvcyBBY3Rpdm9zIg
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jff-y9-AIA" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="64" width="600" height="398"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Wc-XP-aKc" userLabel="PlaceholderView">
-                                <rect key="frame" x="0.0" y="64" width="600" height="398"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-JJ-5OQ" customClass="ShadowedButton" customModule="Mensajeria" customModuleProvider="target">
-                                        <rect key="frame" x="28" y="149" width="544" height="30"/>
-                                        <color key="backgroundColor" red="0.90980392694473267" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="0DB-Mq-9np"/>
-                                        </constraints>
-                                        <state key="normal" title="¿Dónde quieres iniciar el servicio?">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="kXa-HQ-oMs" kind="show" identifier="ToRequestService" id="t1c-x7-TAc"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstItem="uIj-JJ-5OQ" firstAttribute="centerY" secondItem="0Wc-XP-aKc" secondAttribute="centerY" constant="-35" id="6Ya-A5-9gU"/>
-                                    <constraint firstItem="uIj-JJ-5OQ" firstAttribute="leading" secondItem="0Wc-XP-aKc" secondAttribute="leading" constant="28" id="EGs-ZJ-AV8"/>
-                                    <constraint firstAttribute="trailing" secondItem="uIj-JJ-5OQ" secondAttribute="trailing" constant="28" id="XPc-cI-mw3"/>
-                                </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="rV1-dm-nMK" appends="YES" id="gUV-Yw-C49"/>
-                                </connections>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="prT-62-v65" userLabel="BottomContainerView">
                                 <rect key="frame" x="0.0" y="462" width="600" height="138"/>
                                 <subviews>
@@ -5857,6 +5827,38 @@ dmljaW8gZGVzZGUgZWwgbWVuw7ogIlNlcnZpY2lvcyBBY3Rpdm9zIg
                                     <constraint firstItem="CFv-d5-gzE" firstAttribute="top" secondItem="FYL-VP-tGx" secondAttribute="bottom" id="y9B-Er-GVq"/>
                                 </constraints>
                             </view>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jff-y9-AIA" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Wc-XP-aKc" userLabel="PlaceholderView">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uIj-JJ-5OQ" customClass="ShadowedButton" customModule="Mensajeria" customModuleProvider="target">
+                                        <rect key="frame" x="28" y="218" width="544" height="30"/>
+                                        <color key="backgroundColor" red="0.90980392694473267" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="0DB-Mq-9np"/>
+                                        </constraints>
+                                        <state key="normal" title="¿Dónde quieres iniciar el servicio?">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="kXa-HQ-oMs" kind="show" identifier="ToRequestService" id="t1c-x7-TAc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstItem="uIj-JJ-5OQ" firstAttribute="centerY" secondItem="0Wc-XP-aKc" secondAttribute="centerY" constant="-35" id="6Ya-A5-9gU"/>
+                                    <constraint firstItem="uIj-JJ-5OQ" firstAttribute="leading" secondItem="0Wc-XP-aKc" secondAttribute="leading" constant="28" id="EGs-ZJ-AV8"/>
+                                    <constraint firstAttribute="trailing" secondItem="uIj-JJ-5OQ" secondAttribute="trailing" constant="28" id="XPc-cI-mw3"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="rV1-dm-nMK" appends="YES" id="gUV-Yw-C49"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -5867,14 +5869,18 @@ dmljaW8gZGVzZGUgZWwgbWVuw7ogIlNlcnZpY2lvcyBBY3Rpdm9zIg
                             <constraint firstAttribute="trailing" secondItem="0Wc-XP-aKc" secondAttribute="trailing" id="6bw-Gy-Z7U"/>
                             <constraint firstItem="uQb-hD-Gvq" firstAttribute="top" secondItem="Jff-y9-AIA" secondAttribute="bottom" id="852-Su-PlZ"/>
                             <constraint firstItem="0Wc-XP-aKc" firstAttribute="top" secondItem="6Ev-5O-b8b" secondAttribute="bottom" id="NwG-YB-6QQ"/>
+                            <constraint firstItem="uQb-hD-Gvq" firstAttribute="top" secondItem="Jff-y9-AIA" secondAttribute="bottom" id="O04-3S-86e"/>
                             <constraint firstItem="prT-62-v65" firstAttribute="top" secondItem="Jff-y9-AIA" secondAttribute="bottom" id="Q3z-vL-SWp"/>
                             <constraint firstAttribute="trailing" secondItem="prT-62-v65" secondAttribute="trailing" id="QlZ-aK-foC"/>
                             <constraint firstItem="Jff-y9-AIA" firstAttribute="leading" secondItem="Gge-TT-QMp" secondAttribute="leading" id="doR-8t-q9N"/>
+                            <constraint firstItem="uQb-hD-Gvq" firstAttribute="top" secondItem="0Wc-XP-aKc" secondAttribute="bottom" id="gg0-uc-mcw"/>
                             <constraint firstAttribute="trailing" secondItem="Jff-y9-AIA" secondAttribute="trailing" id="lxu-Wy-fVw"/>
                             <constraint firstItem="0Wc-XP-aKc" firstAttribute="leading" secondItem="Gge-TT-QMp" secondAttribute="leading" id="qgo-bo-rS7"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="6YJ-Ne-oRx"/>
+                                <exclude reference="Q3z-vL-SWp"/>
                                 <exclude reference="852-Su-PlZ"/>
                             </mask>
                         </variation>

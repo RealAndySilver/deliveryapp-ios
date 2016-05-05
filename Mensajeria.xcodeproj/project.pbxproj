@@ -128,6 +128,7 @@
 		A07543B61C9C3D850049380B /* CreditCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07543B51C9C3D850049380B /* CreditCard.swift */; };
 		A07543B81C9C4FBE0049380B /* CreditCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07543B71C9C4FBE0049380B /* CreditCardTableViewCell.swift */; };
 		A07543BA1C9C53C00049380B /* UIImage+CreditCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07543B91C9C53C00049380B /* UIImage+CreditCard.swift */; };
+		A08E356D1CD79B3E004F0D00 /* IPAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E356C1CD79B3E004F0D00 /* IPAddress.swift */; };
 		A08E9FDD1C9839760090B3F4 /* CreditCardInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E9FDC1C9839760090B3F4 /* CreditCardInfoViewController.swift */; };
 		A0AFE1481A83D31F0025CACF /* TermsConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */; };
 		A0AFE14A1A83D6410025CACF /* RequestServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */; };
@@ -315,6 +316,7 @@
 		A07543B51C9C3D850049380B /* CreditCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCard.swift; path = Model/CreditCard.swift; sourceTree = "<group>"; };
 		A07543B71C9C4FBE0049380B /* CreditCardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCardTableViewCell.swift; path = "Custom Cells/CreditCardTableViewCell.swift"; sourceTree = "<group>"; };
 		A07543B91C9C53C00049380B /* UIImage+CreditCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+CreditCard.swift"; path = "Extensions/UIImage+CreditCard.swift"; sourceTree = "<group>"; };
+		A08E356C1CD79B3E004F0D00 /* IPAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAddress.swift; path = Utils/IPAddress.swift; sourceTree = "<group>"; };
 		A08E9FDC1C9839760090B3F4 /* CreditCardInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCardInfoViewController.swift; path = Controllers/CreditCardInfoViewController.swift; sourceTree = "<group>"; };
 		A0AFE1471A83D31F0025CACF /* TermsConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TermsConditionsViewController.swift; path = Controllers/TermsConditionsViewController.swift; sourceTree = "<group>"; };
 		A0AFE1491A83D6410025CACF /* RequestServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestServiceViewController.swift; path = Controllers/RequestServiceViewController.swift; sourceTree = "<group>"; };
@@ -515,6 +517,7 @@
 				8BA62C221AA497C8000F9C84 /* RegexValidator.swift */,
 				8BDB039C1C04FD0200D495D8 /* Formatters.swift */,
 				8BFB802C1C1EF0AF003152F6 /* ServerRequests.swift */,
+				A08E356C1CD79B3E004F0D00 /* IPAddress.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -899,6 +902,7 @@
 				A07543B61C9C3D850049380B /* CreditCard.swift in Sources */,
 				8B33E7281B9A403900BC4417 /* PendingRateViewController.swift in Sources */,
 				A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */,
+				A08E356D1CD79B3E004F0D00 /* IPAddress.swift in Sources */,
 				8B7B04061BDFBFC1002D4AF7 /* LoadingView.swift in Sources */,
 				A0B222E91C9986DA00623BA4 /* CreditCardsListViewController.swift in Sources */,
 				8B7B040E1BDFBFC1002D4AF7 /* SpringLabel.swift in Sources */,

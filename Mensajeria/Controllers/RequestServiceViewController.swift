@@ -87,7 +87,7 @@ class RequestServiceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("entre acaaaa")
+        print("RequestViewController: \(IPAddress.getWiFiAddress())")
         getUserCreditCards()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addressSelectedNotificationReceived:", name: "addressSelectedNotification", object: nil)
         mapView.delegate = self
@@ -373,7 +373,15 @@ class RequestServiceViewController: UIViewController {
             insuranceValue = selectedInsurance
         }
         
-        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValue, "send_signature" : signatureSwitch.on, "pickup_details": pickupDetailsTextField.text!, "delivery_details": deliveryDetailsTextField.text!, "payment_method": paymentType.rawValue]
+        let ipAddress = IPAddress.getWiFiAddress() ?? ""
+        //By default, send the info from the first credit card the user has registered
+        //(Only if the user has selected credit card as the payment method)
+        var tokenId = ""
+        if case .CreditCard = paymentType {
+            tokenId = creditCards[0].identifier
+        }
+        
+        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValue, "send_signature" : signatureSwitch.on, "pickup_details": pickupDetailsTextField.text!, "delivery_details": deliveryDetailsTextField.text!, "payment_method": paymentType.rawValue, "ip_address": ipAddress, "token_id": tokenId]
         
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.requestMensajeroServiceURL, methodType: "POST", theParameters: urlParameters)
         

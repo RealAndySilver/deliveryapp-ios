@@ -110,6 +110,13 @@ extension MenuViewController: UITableViewDelegate {
                 selectedMenu = indexPath.row
                 let creditCardsListNavController = storyboard?.instantiateViewControllerWithIdentifier("CreditCardsListNav") as! UINavigationController
                 revealViewController().pushFrontViewController(creditCardsListNavController, animated: true)
+            
+            } else if indexPath.row == SelectedMenuOption.TermsAndConditionsOptions.rawValue {
+                print("Termssss")
+                let termsVC = storyboard?.instantiateViewControllerWithIdentifier("TermsConditions") as! TermsConditionsViewController
+                termsVC.openingFromHamburguerMenu = true
+                let navController = UINavigationController(rootViewController: termsVC)
+                presentViewController(navController, animated: true, completion: nil)
             }
             /*else if indexPath.row == SelectedMenuOption.MisFavoritosOption.rawValue {
                 selectedMenu = indexPath.row

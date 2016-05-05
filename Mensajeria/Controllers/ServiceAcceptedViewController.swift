@@ -274,7 +274,7 @@ class ServiceAcceptedViewController: UIViewController {
         noDriverLabel.textColor = UIColor.lightGrayColor()
         driverInfoTopContainer.addSubview(noDriverLabel)
         
-        totalServiceCostLabel.text = "$\(deliveryItem.priceToPay)"
+        totalServiceCostLabel.text = "COP $\(deliveryItem.priceToPay)"
         switch deliveryItem.paymentType {
         case .Cash:
             paymentMethodLabel.text = "Efectivo"

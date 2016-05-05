@@ -24,6 +24,8 @@ class CreateAccountViewController: UIViewController {
     @IBOutlet weak var passwordTextfield: UITextField!
     @IBOutlet weak var confirmPasswordTextfield: UITextField!
     @IBOutlet weak var cellphoneTextfield: UITextField!
+    @IBOutlet weak var termsAndConditionsButton: UIButton!
+    private var termsCheckbox: M13Checkbox!
     private var activeTextfield: UITextField?
     
     //MARK: Life Cycle
@@ -34,6 +36,11 @@ class CreateAccountViewController: UIViewController {
         setupUI()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        termsCheckbox.center = CGPoint(x: termsAndConditionsButton.frame.origin.x + termsAndConditionsButton.frame.size.width + 20.0, y: termsAndConditionsButton.center.y)
+    }
+    
     //MARK: Custom Initialization stuff 
     
     func setupUI() {
@@ -41,6 +48,11 @@ class CreateAccountViewController: UIViewController {
         registerButton.layer.shadowOffset = CGSizeMake(1.0, 1.0)
         registerButton.layer.shadowRadius = 1.0
         registerButton.layer.shadowOpacity = 0.4
+        
+        termsCheckbox = M13Checkbox()
+        termsCheckbox.strokeColor = UIColor.getSecondaryAppColor()
+        termsCheckbox.checkColor = UIColor.getSecondaryAppColor()
+        view.addSubview(termsCheckbox)
     }
     
     func fillFormInfo() {
@@ -61,6 +73,11 @@ class CreateAccountViewController: UIViewController {
     }
     
     @IBAction func registerButtonPressed() {
+        if case .Unchecked = termsCheckbox.checkState {
+            UIAlertView(title: "Oops!", message: "Debes aceptar los Términos y Condiciones", delegate: nil, cancelButtonTitle: "Ok").show()
+            return
+        }
+        
         if passwordsAreCorrect() {
             passwordTextfield.layer.borderWidth = 0.0
             confirmPasswordTextfield.layer.borderWidth = 0.0
