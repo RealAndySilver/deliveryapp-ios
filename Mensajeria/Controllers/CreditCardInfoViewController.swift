@@ -144,7 +144,13 @@ class CreditCardInfoViewController: UIViewController {
                     }
                 
                 } else {
-                    let alert = UIAlertController(title: "Oops!", message: "Hubo un error al agregar tu tarjeta. Por favor revisa que los datos sean correctos e intenta de nuevo", preferredStyle: .Alert)
+                    var message = "Hubo un error al agregar tu tarjeta. Por favor revisa que los datos sean correctos e intenta de nuevo"
+                    
+                    if let responseMessage = jsonResponse["message"].string {
+                        message = responseMessage
+                    }
+                    
+                    let alert = UIAlertController(title: "Oops!", message: message, preferredStyle: .Alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
                 }
@@ -172,6 +178,14 @@ extension CreditCardInfoViewController: UITextFieldDelegate {
             print("Replacement string: \(string)")
             
             if textField.text!.length == 5 && !string.isEmpty {
+                return false
+            }
+            
+            if (textField.text!.isEmpty && (string != "0" && string != "1" && string != "")) {
+                return false
+            }
+            
+            if (textField.text! == "1" && (string != "1" && string != "2" && string != "0" && string != "")) {
                 return false
             }
             

@@ -9,11 +9,11 @@
 import Foundation
 
 enum CreditCardIdentifier: String {
-    case Visa = "VI"
-    case MasterCard = "MC"
-    case Amex = "AM"
-    case Dinners = "DI"
-    case VisaElectron = "VE"
+    case Visa = "VISA"
+    case MasterCard = "MASTERCARD"
+    case Amex = "AMEX"
+    case Dinners = "DINERS"
+    //case VisaElectron = "VE"
 }
 
 extension UIImage {
@@ -28,8 +28,8 @@ extension UIImage {
             self.init(named: "CardAmericanExpress")
         case .Dinners:
             self.init(named: "CardDinners")
-        case .VisaElectron:
-            self.init(named: "CardVisaElectron")
+        //case .VisaElectron:
+            //self.init(named: "CardVisaElectron")
         }
     }
     

@@ -33,8 +33,13 @@ class ServiceAcceptedViewController: UIViewController {
     
     var noDriverLabel: UILabel!
     @IBOutlet weak var signatureLabel: UILabel!
+    
+    @IBOutlet weak var paymentInfoHeightContraint: NSLayoutConstraint!
     @IBOutlet weak var servicePhotosHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var priceToPayForInsuranceLabel: UILabel!
+    @IBOutlet weak var servicePriceLabel: UILabel!
     @IBOutlet weak var signatureImageView: UIImageView!
+    @IBOutlet weak var paymentTransactionDateLabel: UILabel!
     @IBOutlet weak var insuranceValueLabel: UILabel!
     @IBOutlet weak var noPhotosLabel: UILabel!
     @IBOutlet weak var updateButtonItem: UIBarButtonItem!
@@ -64,6 +69,10 @@ class ServiceAcceptedViewController: UIViewController {
     var firmaObligatoriaCheckbox: M13Checkbox!
     var idaYVueltaCheckbox: M13Checkbox!
     
+    @IBOutlet var paymentInfoShadowedView: ShadowedView!
+    @IBOutlet private weak var paymentStateLabel: UILabel!
+    @IBOutlet private weak var paymentCusLabel: UILabel!
+    @IBOutlet private weak var paymentReferenceLabel: UILabel!
     //MARK: View Life cycle
     
     override func viewDidLoad() {
@@ -187,6 +196,8 @@ class ServiceAcceptedViewController: UIViewController {
         }
         
         serviceNameLabel.text = deliveryItem.name
+        servicePriceLabel.text = "COP $\(deliveryItem.servicePrice)"
+        priceToPayForInsuranceLabel.text = deliveryItem.insurancePrice != nil ? "COP $\(deliveryItem.insurancePrice!)" : "COP $0"
         pickupLabel.text = deliveryItem.pickupObject.address
         deliveryLabel.text = deliveryItem.deliveryObject.address
         if deliveryItem.timeToDeliver == "now" {
@@ -277,7 +288,7 @@ class ServiceAcceptedViewController: UIViewController {
         totalServiceCostLabel.text = "COP $\(deliveryItem.priceToPay)"
         switch deliveryItem.paymentType {
         case .Cash:
-            paymentMethodLabel.text = "Efectivo"
+            paymentMethodLabel.text = "Corporativo"
         case .CreditCard:
             paymentMethodLabel.text = "Tarjeta de Crédito"
         }
@@ -320,6 +331,17 @@ class ServiceAcceptedViewController: UIViewController {
         loadingView.center = CGPoint(x: noDriverLabel.center.x, y: noDriverLabel.center.y + 30.0)
         
         print("Minutes to arrivallllll: \(deliveryItem.timeToMessengerArrival)")
+        
+        if let paymentInfo = deliveryItem.paymentInfo {
+            paymentStateLabel.text = paymentInfo.status
+            paymentCusLabel.text = paymentInfo.cus
+            paymentReferenceLabel.text = paymentInfo.reference
+            paymentTransactionDateLabel.text = paymentInfo.date
+            containerView.addSubview(paymentInfoShadowedView)
+        } else {
+            paymentInfoHeightContraint.constant = 0
+            view.setNeedsUpdateConstraints()
+        }
     }
     
     //MARK: Actions

@@ -15,12 +15,15 @@ enum PaymentType: String {
 
 class DeliveryItem: NSObject {
     
+    var paymentInfo: PaymentInfo?
     var paymentType: PaymentType
     var dateCreatedString: String?
     var signatureEncodedString: String?
     var sendSignature: Bool?
     var insuranceValue: Int?
     var sendImage: Bool?
+    var servicePrice: Int
+    var insurancePrice: Int?
     var timeToPick: String
     var timeToDeliver: String
     var estimatedString: String?
@@ -67,6 +70,16 @@ class DeliveryItem: NSObject {
     }
     
     init(deliveryItemJSON: JSON) {
+        servicePrice = deliveryItemJSON["service_price"].int!
+        insurancePrice = deliveryItemJSON["insurance_price"].int
+        
+        if let paymentInfoDict = deliveryItemJSON["trn_ids"][0].object as? Dictionary<String, AnyObject> {
+            let status = paymentInfoDict["status_text"] as? String ?? ""
+            let cus = paymentInfoDict["cus"] as? String ?? ""
+            let reference = paymentInfoDict["reference"] as? String ?? ""
+            let date = paymentInfoDict["date_sent"] as? String ?? ""
+            paymentInfo = PaymentInfo(status: status, cus: cus, date: date, reference: reference)
+        }
         
         let unparsedDateCreatedString = deliveryItemJSON["date_created"].stringValue
         if let dateCreated = Formatters.sharedInstance.stringToDateFormatter.dateFromString(unparsedDateCreatedString) {

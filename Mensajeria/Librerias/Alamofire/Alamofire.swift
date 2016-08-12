@@ -24,12 +24,10 @@ import Foundation
 
 struct Alamofire {
     static let manager = Manager.sharedInstance
-    static let currentEndPoint = "http://192.241.187.135:8080/api_1.0"
-    //static let currentEndPoint = "http://192.168.1.131:8080/api_1.0"
-    //static let currentEndPoint = "http://andres.local:2000/api_1.0"
-    
-    //static let currentEndPoint = "http://192.168.1.132:8080/api_1.0"
-    
+    //static let currentEndPoint = "http://192.168.1.133:8080/api_1.0"
+    //static let currentEndPoint = "http://192.241.187.135:8080/api_1.0"
+    //static let currentEndPoint = "http://198.211.116.88:8080/api_1.0" //Prod
+    static let currentEndPoint = "https://vueltap.com:8080/api_1.0"
     static let loginWebServiceURL = "\(currentEndPoint)/User/Login"
     static let createUserServiceURL = "\(currentEndPoint)/User/Create"
     static let recoverPassServiceURL = "\(currentEndPoint)/User/Recover"
@@ -54,7 +52,7 @@ struct Alamofire {
     static let createPaymentMethod = "\(currentEndPoint)/Payments/CreatePaymentMethod"
     static let getFranchiseByBin = "\(currentEndPoint)/Payments/GetFranchiseByBIN"
     static let deleteCard = "\(currentEndPoint)/Payments/DeletePaymentMethod"
-    static let getTermsAndConditions = "\(currentEndPoint)/GetDisclaimerPDF"
+    static let getTermsAndConditions = "\(currentEndPoint)/GetDisclaimerPDF/user"
 }
 
 // MARK: - URLStringConvertible

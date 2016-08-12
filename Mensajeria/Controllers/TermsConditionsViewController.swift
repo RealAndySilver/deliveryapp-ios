@@ -20,7 +20,7 @@ class TermsConditionsViewController: UIViewController {
         webView.loadRequest(NSURLRequest(URL: NSURL(string: "\(Alamofire.getTermsAndConditions)")!))
         
         if let openingFromHamburguerMenu = openingFromHamburguerMenu where openingFromHamburguerMenu == true {
-            let closeBarButton = UIBarButtonItem(title: "Cerrar", style: .Plain, target: self, action: "dismissVC")
+            let closeBarButton = UIBarButtonItem(title: "Cerrar", style: .Plain, target: self, action: #selector(dismissVC))
             navigationItem.leftBarButtonItem = closeBarButton
         }
     }

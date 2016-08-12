@@ -125,6 +125,7 @@
 		8BFC63A21C49199400E5385F /* M13Checkbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BFC63A11C49199400E5385F /* M13Checkbox.m */; };
 		8BFE96FB1BDFE63500CE7A82 /* WrapperAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */; };
 		A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */; };
+		A05C54551CF8DDB400BDDE9F /* PaymentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C54541CF8DDB400BDDE9F /* PaymentInfo.swift */; };
 		A07543B61C9C3D850049380B /* CreditCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07543B51C9C3D850049380B /* CreditCard.swift */; };
 		A07543B81C9C4FBE0049380B /* CreditCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07543B71C9C4FBE0049380B /* CreditCardTableViewCell.swift */; };
 		A07543BA1C9C53C00049380B /* UIImage+CreditCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07543B91C9C53C00049380B /* UIImage+CreditCard.swift */; };
@@ -313,6 +314,7 @@
 		8BFC63A11C49199400E5385F /* M13Checkbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13Checkbox.m; sourceTree = "<group>"; };
 		8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WrapperAlamofire.swift; path = Model/WrapperAlamofire.swift; sourceTree = "<group>"; };
 		A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountViewController.swift; path = Controllers/CreateAccountViewController.swift; sourceTree = "<group>"; };
+		A05C54541CF8DDB400BDDE9F /* PaymentInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentInfo.swift; path = Model/PaymentInfo.swift; sourceTree = "<group>"; };
 		A07543B51C9C3D850049380B /* CreditCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCard.swift; path = Model/CreditCard.swift; sourceTree = "<group>"; };
 		A07543B71C9C4FBE0049380B /* CreditCardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCardTableViewCell.swift; path = "Custom Cells/CreditCardTableViewCell.swift"; sourceTree = "<group>"; };
 		A07543B91C9C53C00049380B /* UIImage+CreditCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+CreditCard.swift"; path = "Extensions/UIImage+CreditCard.swift"; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				8B713BBF1A94E03500800798 /* AppInfo.swift */,
 				8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */,
 				A07543B51C9C3D850049380B /* CreditCard.swift */,
+				A05C54541CF8DDB400BDDE9F /* PaymentInfo.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -952,6 +955,7 @@
 				8B9866D91AB728550091431B /* ImageViewController.swift in Sources */,
 				8B7B04091BDFBFC1002D4AF7 /* SoundPlayer.swift in Sources */,
 				8BEA65D01A82C6EB00C20D5B /* MBProgressHUD.m in Sources */,
+				A05C54551CF8DDB400BDDE9F /* PaymentInfo.swift in Sources */,
 				8BEA65A61A82B1E000C20D5B /* AppDelegate.swift in Sources */,
 				8B7C0C8F1A89004C00470D15 /* FindingServiceViewController.swift in Sources */,
 				A0AFE14A1A83D6410025CACF /* RequestServiceViewController.swift in Sources */,
@@ -1122,8 +1126,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Andres Abril (B5HW87Q346)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Andres Abril (B5HW87Q346)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1135,7 +1139,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.iamstudio.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "181d3989-3ea7-4053-adcb-a9eaccd1c318";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = ./Mensajeria/BridgingHeader.h;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1145,7 +1149,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEFINES_MODULE = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1157,7 +1161,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.iamstudio.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "181d3989-3ea7-4053-adcb-a9eaccd1c318";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = ./Mensajeria/BridgingHeader.h;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

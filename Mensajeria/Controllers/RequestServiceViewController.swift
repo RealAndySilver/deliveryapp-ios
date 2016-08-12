@@ -61,6 +61,8 @@ class RequestServiceViewController: UIViewController {
     private var activeTextfield: UITextField?
     var pickupLocationDic = [String : AnyObject]()
     var destinationLocationDic = [String : AnyObject]()
+    var servicePrice = 0
+    var priceToPayForInsurance = 0
     lazy var dateFormatter: NSDateFormatter = {
         print("entre a nicializarrr")
         let formatter = NSDateFormatter()
@@ -235,7 +237,7 @@ class RequestServiceViewController: UIViewController {
                     creditCardVC.delegate = self
                     self.navigationController?.pushViewController(creditCardVC, animated: true)
                 }))
-                alert.addAction(UIAlertAction(title: "Pagar en Efectivo", style: .Default, handler: { _ in
+                alert.addAction(UIAlertAction(title: "Pago Corporativo", style: .Default, handler: { _ in
                     self.paymentMethodSegmentedControl.selectedSegmentIndex = 1
                     self.paymentType = .Cash
                 }))
@@ -346,8 +348,8 @@ class RequestServiceViewController: UIViewController {
                 if jsonResponse["status"].boolValue {
                     print("Llego en true el get prices: \(jsonResponse)")
                     //Update price label
-                    let servicePrice = jsonResponse["value"].intValue
-                    self.servicePriceLabel.text = "COP $\(servicePrice)"
+                    self.servicePrice = jsonResponse["value"].intValue
+                    self.servicePriceLabel.text = "COP $\(self.servicePrice)"
                     
                 } else {
                     print("Llego en false el get prices: \(jsonResponse)")
@@ -355,6 +357,7 @@ class RequestServiceViewController: UIViewController {
                 }
                 
                 if let insuranceValue = jsonResponse["insurance"].int {
+                    self.priceToPayForInsurance = insuranceValue
                     self.insurancePriceLabel.text = "COP $\(insuranceValue)"
                 } else {
                     self.insurancePriceLabel.text = "COP $0"
@@ -381,7 +384,7 @@ class RequestServiceViewController: UIViewController {
             tokenId = creditCards[0].identifier
         }
         
-        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "price_to_pay" : 25000, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValue, "send_signature" : signatureSwitch.on, "pickup_details": pickupDetailsTextField.text!, "delivery_details": deliveryDetailsTextField.text!, "payment_method": paymentType.rawValue, "ip_address": ipAddress, "token_id": tokenId]
+        let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "price_to_pay" : servicePrice + priceToPayForInsurance, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValue, "send_signature" : signatureSwitch.on, "pickup_details": pickupDetailsTextField.text!, "delivery_details": deliveryDetailsTextField.text!, "payment_method": paymentType.rawValue, "ip_address": ipAddress, "token_id": tokenId, "service_price": servicePrice, "insurance_price": self.priceToPayForInsurance]
         
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.requestMensajeroServiceURL, methodType: "POST", theParameters: urlParameters)
         
@@ -412,7 +415,11 @@ class RequestServiceViewController: UIViewController {
                     }*/
                 } else {
                     print("Llego en false el request: \(jsonResponse)")
-                    UIAlertView(title: "Oops!", message: "Ocurrió un error al pedir el servicio. Por favor intenta de nuevo en un momento", delegate: nil, cancelButtonTitle: "Ok").show()
+                    var messageString = "Ocurrió un error al pedir el servicio. Por favor intenta de nuevo en un momento"
+                    if let serverErrorMessage = jsonResponse["message"].string {
+                        messageString = serverErrorMessage
+                    }
+                    UIAlertView(title: "Oops!", message: messageString, delegate: nil, cancelButtonTitle: "Ok").show()
                 }
             }
         }
