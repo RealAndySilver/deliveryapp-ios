@@ -58,6 +58,11 @@ class SearchAddressViewController: UIViewController {
             searchAddressUsingGeocoding()
         }
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.endEditing(true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

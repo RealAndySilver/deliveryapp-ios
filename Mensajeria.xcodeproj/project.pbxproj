@@ -124,6 +124,7 @@
 		8BFB802D1C1EF0AF003152F6 /* ServerRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFB802C1C1EF0AF003152F6 /* ServerRequests.swift */; };
 		8BFC63A21C49199400E5385F /* M13Checkbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BFC63A11C49199400E5385F /* M13Checkbox.m */; };
 		8BFE96FB1BDFE63500CE7A82 /* WrapperAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */; };
+		A016D8B51D65091400A6745C /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A016D8B41D65091400A6745C /* AlertPresenter.swift */; };
 		A0587FEE1A83B49900E83E5D /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */; };
 		A05C54551CF8DDB400BDDE9F /* PaymentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C54541CF8DDB400BDDE9F /* PaymentInfo.swift */; };
 		A07543B61C9C3D850049380B /* CreditCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07543B51C9C3D850049380B /* CreditCard.swift */; };
@@ -313,6 +314,7 @@
 		8BFC63A01C49199400E5385F /* M13Checkbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13Checkbox.h; sourceTree = "<group>"; };
 		8BFC63A11C49199400E5385F /* M13Checkbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13Checkbox.m; sourceTree = "<group>"; };
 		8BFE96FA1BDFE63500CE7A82 /* WrapperAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WrapperAlamofire.swift; path = Model/WrapperAlamofire.swift; sourceTree = "<group>"; };
+		A016D8B41D65091400A6745C /* AlertPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertPresenter.swift; path = Utils/AlertPresenter.swift; sourceTree = "<group>"; };
 		A0587FED1A83B49900E83E5D /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountViewController.swift; path = Controllers/CreateAccountViewController.swift; sourceTree = "<group>"; };
 		A05C54541CF8DDB400BDDE9F /* PaymentInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentInfo.swift; path = Model/PaymentInfo.swift; sourceTree = "<group>"; };
 		A07543B51C9C3D850049380B /* CreditCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCard.swift; path = Model/CreditCard.swift; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				8BDB039C1C04FD0200D495D8 /* Formatters.swift */,
 				8BFB802C1C1EF0AF003152F6 /* ServerRequests.swift */,
 				A08E356C1CD79B3E004F0D00 /* IPAddress.swift */,
+				A016D8B41D65091400A6745C /* AlertPresenter.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -979,6 +982,7 @@
 				8BCC7B791AB9E0980085EDF5 /* ZoomTransitionDelegate.swift in Sources */,
 				8B8C364C1A8BB42200373EA2 /* MyProfileViewController.swift in Sources */,
 				8B7B03FD1BDFBFC1002D4AF7 /* DesignableImageView.swift in Sources */,
+				A016D8B51D65091400A6745C /* AlertPresenter.swift in Sources */,
 				8B25B6721C16001D00810A84 /* JVFloatLabeledTextView.m in Sources */,
 				8B7B042F1BDFC148002D4AF7 /* ParameterEncoding.swift in Sources */,
 				8B560D811BF217DC004F1F95 /* InitialMapViewController.swift in Sources */,

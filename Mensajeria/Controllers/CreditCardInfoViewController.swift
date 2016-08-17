@@ -17,8 +17,19 @@ class CreditCardInfoViewController: UIViewController {
     weak var delegate: CreditCardInfoViewControllerDelegate?
     var username: String?
     var password: String?
+    let documentTypes = ["NIT", "CC", "CE", "TI", "PPN"]
+    enum DocumentType: String {
+        case NIT, CC, CE, TI, PPN
+    }
     
     //Outlets
+    @IBOutlet weak var addressTextField: UITextField!
+    @IBOutlet weak var cityTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var documentTypeTextField: UITextField!
+    @IBOutlet weak var documentNumberTextField: UITextField!
+    @IBOutlet weak var lastNameTextField: UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var creditCardTextField: UITextField!
     @IBOutlet weak var creditCardImageView: UIImageView!
     @IBOutlet weak var expirationDateTextField: UITextField!
@@ -27,7 +38,7 @@ class CreditCardInfoViewController: UIViewController {
     var pressedDeletedKeyOnExpirationTextField = false
     
     enum TextFieldType: Int {
-        case CreditCardNumber = 0, ExpirationDate, SecurityCode
+        case CreditCardNumber = 3, ExpirationDate = 1, SecurityCode = 2
     }
     
     override func viewDidLoad() {
@@ -38,9 +49,27 @@ class CreditCardInfoViewController: UIViewController {
         if let _ = username, _ = password {
             self.navigationItem.hidesBackButton = true;
         }
+        
+        let documentTypePicker = UIPickerView()
+        documentTypePicker.dataSource = self
+        documentTypePicker.delegate = self
+        documentTypeTextField.inputView = documentTypePicker
+        
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(documentTypeDoneButtonPressed))
+        let toolbar = UIToolbar(frame: CGRect(x: 0.0, y: 0.0, width: view.bounds.size.width, height: 44.0))
+        toolbar.setItems([doneBarButton], animated: false)
+        documentTypeTextField.inputAccessoryView = toolbar
     }
     
     //MARK: Actions 
+    
+    @IBAction func tapGestureDetected(sender: AnyObject) {
+        view.endEditing(true)
+    }
+    
+    func documentTypeDoneButtonPressed() {
+        view.endEditing(true)
+    }
     
     func creditCardNumberChanged(textField: UITextField) {
         if let text = textField.text where text.characters.count == 4 {
@@ -112,9 +141,76 @@ class CreditCardInfoViewController: UIViewController {
     }
     
     func addCreditCardToServer() {
+        if !RegexValidator.stringIsAValidName(nameTextField.text) {
+            AlertPresenter.presentBasicAlertWithMessage("Error en el campo Nombre", cancelButtonTitle: "Ok", overViewController: self)
+            return
+        }
+        
+        if !RegexValidator.stringIsAValidName(lastNameTextField.text) {
+            AlertPresenter.presentBasicAlertWithMessage("Error en el campo Apellido", cancelButtonTitle: "Ok", overViewController: self)
+            return
+        }
+        
+        if !RegexValidator.stringIsAValidEmail(emailTextField.text) {
+            AlertPresenter.presentBasicAlertWithMessage("Error en el campo Email", cancelButtonTitle: "Ok", overViewController: self)
+            return
+        }
+        
+        if !RegexValidator.stringIsAValidName(cityTextField.text) {
+            AlertPresenter.presentBasicAlertWithMessage("Error en el campo Ciudad", cancelButtonTitle: "Ok", overViewController: self)
+            return
+        }
+        
+        if let addressText = addressTextField.text where addressText.characters.count == 0 {
+            AlertPresenter.presentBasicAlertWithMessage("Error en el campo Dirección", cancelButtonTitle: "Ok", overViewController: self)
+            return
+        }
+        
+        if let documentTypeText = documentTypeTextField.text,
+            let _ = DocumentType(rawValue: documentTypeText) {
+            
+            if let documentNumberText = documentNumberTextField.text where documentNumberText.characters.count == 0 {
+                AlertPresenter.presentBasicAlertWithMessage("Error en el campo Número de Documento", cancelButtonTitle: "Ok", overViewController: self)
+                return
+            }
+            /*switch selectedDocumentType {
+            case .CC:
+                if !RegexValidator.stringIsAValidCC(documentNumberTextField.text) {
+                    AlertPresenter.presentBasicAlertWithMessage("Error en número de documento (CC)", cancelButtonTitle: "Ok", overViewController: self)
+                    return
+                }
+            case .CE:
+                if !RegexValidator.stringIsAValidCE(documentNumberTextField.text) {
+                    AlertPresenter.presentBasicAlertWithMessage("Error en número de documento (CE)", cancelButtonTitle: "Ok", overViewController: self)
+                    return
+                }
+            case .NIT:
+                if !RegexValidator.stringIsAValidNIT(documentNumberTextField.text) {
+                    AlertPresenter.presentBasicAlertWithMessage("Error en número de documento (NIT)", cancelButtonTitle: "Ok", overViewController: self)
+                    return
+                }
+            case .PPN:
+                if !RegexValidator.stringIsAValidPPN(documentNumberTextField.text) {
+                    AlertPresenter.presentBasicAlertWithMessage("Error en número de documento (PPN)", cancelButtonTitle: "Ok", overViewController: self)
+                    return
+                }
+            case .TI:
+                if !RegexValidator.stringIsAValidTI(documentNumberTextField.text) {
+                    AlertPresenter.presentBasicAlertWithMessage("Error en número de documento (TI)", cancelButtonTitle: "Ok", overViewController: self)
+                    return
+                }
+            }*/
+            
+            
+        } else {
+            AlertPresenter.presentBasicAlertWithMessage("Error en el tipo de documento", cancelButtonTitle: "Ok", overViewController: self)
+            return
+        }
+
+        
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         
-        let parameters = ["user_id": User.sharedInstance.identifier, "card_number": creditCardTextField.text!, "cvv": securityCodeTextField.text!, "exp_date": expirationDateTextField.text!, "franchise": "visa"]
+        let parameters = ["user_id": User.sharedInstance.identifier, "card_number": creditCardTextField.text!, "cvv": securityCodeTextField.text!, "exp_date": expirationDateTextField.text!, "franchise": "visa", "card_holder_first_name": nameTextField.text!, ".card_holder_last_name": lastNameTextField.text!, "card_holder_address": addressTextField.text!, "card_holder_city": cityTextField.text!, "card_holder_doc_type": documentTypeTextField.text!, "card_holder_doc_number": documentNumberTextField.text!, "card_holder_email": emailTextField.text!]
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.createPaymentMethod, methodType: "POST", theParameters: parameters)
         
         if mutableURLRequest == nil {
@@ -162,6 +258,28 @@ class CreditCardInfoViewController: UIViewController {
                 print("\(self.dynamicType): Error in the create payment method: \(error.localizedDescription)")
             }
         }
+    }
+}
+
+/////////////////////////////////////////////////////////////
+
+extension CreditCardInfoViewController: UIPickerViewDataSource {
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return documentTypes.count
+    }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+}
+
+extension CreditCardInfoViewController: UIPickerViewDelegate {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return documentTypes[row]
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        documentTypeTextField.text = documentTypes[row]
     }
 }
 
