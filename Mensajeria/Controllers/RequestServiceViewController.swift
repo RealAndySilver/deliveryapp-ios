@@ -208,6 +208,7 @@ class RequestServiceViewController: UIViewController {
     @IBAction func idaYVueltaSwitchPressed(sender: UISwitch) {
         if sender.on { deliveryAddressLabel.text = "Dirección Intermedia" }
         else { deliveryAddressLabel.text = "Dirección de Entrega"}
+        getServicePrice()
     }                                          
     
     @IBAction func tapButtonPressed(sender: UITapGestureRecognizer) {
@@ -333,7 +334,7 @@ class RequestServiceViewController: UIViewController {
         let deliveryLongitude = (destinationLocationDic["lon"] as? CLLocationDegrees) ?? 0
         print("url del request: \(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)")
         
-        let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)/\(selectedInsurance)", methodType: "GET")
+        let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders("\(Alamofire.GetDeliveryPriceServiceURL)/\(pickupLatitude),\(pickupLongitude)/\(deliveryLatitude),\(deliveryLongitude)/\(idaYVueltaSwitch.on)/\(selectedInsurance)", methodType: "GET")
         if mutableURLRequest == nil { return }
         
         Alamofire.manager.request(mutableURLRequest!).responseJSON(completionHandler: { (response) -> Void in
