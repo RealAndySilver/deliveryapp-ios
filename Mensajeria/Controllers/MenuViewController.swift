@@ -115,6 +115,7 @@ extension MenuViewController: UITableViewDelegate {
                 print("Termssss")
                 let termsVC = storyboard?.instantiateViewControllerWithIdentifier("TermsConditions") as! TermsConditionsViewController
                 termsVC.openingFromHamburguerMenu = true
+                termsVC.urlString = Alamofire.getTermsAndConditions
                 let navController = UINavigationController(rootViewController: termsVC)
                 presentViewController(navController, animated: true, completion: nil)
             }

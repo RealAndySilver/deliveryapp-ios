@@ -210,7 +210,7 @@ class CreditCardInfoViewController: UIViewController {
         
         MBProgressHUD.showHUDAddedTo(view, animated: true)
         
-        let parameters = ["user_id": User.sharedInstance.identifier, "card_number": creditCardTextField.text!, "cvv": securityCodeTextField.text!, "exp_date": expirationDateTextField.text!, "franchise": "visa", "card_holder_first_name": nameTextField.text!, ".card_holder_last_name": lastNameTextField.text!, "card_holder_address": addressTextField.text!, "card_holder_city": cityTextField.text!, "card_holder_doc_type": documentTypeTextField.text!, "card_holder_doc_number": documentNumberTextField.text!, "card_holder_email": emailTextField.text!]
+        let parameters = ["user_id": User.sharedInstance.identifier, "card_number": creditCardTextField.text!, "cvv": securityCodeTextField.text!, "exp_date": expirationDateTextField.text!, "franchise": "visa", "card_holder_first_name": nameTextField.text!, "card_holder_last_name": lastNameTextField.text!, "card_holder_address": addressTextField.text!, "card_holder_city": cityTextField.text!, "card_holder_doc_type": documentTypeTextField.text!, "card_holder_doc_number": documentNumberTextField.text!, "card_holder_email": emailTextField.text!]
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.createPaymentMethod, methodType: "POST", theParameters: parameters)
         
         if mutableURLRequest == nil {

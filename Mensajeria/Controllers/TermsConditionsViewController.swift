@@ -12,12 +12,13 @@ class TermsConditionsViewController: UIViewController {
 
     @IBOutlet private weak var webView: UIWebView!
     var openingFromHamburguerMenu: Bool?
+    var urlString: String!
     
     //MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        webView.loadRequest(NSURLRequest(URL: NSURL(string: "\(Alamofire.getTermsAndConditions)")!))
+        webView.loadRequest(NSURLRequest(URL: NSURL(string: urlString)!))
         
         if let openingFromHamburguerMenu = openingFromHamburguerMenu where openingFromHamburguerMenu == true {
             let closeBarButton = UIBarButtonItem(title: "Cerrar", style: .Plain, target: self, action: #selector(dismissVC))

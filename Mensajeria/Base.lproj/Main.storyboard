@@ -475,11 +475,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NDf-dN-Pbu">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDf-dN-Pbu">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ii7-d2-GtL">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="398"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="504"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Completa tus datos" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hXo-Yb-6LM">
                                                 <rect key="frame" x="19" y="23" width="151" height="21"/>
@@ -683,16 +683,16 @@
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="iqv-WV-m9G"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0CI-iG-uFs">
-                                                <rect key="frame" x="19" y="348" width="209" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="0CI-iG-uFs">
+                                                <rect key="frame" x="19" y="348" width="209" height="57"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="166" id="1hv-bt-F1U"/>
                                                     <constraint firstAttribute="width" constant="209" id="4XO-Mk-MJ9"/>
                                                     <constraint firstAttribute="height" constant="30" id="eL5-NT-wH8"/>
-                                                    <constraint firstAttribute="height" constant="30" id="qcn-qK-LaG"/>
+                                                    <constraint firstAttribute="height" constant="57" id="qcn-qK-LaG"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <state key="normal" title="Aceptar Términos y Condiciones">
+                                                <state key="normal" title="Al registrarse en Vueltap, aceptas nuestros Términos y Condiciones">
                                                     <color key="titleColor" red="0.98039215686274506" green="0.58431372549019611" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -703,7 +703,31 @@
                                                     </mask>
                                                 </variation>
                                                 <connections>
-                                                    <segue destination="UAm-6E-Dzu" kind="show" id="wsc-gp-rtT"/>
+                                                    <action selector="termsConditionsButtonPressed" destination="Yju-0b-3t4" eventType="touchUpInside" id="Luv-gQ-4M3"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="3Sf-MU-pOZ">
+                                                <rect key="frame" x="19" y="409" width="562" height="49"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="166" id="328-hF-LRW"/>
+                                                    <constraint firstAttribute="width" constant="278" id="Gv7-JF-HxC"/>
+                                                    <constraint firstAttribute="height" constant="49" id="Pnw-5R-95U"/>
+                                                    <constraint firstAttribute="height" constant="30" id="yUC-Av-ETT"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="Tus datos están bajo Políticas de Tratamiento de Datos Personales">
+                                                    <color key="titleColor" red="0.98039215690000003" green="0.58431372550000005" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="328-hF-LRW"/>
+                                                        <exclude reference="Gv7-JF-HxC"/>
+                                                        <exclude reference="yUC-Av-ETT"/>
+                                                    </mask>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="privacyPolicyButtonPressed" destination="Yju-0b-3t4" eventType="touchUpInside" id="fhh-4u-5GG"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -717,12 +741,14 @@
                                             <constraint firstItem="zdB-b6-Jco" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="3Io-sD-Fw1"/>
                                             <constraint firstItem="YhT-pw-g9T" firstAttribute="top" secondItem="1ft-Mh-02R" secondAttribute="bottom" constant="1" id="3hZ-4V-Cae"/>
                                             <constraint firstAttribute="centerX" secondItem="0CI-iG-uFs" secondAttribute="centerX" id="409-BT-AxK"/>
+                                            <constraint firstAttribute="trailing" secondItem="3Sf-MU-pOZ" secondAttribute="trailing" constant="19" id="4Lz-Br-EQe"/>
                                             <constraint firstItem="zzB-Pi-x2x" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="6BD-FC-5pt"/>
                                             <constraint firstItem="YhT-pw-g9T" firstAttribute="top" secondItem="1ft-Mh-02R" secondAttribute="bottom" constant="1" id="6Xu-YY-Xw9"/>
                                             <constraint firstAttribute="trailing" secondItem="L67-jq-0DQ" secondAttribute="trailing" constant="19" id="7UI-dX-2y5"/>
                                             <constraint firstItem="ahi-sR-HQg" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="8Th-ab-mcB"/>
                                             <constraint firstItem="2L3-EL-pko" firstAttribute="top" secondItem="Fzp-50-Yap" secondAttribute="bottom" constant="6" id="8dl-TX-mC8"/>
                                             <constraint firstAttribute="trailing" secondItem="i7N-l9-XJ0" secondAttribute="trailing" constant="19" id="8jq-db-AOF"/>
+                                            <constraint firstItem="3Sf-MU-pOZ" firstAttribute="top" secondItem="0CI-iG-uFs" secondAttribute="bottom" constant="4" id="8wY-43-UuG"/>
                                             <constraint firstItem="35d-u5-h7r" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="8yB-uz-8zE"/>
                                             <constraint firstItem="hXo-Yb-6LM" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="9C1-cR-G21"/>
                                             <constraint firstAttribute="trailing" secondItem="jj0-gt-P1U" secondAttribute="trailing" constant="19" id="9HV-P1-l1u"/>
@@ -781,8 +807,10 @@
                                             <constraint firstItem="Fzp-50-Yap" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="hIP-Zl-kAF"/>
                                             <constraint firstItem="hXo-Yb-6LM" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="hIT-n3-2J0"/>
                                             <constraint firstAttribute="trailing" secondItem="ahi-sR-HQg" secondAttribute="trailing" constant="19" id="hma-AM-iFS"/>
+                                            <constraint firstAttribute="bottom" secondItem="3Sf-MU-pOZ" secondAttribute="bottom" constant="46" id="i4R-lh-gi1"/>
                                             <constraint firstItem="zdB-b6-Jco" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="iPP-z2-Pwc"/>
                                             <constraint firstAttribute="trailing" secondItem="1ft-Mh-02R" secondAttribute="trailing" constant="19" id="jpR-DQ-T5c"/>
+                                            <constraint firstItem="3Sf-MU-pOZ" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="kKT-5M-j5W"/>
                                             <constraint firstItem="oTA-Ey-LWl" firstAttribute="top" secondItem="2L3-EL-pko" secondAttribute="bottom" constant="1" id="kPL-gg-l1O"/>
                                             <constraint firstItem="0CI-iG-uFs" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="kRd-xE-ewR"/>
                                             <constraint firstAttribute="bottom" secondItem="0CI-iG-uFs" secondAttribute="bottom" constant="58" id="lZQ-8k-R9C"/>
@@ -801,7 +829,6 @@
                                             <constraint firstAttribute="trailing" secondItem="zzB-Pi-x2x" secondAttribute="trailing" constant="19" id="yBP-bp-UyN"/>
                                             <constraint firstItem="YhT-pw-g9T" firstAttribute="leading" secondItem="Ii7-d2-GtL" secondAttribute="leading" constant="19" id="yD1-4E-OR0"/>
                                             <constraint firstAttribute="trailing" secondItem="Fzp-50-Yap" secondAttribute="trailing" constant="19" id="ycV-Zp-iEx"/>
-                                            <constraint firstAttribute="bottom" secondItem="0CI-iG-uFs" secondAttribute="bottom" constant="20" id="z09-ez-xnM"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
@@ -923,6 +950,7 @@
                     <connections>
                         <outlet property="cellphoneTextfield" destination="lqU-x9-sxE" id="WKB-Cf-epv"/>
                         <outlet property="confirmPasswordTextfield" destination="1ft-Mh-02R" id="heX-Yk-sdy"/>
+                        <outlet property="containerView" destination="Ii7-d2-GtL" id="XaE-Ua-Lme"/>
                         <outlet property="emailTextfield" destination="ahi-sR-HQg" id="gxw-c5-hUm"/>
                         <outlet property="lastNameTextfield" destination="jj0-gt-P1U" id="zCX-ee-wbl"/>
                         <outlet property="nameTextfield" destination="35d-u5-h7r" id="WUX-JQ-6ea"/>
@@ -6081,7 +6109,7 @@ dmljaW8gZGVzZGUgZWwgbWVuw7ogIlNlcnZpY2lvcyBBY3Rpdm9zIg
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kZQ-Vj-1Fe">
+                            <webView contentMode="scaleToFill" misplaced="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kZQ-Vj-1Fe">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                             </webView>

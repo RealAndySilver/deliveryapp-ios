@@ -53,6 +53,7 @@ struct Alamofire {
     static let getFranchiseByBin = "\(currentEndPoint)/Payments/GetFranchiseByBIN"
     static let deleteCard = "\(currentEndPoint)/Payments/DeletePaymentMethod"
     static let getTermsAndConditions = "\(currentEndPoint)/GetDisclaimerPDF/user"
+    static let getPrivacyPolicy = "\(currentEndPoint)/GetPDFDocument/data_policy"
 }
 
 // MARK: - URLStringConvertible

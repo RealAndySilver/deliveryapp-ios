@@ -17,6 +17,7 @@ protocol CreateAccountViewControllerDelegate: class {
 class CreateAccountViewController: UIViewController {
     weak var delegate: CreateAccountViewControllerDelegate?
     
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var nameTextfield: UITextField!
     @IBOutlet weak var lastNameTextfield: UITextField!
@@ -65,6 +66,18 @@ class CreateAccountViewController: UIViewController {
     }
     
     //MARK: Actions 
+    
+    @IBAction func termsConditionsButtonPressed() {
+        let termsConditionsVC = storyboard!.instantiateViewControllerWithIdentifier("TermsConditions") as! TermsConditionsViewController
+        termsConditionsVC.urlString = Alamofire.getTermsAndConditions
+        navigationController?.pushViewController(termsConditionsVC, animated: true)
+    }
+    
+    @IBAction func privacyPolicyButtonPressed() {
+        let termsConditionsVC = storyboard!.instantiateViewControllerWithIdentifier("TermsConditions") as! TermsConditionsViewController
+        termsConditionsVC.urlString = Alamofire.getPrivacyPolicy
+        navigationController?.pushViewController(termsConditionsVC, animated: true)
+    }
     
     @IBAction func tapDetected(sender: UITapGestureRecognizer) {
         if let activeTextfield = activeTextfield {
@@ -326,3 +339,19 @@ extension CreateAccountViewController: UIAlertViewDelegate {
         }
     }
 }
+
+//MARK: TTTAttributedLabelDelegate
+
+/*extension CreateAccountViewController: TTTAttributedLabelDelegate {
+    func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithURL url: NSURL!) {
+        print("entonsssss")
+        /*switch url.absoluteString {
+        case "TerminosCondiciones":
+            print("termssss")
+        case "Privacy":
+            print("Privacyyy")
+        default:
+            break
+        }*/
+    }
+}*/

@@ -257,6 +257,8 @@ extension MapViewController: UITableViewDataSource {
 
 extension MapViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        view.endEditing(true)
+        
         selectedLocationFromResultsTableView = true
         mapView.userInteractionEnabled = false
         
