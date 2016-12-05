@@ -89,7 +89,7 @@ class RequestServiceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("RequestViewController: \(IPAddress.getWiFiAddress())")
+        
         getUserCreditCards()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addressSelectedNotificationReceived:", name: "addressSelectedNotification", object: nil)
         mapView.delegate = self
@@ -377,7 +377,8 @@ class RequestServiceViewController: UIViewController {
             insuranceValue = selectedInsurance
         }
         
-        let ipAddress = IPAddress.getWiFiAddress() ?? ""
+        var ipAddress = ""
+        ipAddress = IPAddress.getIpAddressForConnectionType(ConnectionType.wifi) ?? (IPAddress.getIpAddressForConnectionType(ConnectionType.cellNetwork) ?? "")
         //By default, send the info from the first credit card the user has registered
         //(Only if the user has selected credit card as the payment method)
         var tokenId = ""
@@ -387,6 +388,7 @@ class RequestServiceViewController: UIViewController {
         
         let urlParameters: [String : AnyObject] = ["user_id" : User.sharedInstance.identifier, "user_info" : User.sharedInstance.userDictionary, "pickup_object" : pickupLocationDic, "delivery_object" : destinationLocationDic, "roundtrip" : idaYVueltaSwitch.on, "instructions" : instructionsTextView.text!, "priority" : 5, "price_to_pay" : servicePrice + priceToPayForInsurance, "item_name" : serviceNameTextfield.text!, "time_to_pickup" : selectedPickupCase.serverString, "time_to_deliver" : selectedDeliveryCase.serverString, "send_image" : sendImageSwitch.on, "insurancevalue" : insuranceValue, "send_signature" : signatureSwitch.on, "pickup_details": pickupDetailsTextField.text!, "delivery_details": deliveryDetailsTextField.text!, "payment_method": paymentType.rawValue, "ip_address": ipAddress, "token_id": tokenId, "service_price": servicePrice, "insurance_price": self.priceToPayForInsurance]
         
+        print("URLParameters: %@", urlParameters)
         let mutableURLRequest = NSMutableURLRequest.createURLRequestWithHeaders(Alamofire.requestMensajeroServiceURL, methodType: "POST", theParameters: urlParameters)
         
         if mutableURLRequest == nil {

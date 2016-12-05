@@ -8,9 +8,14 @@
 
 import Foundation
 
+enum ConnectionType: String {
+    case wifi = "en0"
+    case cellNetwork = "pdp_ip0"
+}
+
 struct IPAddress {
     // Return IP address of WiFi interface (en0) as a String, or `nil`
-    static func getWiFiAddress() -> String? {
+    static func getIpAddressForConnectionType(connectionType: ConnectionType) -> String? {
         var address : String?
         
         // Get list of all interfaces on the local machine:
@@ -29,7 +34,7 @@ struct IPAddress {
                 if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
                     
                     // Check interface name:
-                    if let name = String.fromCString(interface.ifa_name) where name == "en0" {
+                    if let name = String.fromCString(interface.ifa_name) where name == connectionType.rawValue {
                         
                         // Convert interface address to a human readable string:
                         var addr = interface.ifa_addr.memory
@@ -46,4 +51,6 @@ struct IPAddress {
         
         return address
     }
+    
+    
 }
